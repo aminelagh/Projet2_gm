@@ -12,6 +12,7 @@ use App\Models\Magasin;
 use App\Models\Categorie;
 use App\Models\Fournisseur;
 use App\Models\Article;
+use \Exception;
 
 class DirectController extends Controller
 {
@@ -25,7 +26,7 @@ class DirectController extends Controller
   {
     if($param == 'article')
     {
-      $categories = DB::table('categories')->get();
+      $categories   = DB::table('categories')->get();
       $fournisseurs = DB::table('fournisseurs')->get();
     }
     switch($param)
@@ -48,8 +49,8 @@ class DirectController extends Controller
      {
        //creation d'une Cate a partir des donnees du formulaire:
        $model = new Categorie();
-       $model->libelle = $request->libelle;
-       $model->description = $request->description;
+       $model->libelle      = $request->libelle;
+       $model->description  = $request->description;
 
        $model->save();
        return redirect()->route('direct.addForm',['param' => 'categorie'])->with('msgAjoutReussi','creation de la categorie: "<strong>'.$request->libelle.'</strong>"  reussi');
@@ -82,11 +83,11 @@ class DirectController extends Controller
         else if( $request->submit == "valider" )
         {
           $model = new Fournisseur();
-          $model->code = $request->code;
-          $model->libelle = $request->libelle;
+          $model->code        = $request->code;
+          $model->libelle     = $request->libelle;
           $model->description = $request->description;
-          $model->telephone = $request->telephone;
-          $model->fax = $request->fax;
+          $model->telephone   = $request->telephone;
+          $model->fax         = $request->fax;
 
           try
           {
@@ -98,9 +99,73 @@ class DirectController extends Controller
           }
           return redirect()->route('direct.addForm',['param' => 'fournisseur'])->with('alert_success','creation du Fournisseur: "<strong>'.$request->libelle.'</strong>"  reussi');
         }
-
-
       }
+
+      /*********************
+       Valider L'ajout des Articles
+       ***********************/
+       public function submitAddArticle(Request $request)
+       {
+         //si appui sur bouton verifier
+         if( $request->submit == "verifier" )
+         {
+           if( strlen($request->designation) >= 255 )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_danger',"<strong>Erreur !!</strong> La désignation de l'article ne doit pas dépasser 255 caractères.");
+           if( $request->prix == 0 )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_info',"Il semblerait  que vous avez oublié de saisir le prix de cet article");
+
+           if( DB::table('articles')->where('designation',$request->designation)->first() )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_warning','<strong>'.$request->designation.'</strong> exist deja.');
+
+           if( DB::table('articles')->where('num_article',$request->num_article)->first() )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_warning','Numero Article: <strong>'.$request->num_article.'</strong> est deja utilisé pour un autre article.');
+
+           if( DB::table('articles')->where('code_barre',$request->code_barre)->first() )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_warning','Code a Barres: <strong>'.$request->code_barre.'</strong> est deja utilisé pour un autre article.');
+
+           if( $request->id_fournisseur == 0 )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_info',"vous n'avez pas choisi de fournisseur pour votre produit.");
+           if( $request->id_categorie == 0 )
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_info',"vous n'avez pas choisi de categorie pour votre produit.");
+           else
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_success','Verification reussit');
+
+         }
+         else if( $request->submit == "valider" )
+         {
+           $model = new Article();
+           $model->id_categorie   = $request->id_categorie;
+           $model->id_fournisseur = $request->id_fournisseur;
+           $model->num_article    = $request->num_article;
+           $model->code_barre     = $request->code_barre;
+           $model->designation    = $request->designation;
+           $model->taille         = $request->taille;
+           $model->sexe           = $request->sexe;
+           $model->prix           = $request->prix;
+           $model->description    = $request->description;
+
+           //test pour le champ couleur:
+           if( $request->couleur_name != null )
+           {
+             $model->couleur = $request->couleur_name;
+           }
+           else
+           {
+             $model->couleur = $request->couleur_value;
+           }
+
+           try
+           {
+             $model->save();
+             return redirect()->route('direct.addForm',['param' => 'article'])->with('alert_success',"Création de l'article <strong>".$request->designation."</strong>  reussi.");
+           }
+           catch (Exception $exception)
+           {
+             return redirect()->route('direct.addForm',['param' => 'article'])->withInput()->with('alert_danger',"<strong>Erreur !</<strong> l'ajout de l'article: <strong>".$request->designation."</strong>  a échoué:<br/>Message d'erreur: ".$exception->getMessage());
+           }
+         }
+       }
+
 
 
 
@@ -112,13 +177,16 @@ class DirectController extends Controller
        return view('Espace_Direct.liste-users')->with('data',$data);
      }
 
-      //permet de retourner la vue qui contient le formulaire d'ajout
+     /*
+     retourner la vue pour afficher les tables
+     */
       public function lister($param)
       {
         switch($param)
         {
-          case 'categorie':   $data = DB::table('categories')->get(); return view('Espace_Direct.liste-categories')->with('data',$data); break;
-          case 'fournisseur': $data = DB::table('fournisseurs')->get(); return view('Espace_Direct.liste-fournisseurs')->with('data',$data); break;
+          case 'categorie':   $data = DB::table('categories')->get();   return view('Espace_Direct.liste-categories')->with('data',$data);    break;
+          case 'fournisseur': $data = DB::table('fournisseurs')->get(); return view('Espace_Direct.liste-fournisseurs')->with('data',$data);  break;
+          case 'article':     $data = DB::table('articles')->get();     return view('Espace_Direct.liste-articles')->with('data',$data);      break;
         }
       }
 
@@ -145,41 +213,4 @@ class DirectController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-  /*********************
-   Valider L'ajout des Users
-   ***********************/
-   public function submitAddUser(Request $request)
-   {
-     //creation d'un Directeur a partir des donnees du formulaire:
-     $user = new User();
-     $user->id_role = $request->id_role;
-     $user->id_magasin = $request->id_magasin;
-     $user->nom = $request->nom;
-     $user->prenom = $request->prenom;
-     $user->ville = $request->ville;
-     $user->telephone = $request->telephone;
-     $user->email = $request->email;
-     $user->password = Hash::make( $request->password );
-     $user->description = $request->description;
-
-     //si l'email exist deja alors revenir au formulaire avec les donnees du formulaire et un message d'erreur
-     if( EmailExist( $request->email , 'users' )  )
-      return redirect()->route('admin.addUser')->withInput($request->only('nom','prenom','ville','description') )->with('msgErreur','<strong>Erreur: </strong>  "'.$request->email.'" est deja utilisé');
-
-     //si le mot de passe et trop court:
-     if( strlen($request->password)<7 )
-      return redirect()->route('admin.addUser')->withInput($request->only('nom','prenom','ville','email','description') )->with('msgErreur','<strong>Erreur: </strong> Mot de Passe trop court.');
-
-     $user->save();
-     //dump( $user );
-     return redirect()->route('admin.addUser')->with('msgAjoutReussi','ajout de  "<strong>'.$request->email.'</strong>"  Reussi');
-   }
 }

@@ -16,6 +16,7 @@ use App\Models\Article;
 use App\Models\Categorie;
 use App\Models\Role;
 use App\Models\Magasin;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
@@ -32,7 +33,24 @@ Route::get('/', function () {
 
 });
 
+Route::get('test',function(){
 
+  if( request()->has('id_role') )
+  {
+    $users = DB::table('users')->where('id_role',request('id_role'))->paginate(1)->appends('id_role',request('id_role'));
+  }
+  else
+  {
+     $users = DB::table('users')->paginate(1);
+   }
+   return view("users")->with('data',$users);
+
+
+});
+
+Route::get('users', function () {
+    dump( App\User::paginate(1)  );
+});
 
 
 //Espace Admin
@@ -41,6 +59,10 @@ Route::get('/admin','AdminController@home')->name('admin.home');
 Route::get('/admin/addUser','AdminController@addFormUser')->name('admin.addUser');  //afficher le formulaire d'ajout
 Route::post('/admin/submitAddUser','AdminController@submitAddUser')->name('admin.submitAddUser'); //submit formulaire d'ajout
 Route::get('/admin/lister','AdminController@listerUsers')->name('admin.lister');  //afficher le formulaire d'ajout
+
+Route::get('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');    //Lister avec filtre et pagination
+Route::post('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');   //Filtrer
+
 Route::get('/admin/lister/{orderby}','AdminController@listerUsersOrder')->name('admin.listerOrder');  //afficher le formulaire d'ajout
 Route::get('/admin/infoUser/{id}','AdminController@infoUser')->name('admin.infoUser');  //afficher le formulaire d'ajout
 

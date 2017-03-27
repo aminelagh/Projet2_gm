@@ -21,21 +21,62 @@ if( !function_exists('sayHello') )
 
 
 
-// retourn le nom ou libelle d un id
+// retourn le libelle d'un magasin
 if( !function_exists('getMagasinName') )
 {
-	function getMagasinName($id_magasin)
+	function getMagasinName($id)
 	{
-		return DB::table('magasins')->where('id_magasin',$id_magasin)->pluck('libelle')->first() ;
+		return DB::table('magasins')->where('id_magasin',$id)->pluck('libelle')->first();
 	}
-
 }
 
+//retourne le libelle d'un role
 if( !function_exists('getRoleName') )
 {
-	function getRoleName($id_role)
+	function getRoleName($id)
 	{
-		return DB::table('roles')->where('id_role',$id_role)->pluck('libelle')->first() ;
+		return DB::table('roles')->where('id_role',$id)->pluck('libelle')->first();
 	}
+}
 
+//retourne le libelle d'une categorie
+if( !function_exists('getCategorieName') )
+{
+	function getCategorieName($id)
+	{
+		$result = DB::table('categories')->where('id_categorie',$id)->pluck('libelle')->first();
+		return $result == null ? '<i>not set</i>' : $result;
+	}
+}
+
+//retourne le libelle d'un Fournisseur
+if( !function_exists('getFournisseurName') )
+{
+	function getFournisseurName($id)
+	{
+		$result = DB::table('fournisseurs')->where('id_fournisseur',$id)->pluck('libelle')->first();
+		return $result == null ? '<i>not set</i>' : $result;
+	}
+}
+
+//returns Gender
+if( !function_exists('getSexeName') )
+{
+	function getSexeName($value)
+	{
+		switch ($value) {
+			case 'h': return 'Homme'; break;
+			case 'f': return 'Femme'; break;
+			default:  return '-'; 		break;
+		}
+	}
+}
+
+//test if is Color
+if( !function_exists('isColor') )
+{
+	function isColor($value)
+	{
+		return substr($value,0,1) == '#' ? true : false;
+	}
 }

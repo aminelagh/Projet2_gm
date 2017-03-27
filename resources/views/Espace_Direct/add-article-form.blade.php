@@ -53,7 +53,7 @@ Ajout Article
 								{{-- Categorie --}}
 								<div class="form-group">
 									<label>Categorie</label>
-									<select class="form-control" name="id_categorie" id="id_categorie">
+									<select class="form-control" name="id_categorie" id="id_categorie" autofocus>
 										<option value="0" >Aucun</option>
 									@if( !$categories->isEmpty() )
 										@foreach( $categories as $item )
@@ -80,17 +80,19 @@ Ajout Article
 								</div>
 							</div>
 
-							<div class="col-lg-4">
-								{{-- Telephone --}}
+							<div class="col-lg-3">
+								{{-- Num_Article --}}
 								<div class="form-group">
-									<label>Telephone</label>
-									<input type="text" class="form-control" placeholder="Telephone" name="telephone" id="telephone" value="{{ old('telephone') }}">
+									<label>Numero Article</label>
+									<input type="text" class="form-control" placeholder="Numero Article" name="num_article" id="num_article" value="{{ old('num_article') }}">
 								</div>
+							</div>
 
-								{{-- Telephone --}}
+							<div class="col-lg-3">
+								{{-- Code_Barre --}}
 								<div class="form-group">
-									<label>Fax</label>
-									<input type="text" class="form-control" placeholder="fax" name="fax" id="fax" value="{{ old('fax') }}">
+									<label>Code a Barres</label>
+									<input type="text" class="form-control" placeholder="Code a Barres" name="code_barre" id="code_barre" value="{{ old('code_barre') }}">
 								</div>
 							</div>
 
@@ -99,6 +101,58 @@ Ajout Article
 
 						<!-- row 2 -->
 						<div class="row">
+
+							<div class="col-lg-6">
+								{{-- Designation --}}
+								<div class="form-group">
+									<label>Designation</label>
+									<input type="text" class="form-control" placeholder="Designation" name="designation" id="designation" value="{{ old('designation') }}" required>
+								</div>
+							</div>
+
+							<div class="col-lg-3">
+								{{-- Taille --}}
+								<div class="form-group">
+									<label>Taille</label>
+									<input type="text" class="form-control" placeholder="Taille" name="taille" id="taille" value="{{ old('taille') }}">
+								</div>
+							</div>
+
+							<div class="col-lg-3">
+								{{-- Couleur --}}
+								<div class="form-group">
+									<label>Couleur</label>
+									<input type="color" class="form-control" placeholder="Couleur" name="couleur_value" id="couleur"  value="{{ old('couleur_value') ? old('couleur_value') :'#ffffff'   }}">ou
+									<input type="text" class="form-control" placeholder="Couleur" name="couleur_name" id="couleur"  value="{{ old('couleur_name') ? old('couleur_name') :''   }}">
+								</div>
+							</div>
+						</div>
+
+
+						<!-- row 3 -->
+						</div class="row">
+
+							<div class="col-lg-4">
+								{{-- Sexe --}}
+								<div class="form-group">
+									<label>Sexe</label>
+									<div class="radio">
+										<label><input type="radio" name="sexe" id="sexe" value="null" checked>Aucun</label>
+										<label><input type="radio" name="sexe" id="sexe" value="h">Homme</label>
+										<label><input type="radio" name="sexe" id="sexe" value="f">Femme</label>
+									</div>
+								</div>
+							</div>
+						</div>
+
+							<div class="col-lg-3">
+								{{-- Prix --}}
+								<div class="form-group">
+									<label>Prix (HT)</label>
+									<input type="number" step="0.0001" pattern=".####" min="0" class="form-control" placeholder="Prix" name="prix" id="prix" value="{{ old('prix') }}">
+								</div>
+							</div>
+
 
 							<div class="col-lg-7">
 								{{-- Description --}}
@@ -111,12 +165,13 @@ Ajout Article
 							<div class="col-lg-5">
 								<br/><br/>
 								{{-- Submit & Reset --}}
+								<button type="submit" name="submit" value="verifier" class="btn btn-default">vérifier</button>
 								<button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-								<button type="submit" name="submit" value="verifier" class="btn btn-default">verifier</button>
 								<button type="reset" class="btn btn-default">Effacer</button>
 							</div>
 
 						</div>
+
 
 					</form>
 
