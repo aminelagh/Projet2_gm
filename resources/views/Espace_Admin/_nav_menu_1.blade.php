@@ -1,33 +1,3 @@
-@extends('layouts.main_master')
-
-@section('title') Espace Admin @endsection
-
-@section('styles')
-<link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-<link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-<link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-<script src="{{  asset('js/jquery.js') }}"></script>
-<script src="{{  asset('js/bootstrap.js') }}"></script>
-@endsection
-
-@section('main_content')
-<!-- Page Heading -->
-<div class="row">
-    <div class="col-lg-12">
-        <h1 class="page-header">Espace Admin <small> Bienvenue</small></h1>
-        <img width="100%" height="100%" src="images/golf.jpg"/>
-
-    </div>
-</div>
-<!-- /.row -->
-@endsection
-
-
-@section('menu_1')
-
 <!-- Brand and toggle get grouped for better mobile display -->
 <div class="navbar-header">
 	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -82,13 +52,8 @@
 						<li><a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a></li>
 						<li><a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a></li>
 						<li class="divider"></li>
-            <li><a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>
+            			<li><a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a></li>
 					</ul>
 				</li>
 			</ul>
 			<!-- end Top Menu Items -->
-@endsection
-
-@section('menu_2')
-	@include('Espace_Admin._nav_menu_2')
-@endsection

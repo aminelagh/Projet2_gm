@@ -13,6 +13,7 @@ use App\Models\Magasin;
 class AdminController extends Controller
 {
 
+    //afficher la page d'accueil
     public function home()
     {
       return view('Espace_Admin.dashboard');
@@ -21,82 +22,38 @@ class AdminController extends Controller
     //permet de retourner la vue qui contient le formulaire d'ajout
     public function addFormUser()
     {
-      $magasins = DB::table('magasins')->get();
-      $roles = DB::table('roles')->get();
+      $magasins = DB::table('magasins')->get();      $roles = DB::table('roles')->get();
       return view('Espace_Admin.add-user-form')->with([ 'magasins' => $magasins, 'roles' => $roles ]);
     }
 
-    //permet de retourner la vue qui contient le formulaire d'ajout
-     public function listerUsersOrder($orderby)
-     {
-       $data = DB::table('users')->orderBy($orderby)->get();
-       return view('Espace_Admin.liste-users')->with('data',$data);
-     }
-
-     //permet de retourner la vue qui contient le formulaire d'ajout
-      public function listerUsers()
-      {
-        $data = DB::table('users')->get();
-        return view('Espace_Admin.liste-users')->with('data',$data);
-      }
-
-    //Lister les users avec paginations
-    public function listerUsersPagination()
+    //permet de retourner la vue qui contient le formulaire de modification
+    public function updateFormUser($id)
     {
-      //$path = url()->current().'/?orderby=nom';
-      //return redirect($url);
-
-      //si demande de filtre
-      if( request()->has('submitFilter') )
-      {
-        if( request()->has('role') )
-        {
-          $data = DB::table('users')->where('id_role',request('role'))->paginate(2)->appends('id_role',request('role'));
-        }
-        else $data = DB::table('users')->paginate(5);
-      }
-
-        /*else if( request()->has('admin') && !request()->has('direct') && !request()->has('magas') && !request()->has('vend') )
-          return 'admin';
-        else if(! request()->has('admin') && request()->has('direct') && !request()->has('magas') && !request()->has('vend') )
-          return 'direct';
-        else if( !request()->has('admin') && !request()->has('direct') && request()->has('magas') && !request()->has('vend') )
-          return 'magas';
-        else if( !request()->has('admin') && !request()->has('direct') && !request()->has('magas') && request()->has('vend') )
-          return 'vend';
-        else if( !request()->has('admin') && !request()->has('direct') && !request()->has('magas') && !request()->has('vend') )
-          return 'none';
-
-
-
-      if( request()->has('orderby') )
-      {
-          if( request()->has('id_role') )
-          {
-            $data = DB::table('users')->where('id_role',request('id_role'))->orderBy(request('orderby'))->paginate(3)->appends('id_role',request('id_role'));
-          }
-          else
-          {
-             $data = DB::table('users')->paginate(3);
-          }
-      }
-
-      if( request()->has('id_role') )
-      {
-        $data = DB::table('users')->where('id_role',request('id_role'))->paginate(3)->appends('id_role',request('id_role'));
-      }
-      else
-      {
-         $data = DB::table('users')->paginate(3);
-      }*/
-
-      else $data = DB::table('users')->paginate(5);
-
-      $roles = DB::table('roles')->get();
-      $magasins = DB::table('magasins')->get();
-
-      return view("Espace_Admin.liste-users-pagination")->with( ['data'=>$data,'roles'=>$roles,'magasins'=>$magasins ]);
+      $magasins = DB::table('magasins')->get();      $roles = DB::table('roles')->get();
+      $data = DB::table('users')->where('id_user',$id)->first();
+      return view('Espace_Admin.update-user-form')->with([ 'data' => $data ,'magasins' => $magasins, 'roles' => $roles ]);
     }
+
+    //permet d'afficher la liste des utilisateur avec order By
+    public function listerUsersOrder($orderby)
+    {
+     $data = DB::table('users')->orderBy($orderby)->get();
+     return view('Espace_Admin.liste-users')->with('data',$data);
+    }
+
+    //permet d'afficher la liste des utilisateurs
+    public function listerUsers()
+    {
+      $data = DB::table('users')->get();
+      return view('Espace_Admin.liste-users')->with('data',$data);
+    }
+
+    //permet d'afficher le profil d'un utilisateur
+     public function infoUser($id)
+     {
+       $data = DB::table('users')->where('id_user',$id)->first();
+       return view('Espace_Admin.info-users')->with('data',$data);
+     }
 
 
     /*********************
@@ -118,7 +75,7 @@ class AdminController extends Controller
 
        //si l'email exist deja alors revenir au formulaire avec les donnees du formulaire et un message d'erreur
        if( EmailExist( $request->email , 'users' )  )
-        return redirect()->route('admin.addUser')->withInput($request->only('nom','prenom','ville','description') )->with('msgErreur','<strong>Erreur: </strong>  "'.$request->email.'" est deja utilisé');
+        return redirect()->route('admin.addUser')->withInput()->with('msgErreur','<strong>Erreur: </strong>  "'.$request->email.'" est deja utilisé');
 
        //si le mot de passe et trop court:
        if( strlen($request->password)<7 )
@@ -129,60 +86,39 @@ class AdminController extends Controller
        return redirect()->route('admin.addUser')->with('msgAjoutReussi','ajout de  "<strong>'.$request->email.'</strong>"  Reussi');
      }
 
+     /*********************
+      Valider La modification des Users
+      ***********************/
+      public function submitUpdateUser(Request $request)
+      {
+        $user = new User();
+        $user->id_user     = $request->id_user;
+        $user->id_role     = $request->id_role;
+        $user->id_magasin  = $request->id_magasin;
+        $user->nom         = $request->nom;
+        $user->prenom      = $request->prenom;
+        $user->ville       = $request->ville;
+        $user->telephone   = $request->telephone;
+        $user->email       = $request->email;
+        $user->description = $request->description;
 
-     //Lister les users avec paginations
-     public function listerUsersPagination2()
-     {
-       //$path = url()->current().'/?orderby=nom';
-       //return redirect($url);
+        if( $request->submit == "verifier" )
+        {
+          if( EmailExist( $request->email , 'users' )  )
+           return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur: </strong>  "'.$request->email.'" est deja utilisé');
+        }
+        else if( $request->submit == "valider" )
+        {
 
-       //si demande de filtre
-       /*if( request()->has('submitFilter') )
-       {
-         if( request()->has('admin') )
-         {
-           return 'admin';
-         }
-         else if( request()->has('direct') )
-         {$a=5;}
-       }
+        }
+        else
+        {
+          return redirect()->back();
+        }
 
-         else if( request()->has('admin') && !request()->has('direct') && !request()->has('magas') && !request()->has('vend') )
-           return 'admin';
-         else if(! request()->has('admin') && request()->has('direct') && !request()->has('magas') && !request()->has('vend') )
-           return 'direct';
-         else if( !request()->has('admin') && !request()->has('direct') && request()->has('magas') && !request()->has('vend') )
-           return 'magas';
-         else if( !request()->has('admin') && !request()->has('direct') && !request()->has('magas') && request()->has('vend') )
-           return 'vend';
-         else if( !request()->has('admin') && !request()->has('direct') && !request()->has('magas') && !request()->has('vend') )
-           return 'none';
-       }
+      }
 
 
-       if( request()->has('orderby') )
-       {
-           if( request()->has('id_role') )
-           {
-             $data = DB::table('users')->where('id_role',request('id_role'))->orderBy(request('orderby'))->paginate(3)->appends('id_role',request('id_role'));
-           }
-           else
-           {
-              $data = DB::table('users')->paginate(3);
-           }
-       }
-
-       if( request()->has('id_role') )
-       {
-         $data = DB::table('users')->where('id_role',request('id_role'))->paginate(3)->appends('id_role',request('id_role'));
-       }
-       else
-       {
-          $data = DB::table('users')->paginate(3);
-       }
-
-        return view("Espace_Admin.liste-users-pagination")->with('data',$data);*/
-     }
 
 
 

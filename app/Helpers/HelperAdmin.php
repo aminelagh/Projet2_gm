@@ -20,7 +20,6 @@ if( !function_exists('sayHello') )
 }
 
 
-
 // retourn le libelle d'un magasin
 if( !function_exists('getMagasinName') )
 {

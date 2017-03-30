@@ -1,25 +1,27 @@
 @extends('layouts.main_master')
 
-@section('title') Espace Admin @endsection
+@section('title') Accueil @endsection
 
 @section('styles')
-<link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-<link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-<link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+<link href="css/bootstrap.css" rel="stylesheet">
+<link href="css/sb-admin.css" rel="stylesheet">
+<link href="font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
 @endsection
 
 @section('scripts')
-<script src="{{  asset('js/jquery.js') }}"></script>
-<script src="{{  asset('js/bootstrap.js') }}"></script>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
 @endsection
 
 @section('main_content')
 <!-- Page Heading -->
 <div class="row">
     <div class="col-lg-12">
-        <h1 class="page-header">Espace Admin <small> Bienvenue</small></h1>
-        <img width="100%" height="100%" src="images/golf.jpg"/>
-
+        <h1 class="page-header">Blank Page <small>Subheading</small></h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a></li>
+            <li class="active"><i class="fa fa-file"></i> Blank Page</li>
+        </ol>
     </div>
 </div>
 <!-- /.row -->
@@ -27,17 +29,16 @@
 
 
 @section('menu_1')
-
 <!-- Brand and toggle get grouped for better mobile display -->
-<div class="navbar-header">
-	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-		<span class="sr-only">Toggle navigation</span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-		<span class="icon-bar"></span>
-	</button>
-	<a class="navbar-brand" href="./">Golf-Maroc</a>
-</div>
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="index.html">SB Admin</a>
+			</div>
 
 			<!-- Top Menu Items -->
 			<ul class="nav navbar-right top-nav">
@@ -90,5 +91,33 @@
 @endsection
 
 @section('menu_2')
-	@include('Espace_Admin._nav_menu_2')
+<div class="collapse navbar-collapse navbar-ex1-collapse">
+  <ul class="nav navbar-nav side-nav">
+
+    <li><a href="index.html"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
+
+    <li><a href="bootstrap-elements.html"><i class="fa fa-fw fa-desktop"></i> Bootstrap Elements</a></li>
+
+    <li><a href="bootstrap-grid.html"><i class="fa fa-fw fa-wrench"></i> Bootstrap Grid</a></li>
+
+    <li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Dropdown niv 1<i class="fa fa-fw fa-caret-down"></i></a>
+      <ul id="demo" class="collapse">
+        <li><a href="#">Item 1</a></li>
+        <li><a href="#">Item 2</a></li>
+
+        <li><a href="javascript:;" data-toggle="collapse" data-target="#demo2"><i class="fa fa-fw fa-arrows-v"></i> Dropdown niv 2 <i class="fa fa-fw fa-caret-down"></i></a>
+          <ul id="demo2" class="collapse">
+            <li><a href="#">Dropdown Item</a></li>
+            <li><a href="#">Dropdown Item</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+
+    <li class="active">
+      <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
+    </li>
+  </ul>
+</div>
+<!-- /.navbar-collapse -->
 @endsection

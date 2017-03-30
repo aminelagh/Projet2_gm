@@ -23,11 +23,11 @@
             </ul>
 
             <div class="collapse navbar-collapse navbar-ex1-collapse">
-				@include('layouts.menus_2._nav_admin')				
+				@include('layouts.menus_2._nav_admin')
             </div>
-		</nav>		
+		</nav>
 
-		
+
 
 		<div id="page-wrapper">
 
@@ -46,9 +46,23 @@
 
 	<!-- jQuery -->
 	<script src="{{ asset('js/jquery.js') }}"></script>
-
 	<!-- Bootstrap Core JavaScript -->
 	<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+
+	<script src="table/jquery.js"></script>
+	<script src="table/jquery.dataTables.js"></script>
+	<script src="table/dataTables.bootstrap.js"></script><!-- next and previous -->
+	<!--script src="table/dataTables.responsive.js"></script-->
+
+
+	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+	<script>
+	$(document).ready(function() {
+			$('#dataTables-example').DataTable({
+					responsive: true
+			});
+	});
+	</script>
 
 </body>
 

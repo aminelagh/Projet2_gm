@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Ajouter Utilisateur @endsection
+@section('title') modifier: {{ $data->nom }} {{ $data->prenom }}@endsection
 
 @section('styles')
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -16,28 +16,52 @@
 @section('main_content')
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Ajouter un Utilisateur <small> </small></h1>
+		<h1 class="page-header">Modifier l'Utilisateur <small> </small></h1>
 
 		<div id="page-wrapper">
 
 			<div class="container-fluid">
 
-					{{-- Alert message ==> Ajout Reussit --}}
-					@if (session('msgAjoutReussi'))
-					<div class="alert alert-success alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('msgAjoutReussi') !!}
-					</div>
-					@endif {{-- Alert Message ==> Erreur Ajout --}}
+				<div class="row">
+					<div class="col-lg-2"></div>
 
-					@if (session('msgErreur'))
-					<div class="alert alert-danger alert-dismissable">
-						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('msgErreur') !!}
+					<div class="col-lg-8">
+						{{-- Debut Alerts --}}
+						@if (session('alert_success'))
+						<div class="alert alert-success alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_success') !!}
+						</div>
+						@endif
+
+						@if (session('alert_info'))
+						<div class="alert alert-info alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_info') !!}
+						</div>
+						@endif
+
+						@if (session('alert_warning'))
+						<div class="alert alert-warning alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_warning') !!}
+						</div>
+						@endif
+
+						@if (session('alert_danger'))
+						<div class="alert alert-danger alert-dismissable">
+							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_danger') !!}
+						</div>
+						@endif
+						{{-- Fin Alerts --}}
 					</div>
-					@endif
+
+					<div class="col-lg-2"></div>
+
+				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('admin.submitAddUser') }}">
+					<form role="form" method="post" action="{{ Route('admin.submitUpdateUser') }}">
 						{{ csrf_field() }}
+
+						<input type="hidden" class="form-control" name="id_user" id="id_user" value="{{ $data->id_user }}" >
 
 
 						<!-- Row 1 -->
@@ -50,14 +74,14 @@
 									<select class="form-control" name="id_role" id="id_role">
 									@if( !$roles->isEmpty() )
 										@foreach( $roles as $item )
-											<option value="{{ $item->id_role }}" @if( $item->id_role == old('id_role') ) selected @endif  >{{ $item->libelle }} </option>
+											<option value="{{ $item->id_role }}" @if( $item->id_role == $data->id_role ) selected @endif >{{ $item->libelle }}</option>
 										@endforeach
 									@endif
 								</select>
 								</div>
 							</div>
 
-							<div class="col-lg-2">
+							<div class="col-lg-4">
 								{{-- Magasin --}}
 								<div class="form-group">
 									<label>Magasin</label>
@@ -65,7 +89,7 @@
 									<option value="0" selected>Aucun</option>
 									@if( !$magasins->isEmpty() )
 										@foreach( $magasins as $item )
-											<option value="{{ $item->id_magasin }}" @if( $item->id_magasin == old('id_magasin') ) selected @endif  >{{ $item->libelle }} a {{ $item->ville }}</option>
+											<option value="{{ $item->id_magasin }}" @if( $item->id_magasin == $data->id_magasin ) selected @endif >{{ $item->libelle }} a {{ $item->ville }}</option>
 										@endforeach
 									@endif
 								</select>
@@ -76,18 +100,18 @@
 								{{-- Email --}}
 								<div class="form-group">
 									<label>Email</label>
-									<input type="email" class="form-control" placeholder="E-mail" name="email" id="email" value="{{ old('email') }}" required autofocus>
+									<input type="email" class="form-control" placeholder="E-mail" name="email" id="email" value="{{ $data->email }}" required>
 									<p class="help-block">utilisé pour l'authentification</p>
 								</div>
 							</div>
 
-							<div class="col-lg-4">
+							<!--div class="col-lg-4">
 								{{-- Password --}}
 								<div class="form-group">
 									<label>Password</label>
-									<input type="text" class="form-control" placeholder="Password" name="password" id="password" required min="9">
+									<input type="text" class="form-control" placeholder="Password" name="password" id="password" required min="8">
 								</div>
-							</div>
+							</div-->
 
 						</div>
 						<!-- end row 1 -->
@@ -99,7 +123,7 @@
 								{{-- nom --}}
 								<div class="form-group">
 									<label>Nom</label>
-									<input type="text" class="form-control" placeholder="Nom" name="nom" id="nom" value="{{ old('nom') }}" required>
+									<input type="text" class="form-control" placeholder="Nom" name="nom" id="nom" value="{{ $data->nom }}" required>
 								</div>
 							</div>
 
@@ -107,7 +131,7 @@
 								{{-- Prenom --}}
 								<div class="form-group">
 									<label>Prenom</label>
-									<input type="text" class="form-control" placeholder="Prenom" name="prenom" id="prenom" value="{{ old('prenom') }}">
+									<input type="text" class="form-control" placeholder="Prenom" name="prenom" id="prenom" value="{{ $data->prenom }}">
 								</div>
 							</div>
 
@@ -115,7 +139,7 @@
 								{{-- Ville --}}
 								<div class="form-group">
 									<label>Ville</label>
-									<input type="text" class="form-control" placeholder="Ville" name="ville" id="ville" value="{{ old('ville') }}">
+									<input type="text" class="form-control" placeholder="Ville" name="ville" id="ville" value="{{ $data->ville }}">
 								</div>
 							</div>
 
@@ -123,7 +147,7 @@
 								{{-- Telephone --}}
 								<div class="form-group">
 									<label>Telephone</label>
-									<input type="number" class="form-control" placeholder="Telephone" name="telephone" id="telephone" value="{{ old('telephone') }}">
+									<input type="number" class="form-control" placeholder="Telephone" name="telephone" id="telephone" value="{{ $data->telephone }}">
 								</div>
 							</div>
 
@@ -137,7 +161,7 @@
 								{{-- Description --}}
 								<div class="form-group">
 									<label>Description</label>
-									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description" id="description">{{ old('description') }}</textarea>
+									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description" id="description">{{ $data->description }}</textarea>
 								</div>
 							</div>
 
@@ -146,7 +170,7 @@
 								{{-- Submit & Reset --}}
 								<button type="submit" name="submit" value="valider" class="btn btn-default" width="60">Valider</button>
 								<button type="submit" name="submit" value="verifier" class="btn btn-default" width="60">Vérifier</button>
-								<button type="reset" class="btn btn-default">Effacer</button>
+								<button type="reset" value="" class="btn btn-default">Réinitialiser</button>
 							</div>
 
 						</div>
@@ -161,8 +185,6 @@
 						</div>
 					</div>
 					@endif
-
-
 
 			</div>
 			<!-- /#page-wrapper -->

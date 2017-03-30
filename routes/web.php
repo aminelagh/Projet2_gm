@@ -17,59 +17,51 @@ use App\Models\Categorie;
 use App\Models\Role;
 use App\Models\Magasin;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 Route::get('/', function () {
     return view('welcome');
-
-    /*$u = new Magasin();
-    $u->libelle = 'magasin1';
-    $u->ville = 'ville1';
-    $u->description = 'description du magasin numero 1';
-    $u->telephone = '00501010101';
-    //$u->save();
-
-    dump( DB::table('magasins')->get() );
-    dump( Magasin::all() );*/
-
 });
 
-Route::get('test',function(){
+Route::get('/index',function(){ return view('index'); });
 
-  if( request()->has('id_role') )
-  {
-    $users = DB::table('users')->where('id_role',request('id_role'))->paginate(1)->appends('id_role',request('id_role'));
-  }
-  else
-  {
-     $users = DB::table('users')->paginate(1);
-   }
-   return view("users")->with('data',$users);
+//Route pour generer des PDF
+Route::get('print/{param}','PDFController@imprimer')->name('print');
 
 
-});
-
-Route::get('users', function () {
-    dump( App\User::paginate(1)  );
-});
-
-
-//Espace Admin
+/*
+Routes pour l espace Admin
+*/
+//home --> Dashboard
 Route::get('/admin','AdminController@home')->name('admin.home');
 
-Route::get('/admin/addUser','AdminController@addFormUser')->name('admin.addUser');  //afficher le formulaire d'ajout
-Route::post('/admin/submitAddUser','AdminController@submitAddUser')->name('admin.submitAddUser'); //submit formulaire d'ajout
-Route::get('/admin/lister','AdminController@listerUsers')->name('admin.lister');  //afficher le formulaire d'ajout
+//afficher le formulaire d'ajout et le valider
+Route::get('/admin/addUser','AdminController@addFormUser')->name('admin.addUser');
+Route::post('/admin/submitAddUser','AdminController@submitAddUser')->name('admin.submitAddUser');
 
-Route::get('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');    //Lister avec filtre et pagination
-Route::post('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');   //Filtrer
+//afficher le formulaire de modification et le valider
+Route::get('/admin/updateUser/{id}','AdminController@updateFormUser')->name('admin.updateUser');
+Route::post('/admin/submitUpdateUser','AdminController@submitUpdateUser')->name('admin.submitUpdateUser');
 
-Route::get('/admin/lister/{orderby}','AdminController@listerUsersOrder')->name('admin.listerOrder');  //afficher le formulaire d'ajout
-Route::get('/admin/infoUser/{id}','AdminController@infoUser')->name('admin.infoUser');  //afficher le formulaire d'ajout
+//lister les utlisateurs & trier les users
+Route::get('/admin/lister','AdminController@listerUsers')->name('admin.lister');
+Route::get('/admin/lister/{orderby}','AdminController@listerUsersOrder')->name('admin.listerOrder');
+
+//afficher le profile d un user:
+Route::get('/admin/infoUser/{id}','AdminController@infoUser')->name('admin.infoUser');
+
+//Route::get('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');    //Lister avec filtre et pagination
+//Route::post('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');   //Filtrer
 
 
 
 
-//Espace Direction
+
+
+/*
+Routes pour l espace Direct
+*/
+//home --> Dashboard
 Route::get('/direct','DirectController@home')->name('direct.home');
 Route::get('/direct/add/{param}','DirectController@addForm')->name('direct.addForm');  //afficher le formulaire d'ajout
 

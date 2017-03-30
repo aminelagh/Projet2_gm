@@ -102,7 +102,7 @@ Welcome Direct
 					<div class="col-lg-2">
 					</div>
 					<div class="col-lg-12">
-						<a type="button" class="btn btn-outline btn-default">Imprimer </a>
+						<a href="{{ Route('print',[ 'param' => 'fournisseurs' ]) }}" target="_blank" type="button" class="btn btn-outline btn-default">Imprimer </a>
 						<a href="#" type="button" onclick="alert('Hello world!')" class="btn btn-outline btn-primary" target="_blank">Exporter </a>
 
 						<!-- formtarget="_blank|_self|_parent|_top|framename" -->
