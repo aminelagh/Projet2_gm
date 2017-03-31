@@ -119,8 +119,9 @@
 
 							<div class="col-lg-4"></div>
 							<div class="col-lg-4">
-								<a href=" Route('admin.deleteUser',['id' => $data->id_user ]) " type="button" class="btn btn-outline btn-danger">Supprimer </a>
+								<a href="{{ Route('admin.deleteUser',['id' => $data->id_user ]) }}" onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $data->nom }} {{ $data->prenom }} ?')" type="button" class="btn btn-outline btn-danger">Supprimer </a>
 								<a href="{{ Route('admin.updateUser',['id' => $data->id_user ]) }}" type="button" class="btn btn-outline btn-info">Modifier </a>
+								<a href="{{ Route('admin.updatePasswordUser',['id' => $data->id_user ]) }}" onclick="return confirm('Êtes-vous sure de vouloir modifier le mot de passe de l\'utilisateur: {{ $data->nom }} {{ $data->prenom }} ?')" type="button" class="btn btn-outline btn-warning">Modifier Mot de passe</a>
 							</div>
 
 						</div>
@@ -141,4 +142,10 @@
 	</div>
 </div>
 <!-- /.row -->
-@endsection @section('menu_1') @include('Espace_Admin._nav_menu_1') @endsection @section('menu_2') @include('Espace_Admin._nav_menu_2') @endsection
+@endsection @section('menu_1')
+	@include('Espace_Admin._nav_menu_1')
+@endsection @section('menu_2')
+
+@include('Espace_Admin._nav_menu_2')
+	@include('Espace_Admin._nav_menu_2')
+@endsection

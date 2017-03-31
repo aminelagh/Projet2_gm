@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') modifier: {{ $data->nom }} {{ $data->prenom }}@endsection
+@section('title') modifier mot de passe: {{ $data->nom }} {{ $data->prenom }}@endsection
 
 @section('styles')
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -16,7 +16,7 @@
 @section('main_content')
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Modifier l'Utilisateur <small> </small></h1>
+		<h1 class="page-header">Modifier le mot de passe <small> </small></h1>
 
 		<div id="page-wrapper">
 
@@ -58,7 +58,7 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('admin.submitUpdateUser') }}">
+					<form role="form" method="post" action="{{ Route('admin.submitUpdatePasswordUser') }}">
 						{{ csrf_field() }}
 
 						<input type="hidden" class="form-control" name="id_user" id="id_user" value="{{ $data->id_user }}" >
@@ -67,11 +67,11 @@
 						<!-- Row 1 -->
 						<div class="row">
 
-							<div class="col-lg-2">
+							<div class="col-lg-3">
 								{{-- Role --}}
 								<div class="form-group">
 									<label>Role</label>
-									<select class="form-control" name="id_role" id="id_role">
+									<select class="form-control" name="id_role" id="id_role" disabled>
 									@if( !$roles->isEmpty() )
 										@foreach( $roles as $item )
 											<option value="{{ $item->id_role }}" @if( $item->id_role == $data->id_role ) selected @endif >{{ $item->libelle }}</option>
@@ -81,11 +81,11 @@
 								</div>
 							</div>
 
-							<div class="col-lg-4">
+							<div class="col-lg-3">
 								{{-- Magasin --}}
 								<div class="form-group">
 									<label>Magasin</label>
-									<select class="form-control" name="id_magasin" id="id_magasin">
+									<select class="form-control" name="id_magasin" id="id_magasin" disabled>
 									<option value="0" selected>Aucun</option>
 									@if( !$magasins->isEmpty() )
 										@foreach( $magasins as $item )
@@ -96,22 +96,22 @@
 								</div>
 							</div>
 
-							<div class="col-lg-4">
+							<div class="col-lg-3">
 								{{-- Email --}}
 								<div class="form-group">
 									<label>Email</label>
-									<input type="email" class="form-control" placeholder="E-mail" name="email" id="email" value="{{ $data->email }}" required>
+									<input type="email" class="form-control" placeholder="E-mail" name="email" id="disabledInput" value="{{ $data->email }}" disabled>
 									<p class="help-block">utilisé pour l'authentification</p>
 								</div>
 							</div>
 
-							<!--div class="col-lg-4">
+							<div class="col-lg-3">
 								{{-- Password --}}
 								<div class="form-group">
 									<label>Password</label>
-									<input type="text" class="form-control" placeholder="Password" name="password" id="password" required min="8">
+									<input type="text" class="form-control" placeholder="Password" name="password" id="password" required min="9">
 								</div>
-							</div-->
+							</div>
 
 						</div>
 						<!-- end row 1 -->
@@ -123,7 +123,7 @@
 								{{-- nom --}}
 								<div class="form-group">
 									<label>Nom</label>
-									<input type="text" class="form-control" placeholder="Nom" name="nom" id="nom" value="{{ $data->nom }}" required>
+									<input type="text" class="form-control" placeholder="Nom" name="nom" id="nom" value="{{ $data->nom }}" disabled>
 								</div>
 							</div>
 
@@ -131,23 +131,23 @@
 								{{-- Prenom --}}
 								<div class="form-group">
 									<label>Prenom</label>
-									<input type="text" class="form-control" placeholder="Prenom" name="prenom" id="prenom" value="{{ $data->prenom }}">
+									<input type="text" class="form-control" placeholder="Prenom" name="prenom" id="prenom" value="{{ $data->prenom }}" disabled>
 								</div>
 							</div>
 
 							<div class="col-lg-3">
 								{{-- Ville --}}
 								<div class="form-group">
-									<label>Ville</label>
-									<input type="text" class="form-control" placeholder="Ville" name="ville" id="ville" value="{{ $data->ville }}">
+									<label for="disabledSelect">Ville</label>
+									<input type="text" class="form-control" placeholder="Ville" name="ville" id="ville" value="{{ $data->ville }}" disabled>
 								</div>
 							</div>
 
 							<div class="col-lg-3">
 								{{-- Telephone --}}
 								<div class="form-group">
-									<label>Telephone</label>
-									<input type="number" class="form-control" placeholder="Telephone" name="telephone" id="telephone" value="{{ $data->telephone }}">
+									<label for="disabledSelect">Telephone</label>
+									<input type="number" class="form-control" placeholder="Telephone" name="telephone" id="telephone" value="{{ $data->telephone }}" disabled>
 								</div>
 							</div>
 
@@ -161,7 +161,7 @@
 								{{-- Description --}}
 								<div class="form-group">
 									<label>Description</label>
-									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description" id="description">{{ $data->description }}</textarea>
+									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description" id="description" disabled>{{ $data->description }}</textarea>
 								</div>
 							</div>
 

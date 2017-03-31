@@ -5,7 +5,7 @@ Helper pour le adminController
 
 
 // directEmailExist($email) permet de verifier si un email exsit deja dans une table
-if( !function_exists('sayHello') )
+if( !function_exists('EmailExist') )
 {
 	function EmailExist($email,$table)
 	{
@@ -13,6 +13,21 @@ if( !function_exists('sayHello') )
     foreach( $emails as $item )
     {
       if( $item == $email )
+      return true;
+    }
+    return false;
+	}
+}
+
+// directEmailExist($email) permet de verifier si un email exsit deja dans une table
+if( !function_exists('EmailExist_2') )
+{
+	function EmailExist_2($email,$id)
+	{
+    $data = DB::table('users')->get();
+    foreach( $data as $item )
+    {
+      if( $item->email == $email && $id != $item->id_user)
       return true;
     }
     return false;

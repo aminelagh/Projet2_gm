@@ -32,26 +32,59 @@ Route::get('print/{param}','PDFController@imprimer')->name('print');
 /*
 Routes pour l espace Admin
 */
-//home --> Dashboard
-Route::get('/admin','AdminController@home')->name('admin.home');
 
-//afficher le formulaire d'ajout et le valider
-Route::get('/admin/addUser','AdminController@addFormUser')->name('admin.addUser');
-Route::post('/admin/submitAddUser','AdminController@submitAddUser')->name('admin.submitAddUser');
+Route::prefix('/admin')->group( function()
+{
+  //home --> Dashboard
+  Route::get('','AdminController@home')->name('admin.home');
 
-//afficher le formulaire de modification et le valider
-Route::get('/admin/updateUser/{id}','AdminController@updateFormUser')->name('admin.updateUser');
-Route::post('/admin/submitUpdateUser','AdminController@submitUpdateUser')->name('admin.submitUpdateUser');
+  //afficher le formulaire d'ajout et le valider
+  Route::get('/addUser','AdminController@addFormUser')->name('admin.addUser');
+  Route::post('/submitAddUser','AdminController@submitAddUser')->name('admin.submitAddUser');
 
-//lister les utlisateurs & trier les users
-Route::get('/admin/lister','AdminController@listerUsers')->name('admin.lister');
-Route::get('/admin/lister/{orderby}','AdminController@listerUsersOrder')->name('admin.listerOrder');
+  //update user
+  Route::get('/updateUser/{id}','AdminController@updateFormUser')->name('admin.updateUser');
+  Route::post('/submitUpdateUser','AdminController@submitUpdateUser')->name('admin.submitUpdateUser');
 
-//afficher le profile d un user:
-Route::get('/admin/infoUser/{id}','AdminController@infoUser')->name('admin.infoUser');
+  //update password
+  Route::get('/updatePasswordUser/{id}','AdminController@updatePasswordFormUser')->name('admin.updatePasswordUser');
+  Route::post('/submitUpdatePasswordUser','AdminController@submitUpdatePasswordUser')->name('admin.submitUpdatePasswordUser');
 
-//Route::get('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');    //Lister avec filtre et pagination
-//Route::post('/admin/listerP','AdminController@listerUsersPagination')->name('admin.listerP');   //Filtrer
+  //delete User
+  Route::get('/deleteUser/{id}','AdminController@deleteUser')->name('admin.deleteUser');
+
+  //lister les utlisateurs & trier les users
+  Route::get('/lister','AdminController@listerUsers')->name('admin.lister');
+  Route::get('/lister/{orderby}','AdminController@listerUsersOrder')->name('admin.listerOrder');
+
+  //afficher le profile d un user:
+  Route::get('/infoUser/{id}','AdminController@infoUser')->name('admin.infoUser');
+});
+
+
+
+
+/*
+Routes pour l espace Direct
+*/
+
+Route::prefix('/direct')->group( function()
+{
+  //home --> Dashboard
+  Route::get('/','DirectController@home')->name('direct.home');
+
+});
+
+
+
+
+
+
+
+
+
+
+
 
 
 

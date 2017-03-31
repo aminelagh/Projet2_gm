@@ -71,7 +71,7 @@
 										<td>
 											<a href="{{ Route('admin.infoUser',['id'=> $item->id_user]) }}" ><i class="glyphicon glyphicon-user"></i></a>
 											<a href="{{ Route('admin.updateUser',['id' => $item->id_user ]) }}" ><i class="glyphicon glyphicon-cog"></i></a>
-											<a href="{{ '' }}" ><i class="glyphicon glyphicon-trash"></i></a>
+											<a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->nom }} {{ $item->prenom }} ?')" href="{{ Route('admin.deleteUser',['id' => $item->id_user ]) }}" ><i class="glyphicon glyphicon-trash"></i></a>
 										</td>
 									</tr>
 									@endforeach

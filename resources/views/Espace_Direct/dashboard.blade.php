@@ -1,64 +1,35 @@
-@extends('layouts.masters.direct')
+@extends('layouts.main_master')
 
-@section('title')
-Direct DashBoard
+@section('title') Espace Direct @endsection
+
+@section('styles')
+<link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+<link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+<link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
-@section('username')
-Amine Laghlabi
+@section('scripts')
+<script src="{{  asset('js/jquery.js') }}"></script>
+<script src="{{  asset('js/bootstrap.js') }}"></script>
 @endsection
 
+@section('main_content')
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">Espace Direct <small> Bienvenue</small></h1>
+        <img width="100%" height="100%" src="images/golf.jpg"/>
 
-@section('content')
-Welcome Direct
-@endsection
-
-
-@section('content_messages')
-<li class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
-	<ul class="dropdown-menu message-dropdown">
-		<li class="message-footer">
-			<a href="#">Read All New Messages</a>
-		</li>
-	</ul>
-</li>
-@endsection
-
-
-@section('content_alerts')
-<li class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
-	<ul class="dropdown-menu alert-dropdown">
-		<li><a href="#">Alert Name <span class="label label-default">Alert Badge</span></a></li>
-	</ul>
-</li>
-@endsection
-
-
-@section('content_compte')
-<li class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> @yield('nom_compte') <b class="caret"></b></a>
-	<ul class="dropdown-menu">
-		<li>
-			<a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
-		</li>
-	</ul>
-</li>
-@endsection
-
-
-@section('main')
-<div class="container-fluid">
-
-	<!-- Page Heading -->
-	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header">Bienvenue <small> Espace Direction</small></h1>
-
-		</div>
-	</div>
-	<!-- /.row -->
-
+    </div>
 </div>
+<!-- /.row -->
+@endsection
+
+
+@section('menu_1')
+	@include('Espace_Admin._nav_menu_1')
+@endsection
+
+@section('menu_2')
+	@include('Espace_Admin._nav_menu_2')
 @endsection
