@@ -41,14 +41,14 @@
 							<table class="table table-bordered table-hover table-striped" id="dataTables-example" width="100%">
 								<thead>
 									<tr>
-										<th width="2%">#</th>
+										<th width="4%">#</th>
 										<th width="6%">Role</th>
 										<th>Nom</th>
 										<th>Prenom</th>
 										<th>Ville</th>
 										<th>Email</th>
 										<th width="10%">Magasin</a></th>
-										<th width="5%">Autres</a></th>
+										<th>Autres</a></th>
 									</tr>
 								</thead>
 

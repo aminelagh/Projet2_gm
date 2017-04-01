@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Ajout Magasin @endsection
+@section('title') Ajout Marque @endsection
 
 @section('styles')
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -16,7 +16,7 @@
 @section('main_content')
 <div class="row">
 	<div class="col-lg-12">
-		<h1 class="page-header">Ajouter un Magasin <small> </small></h1>
+		<h1 class="page-header">Ajouter une Marque <small> </small></h1>
 
 		<div id="page-wrapper">
 
@@ -58,70 +58,18 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'magasin']) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'marque']) }}">
 						{{ csrf_field() }}
 
 
 						<!-- Row 1 -->
 						<div class="row">
 
-							<div class="col-lg-8">
-								{{-- Libelle --}}
-								<div class="form-group">
-									<label>Nom du magasin</label>
-									<input type="text" class="form-control" placeholder="Nom du magasin" name="libelle" value="{{ old('libelle') }}" required autofocus>
-								</div>
-							</div>
-
-							<div class="col-lg-4">
-								{{-- Ville --}}
-								<div class="form-group">
-									<label>Ville</label>
-									<input type="text" class="form-control" placeholder="Ville" name="ville" value="{{ old('ville') }}">
-								</div>
-							</div>
-
-						</div>
-						<!-- end row 1 -->
-
-						<!-- Row 2 -->
-						<div class="row">
-
-							<div class="col-lg-4">
-								{{-- Agent --}}
-								<div class="form-group">
-									<label>Nom du representant</label>
-									<input type="text" class="form-control" placeholder="Agent" name="agent" value="{{ old('agent') }}">
-								</div>
-							</div>
-
-							<div class="col-lg-4">
-								{{-- Telephone --}}
-								<div class="form-group">
-									<label>Telephone</label>
-									<input type="text" class="form-control" placeholder="Telephone" name="telephone" value="{{ old('telephone') }}">
-								</div>
-							</div>
-
-							<div class="col-lg-4">
-								{{-- Libelle --}}
-								<div class="form-group">
-									<label>Email</label>
-									<input type="email" class="form-control" placeholder="Email" name="email" value="{{ old('email') }}">
-								</div>
-							</div>
-
-						</div>
-						<!-- end row 2 -->
-
-						<!-- row 3 -->
-						<div class="row">
-
 							<div class="col-lg-6">
-								{{-- Adresse --}}
+								{{-- Libelle --}}
 								<div class="form-group">
-									<label>Adresse</label>
-									<textarea type="text" class="form-control" rows="2" placeholder="Adresse" name="adresse">{{ old('adresse') }}</textarea>
+									<label>Nom de la marque</label>
+									<input type="text" class="form-control" placeholder="Libelle " name="libelle" value="{{ old('libelle') }}" required autofocus>
 								</div>
 							</div>
 
@@ -129,12 +77,13 @@
 								{{-- Description --}}
 								<div class="form-group">
 									<label>Description</label>
-									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description">{{ old('description') }}</textarea>
+									<textarea type="text" class="form-control" rows="3" placeholder="Description" name="description">{{ old('description') }}</textarea>
 								</div>
 							</div>
 
 						</div>
-						<!-- end row 3 -->
+						<!-- end row 1 -->
+
 
 						<!-- row 4 -->
 						<div class="row">

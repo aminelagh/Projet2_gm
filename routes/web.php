@@ -23,7 +23,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/index',function(){ return view('index'); });
+Route::get('/test',function(){
+
+  dump( Exists('categories', 'libelle', 'categorie 1') );
+
+});
 
 //Route pour generer des PDF
 Route::get('print/{param}','PDFController@imprimer')->name('print');
