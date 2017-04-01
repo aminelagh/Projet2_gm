@@ -7,4 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class Role extends Model
 {
     protected $table = 'roles';
+    protected $primaryKey = 'id_role';
+
+    protected $fillable = [
+        'id_role','libelle', 'description'
+    ];
+
+
 }

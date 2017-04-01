@@ -72,18 +72,14 @@ Route::prefix('/direct')->group( function()
 {
   //home --> Dashboard
   Route::get('/','DirectController@home')->name('direct.home');
+  Route::get('/add/{param}','DirectController@addForm')->name('direct.addForm');
+
+  //Lister des elements:
+  Route::get('/lister/{param}','DirectController@lister')->name('direct.lister');
+  Route::post('/submitAdd/{param}','DirectController@submitAdd')->name('direct.submitAdd');
+
 
 });
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -95,7 +91,7 @@ Route::prefix('/direct')->group( function()
 Routes pour l espace Direct
 */
 //home --> Dashboard
-Route::get('/direct','DirectController@home')->name('direct.home');
+
 Route::get('/direct/add/{param}','DirectController@addForm')->name('direct.addForm');  //afficher le formulaire d'ajout
 
 // Submit Form
@@ -106,37 +102,3 @@ Route::post('/direct/submitAddArticle','DirectController@submitAddArticle')->nam
 Route::get('/direct/lister/{param}','DirectController@lister')->name('direct.lister');  //afficher le formulaire d'ajout
 
 Route::get('/direct/delete/{p_table}/{p_id}','DirectController@delete')->name('direct.delete');  //afficher le formulaire d'ajout
-
-
-
-/*
-Route::get('/admin/add/{param}','AdminController@addForm')->name('admin.addForm');  //afficher le formulaire d'ajout
-Route::post('/admin/submitAddDirect','AdminController@submitAddDirect')->name('admin.submitAddDirect'); //submit formulaire d'ajout
-Route::post('/admin/submitAddMagas','AdminController@submitAddMagas')->name('admin.submitAddMagas'); //submit formulaire d'ajout
-Route::post('/admin/submitAddMagas','AdminController@submitAddVend')->name('admin.submitAddVend'); //submit formulaire d'ajout
-Route::post('/admin/submitAddRole','AdminController@submitAddRole')->name('admin.submitAddRole'); //submit formulaire d'ajout
-
-Route::get('/lister/{param}','AdminController@lister')->name('admin.lister');  //afficher le formulaire d'ajout
-
-
-/*
-//admin routes
-Route::prefix('/admin')->group( function()
-{
-  Route::get('/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login'); //afficher le formulaire d'authetification
-  Route::post('/login', 'Auth\AdminLoginController@login')->name('admin.login.submit'); //submit les donnees du formulaire d'authentification
-  Route::get('/', 'AdminController@index')->name('admin.dashboard');                    //ouvrir le Dashboard de l'admin
-  Route::get('/logout', 'AdminController@logout')->name('admin.logout');                //LogOut Admin
-
-
-  Route::get('/add/{param}','AdminController@addForm')->name('admin.addForm');  //afficher le formulaire d'ajout
-
-  Route::post('/submitAddDirect','AdminController@submitAddDirect')->name('admin.submitAddDirect'); //submit formulaire d'ajout
-  Route::post('/submitAddMagas','AdminController@submitAddMagas')->name('admin.submitAddMagas'); //submit formulaire d'ajout
-  Route::post('/submitAddMagas','AdminController@submitAddVend')->name('admin.submitAddVend'); //submit formulaire d'ajout
-
-  Route::get('/lister/{param}','AdminController@lister')->name('admin.lister');  //afficher le formulaire d'ajout
-
-  Route::get('/', 'AdminController@index')->name('admin.dashboard');                    //ouvrir le Dashboard de l'admin
-
-} );

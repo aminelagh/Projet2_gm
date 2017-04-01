@@ -20,6 +20,8 @@
         <h1 class="page-header">Espace Direct <small> Bienvenue</small></h1>
         <img width="100%" height="100%" src="images/golf.jpg"/>
 
+
+
     </div>
 </div>
 <!-- /.row -->
@@ -27,9 +29,9 @@
 
 
 @section('menu_1')
-	@include('Espace_Admin._nav_menu_1')
+	@include('Espace_Direct._nav_menu_1')
 @endsection
 
 @section('menu_2')
-	@include('Espace_Admin._nav_menu_2')
+	@include('Espace_Direct._nav_menu_2')
 @endsection

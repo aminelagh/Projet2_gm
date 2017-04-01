@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Categorie extends Model
 {
     protected $table = 'categories';
+    protected $primaryKey = 'id_fournisseur';
+
+    protected $fillable = ['libelle','description'];
 
     private $id_categorie;
     private $libelle;
@@ -14,8 +17,6 @@ class Categorie extends Model
     private $created_at;
     private $updated_at;
 
-    protected $fillable=['libelle','description'];
 
-    public function hello(){}
 
 }

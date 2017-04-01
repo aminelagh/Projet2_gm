@@ -42,12 +42,12 @@
 								<thead>
 									<tr>
 										<th width="2%">#</th>
-										<th width="6%">Role<a href="{{ Route('admin.listerOrder',['orderby' => 'id_role']) }}"><i align="right" class="glyphicon glyphicon-sort"></i></a></th>
-										<th><a href="{{ Route('admin.listerOrder',['orderby' => 'nom']) }}">Nom</a></th>
-										<th><a href="{{ Route('admin.listerOrder',['orderby' => 'prenom']) }}">Prenom</a></th>
-										<th><a href="{{ Route('admin.listerOrder',['orderby' => 'ville']) }}">Ville</a></th>
-										<th><a href="{{ Route('admin.listerOrder',['orderby' => 'email']) }}">Email</a></th>
-										<th width="10%"><a href="{{ Route('admin.listerOrder',['orderby' => 'id_magasin']) }}">Magasin</a></th>
+										<th width="6%">Role</th>
+										<th>Nom</th>
+										<th>Prenom</th>
+										<th>Ville</th>
+										<th>Email</th>
+										<th width="10%">Magasin</a></th>
 										<th width="5%">Autres</a></th>
 									</tr>
 								</thead>
