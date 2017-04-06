@@ -72,25 +72,3 @@ if( !function_exists('getFournisseurName') )
 		return $result == null ? '<i>not set</i>' : $result;
 	}
 }
-
-//returns Gender
-if( !function_exists('getSexeName') )
-{
-	function getSexeName($value)
-	{
-		switch ($value) {
-			case 'h': return 'Homme'; break;
-			case 'f': return 'Femme'; break;
-			default:  return '-'; 		break;
-		}
-	}
-}
-
-//test if is Color
-if( !function_exists('isColor') )
-{
-	function isColor($value)
-	{
-		return substr($value,0,1) == '#' ? true : false;
-	}
-}

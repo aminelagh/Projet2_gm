@@ -4,20 +4,6 @@ Helper pour le adminController
 */
 
 
-// directEmailExist($email) permet de verifier si un email exsit deja dans une table
-if( !function_exists('EmailExist') )
-{
-	function EmailExist($email,$table)
-	{
-    $emails = DB::table($table)->get()->pluck('email');
-    foreach( $emails as $item )
-    {
-      if( $item == $email )
-      return true;
-    }
-    return false;
-	}
-}
 
 // fonction permet de verifier si une valeur d'un champ exist dans une table
 if( !function_exists('Exists') )
@@ -31,5 +17,27 @@ if( !function_exists('Exists') )
       return true;
     }
     return false;
+	}
+}
+
+//returns Gender
+if( !function_exists('getSexeName') )
+{
+	function getSexeName($value)
+	{
+		switch ($value) {
+			case 'h': return 'Homme'; break;
+			case 'f': return 'Femme'; break;
+			default:  return '-'; 		break;
+		}
+	}
+}
+
+//test if is Color
+if( !function_exists('isColor') )
+{
+	function isColor($value)
+	{
+		return substr($value,0,1) == '#' ? true : false;
 	}
 }

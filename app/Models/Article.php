@@ -10,7 +10,7 @@ class Article extends Model
     protected $primaryKey = 'id_article';
 
     protected $fillable = [
-      'id_article','id_marque', 'id_fournisseur','id_categorie' ,
+      'id_article', 'id_fournisseur','id_categorie' ,
       'designation_c', 'designation_l',
       'code_barre','num_article' ,
       'couleur','taille', 'sexe','prix',

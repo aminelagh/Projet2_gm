@@ -35,6 +35,42 @@
     <!-- row -->
     <div class="row">
 
+      {{-- **************Alerts**************  --}}
+      <div class="row">
+        <div class="col-lg-2"></div>
+
+        <div class="col-lg-8">
+          {{-- Debut Alerts --}}
+          @if (session('alert_success'))
+          <div class="alert alert-success alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_success') !!}
+          </div>
+          @endif
+
+          @if (session('alert_info'))
+          <div class="alert alert-info alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_info') !!}
+          </div>
+          @endif
+
+          @if (session('alert_warning'))
+          <div class="alert alert-warning alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_warning') !!}
+          </div>
+          @endif
+
+          @if (session('alert_danger'))
+          <div class="alert alert-danger alert-dismissable">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_danger') !!}
+          </div>
+          @endif
+          {{-- Fin Alerts --}}
+        </div>
+
+        <div class="col-lg-2"></div>
+      </div>
+      {{-- **************endAlerts**************  --}}
+
       <div class="table-responsive">
 	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
 
@@ -55,9 +91,9 @@
                <td>{{ $item->telephone }}</td>
                <td>{{ $item->email }}</td>
                <td>
-                 <a href="{{ Route('admin.infoUser',['id'=> 1]) }}" ><i class="glyphicon glyphicon-user"></i></a>
-                 <a href="{{ Route('admin.updateUser',['id' => 1 ]) }}" ><i class="glyphicon glyphicon-pencil"></i></a>
-                 <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->libelle }} {{ $item->libelle }} ?')" href="{{ Route('direct.delete',['p_table' => 'fournisseurs','p_id' => $item->id_fournisseur ]) }}" ><i class="glyphicon glyphicon-trash"></i></a>
+                 <a href="{{ Route('direct.info',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}" title="detail"><i class="glyphicon glyphicon-font"></i></a>
+                 <a href="{{ Route('direct.updateForm',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}" title="modifier"><i class="glyphicon glyphicon-pencil"></i></a>
+                 <a onclick="return confirm('Êtes-vous sure de vouloir effacer le Fournisseur: {{ $item->libelle }} ?')" href="{{ Route('direct.delete',['p_table' => 'fournisseurs' , 'p_id' => $item->id_fournisseur ]) }}" title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
                </td>
              </tr>
              @endforeach

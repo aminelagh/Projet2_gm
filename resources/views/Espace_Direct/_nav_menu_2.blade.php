@@ -13,6 +13,14 @@
       </ul>
     </li>
 
+    <li><a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="fa fa-fw fa-arrows-v"></i> Gestion Stocks <i class="fa fa-fw fa-caret-down"></i></a>
+      <ul id="demo1" class="collapse">
+        <li><a href="{{ Route('direct.lister',['param' => 'magasins' ]) }}">    Magasins     <span class="badge">{{ App\Models\Magasin::count() }}     </span></a></li>
+        <li><a href="{{ Route('direct.lister',['param' => 'stocks' ]) }}">     Stocks      <span class="badge">{{ App\Models\Stock::count() }}      </span></a></li>
+
+      </ul>
+    </li>
+
     <li class="active">
       <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
     </li>

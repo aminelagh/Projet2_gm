@@ -23,19 +23,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test',function(){
-
-  dump( Exists('categories', 'libelle', 'categorie 1') );
-
-});
 
 //Route pour generer des PDF
 Route::get('print/{param}','PDFController@imprimer')->name('print');
 
-
-/*
+/**************************
 Routes pour l espace Admin
-*/
+***************************/
 
 Route::prefix('/admin')->group( function()
 {
@@ -68,41 +62,38 @@ Route::prefix('/admin')->group( function()
 
 
 
-/*
+/***************************
 Routes pour l espace Direct
-*/
+***************************/
 
 Route::prefix('/direct')->group( function()
 {
   //home --> Dashboard
   Route::get('/','DirectController@home')->name('direct.home');
-  Route::get('/add/{param}','DirectController@addForm')->name('direct.addForm');
 
-  //Lister des elements:
-  Route::get('/lister/{param}','DirectController@lister')->name('direct.lister');
+  //afficher et valider le formulaire
+  Route::get('/add/{param}','DirectController@addForm')->name('direct.addForm');
   Route::post('/submitAdd/{param}','DirectController@submitAdd')->name('direct.submitAdd');
 
+  //lister
+  Route::get('/lister/{param}','DirectController@lister')->name('direct.lister');
+
+  //delete data
+  Route::get('/delete/{p_table}/{p_id}','DirectController@delete')->name('direct.delete');
+
+  //afficher le profile
+  Route::get('/info/{p_table}/{p_id}','DirectController@info')->name('direct.info');
+
+  //afficher
+  Route::get('/update/{p_table}/{p_id}','DirectController@updateForm')->name('direct.updateForm');
+  Route::post('/submitUpdate/{param}','DirectController@submitUpdate')->name('direct.submitUpdate');
+
+  Route::get('/update/{value}/{aa}','DirectController@routeError');
+  Route::get('/update','DirectController@routeError');
 
 });
 
 
-
-
-
-
-
-/*
-Routes pour l espace Direct
-*/
-//home --> Dashboard
-
-Route::get('/direct/add/{param}','DirectController@addForm')->name('direct.addForm');  //afficher le formulaire d'ajout
-
-// Submit Form
-Route::post('/direct/submitAddCategorie','DirectController@submitAddCategorie')->name('direct.submitAddCategorie');
-Route::post('/direct/submitAddFournisseur','DirectController@submitAddFournisseur')->name('direct.submitAddFournisseur');
-Route::post('/direct/submitAddArticle','DirectController@submitAddArticle')->name('direct.submitAddArticle');
-
-Route::get('/direct/lister/{param}','DirectController@lister')->name('direct.lister');  //afficher le formulaire d'ajout
-
-Route::get('/direct/delete/{p_table}/{p_id}','DirectController@delete')->name('direct.delete');  //afficher le formulaire d'ajout
+Route::get('/{param}',function(){
+  return view('welcome');
+});

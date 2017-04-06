@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Marques @endsection
+@section('title') Categories @endsection
 
 @section('styles')
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -30,7 +30,7 @@
   <!-- main row -->
   <div class="row">
 
-    <h1 class="page-header">Liste des Marques <small> </small></h1>
+    <h1 class="page-header">Liste des Categories <small> </small></h1>
 
     <!-- row -->
     <div class="row">
@@ -75,7 +75,7 @@
 	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
 
            <thead>
-             <tr><th width="2%"> # </th><th width="25%"> Marque </th><th>Description</th><th width="10%">Autres</th></tr>
+             <tr><th width="2%"> # </th><th width="25%"> Categorie </th><th>Description</th><th width="10%">Autres</th></tr>
            </thead>
 
            <tbody>
@@ -89,9 +89,9 @@
                <td>{{ $item->libelle }}</td>
                <td>{{ $item->description }}</td>
                <td>
-                 <a href="{{ Route('direct.info',['p_table' => 'marques', 'p_id'=> $item->id_marque ]) }}" title="plus de detail" ><i class="glyphicon glyphicon-font"></i></a>
-                 <a href="{{ Route('admin.updateUser',['id' => 1 ]) }}" title="modifier"><i class="glyphicon glyphicon-pencil"></i></a>
-                 <a onclick="return confirm('Êtes-vous sure de vouloir effacer la Marque: {{ $item->libelle }} ?')" href="{{ Route('direct.delete',['p_table' => 'marques' , 'p_id' => $item->id_marque ]) }}" title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
+                 <a href="{{ Route('direct.info',['p-table'=> 'categories', 'p_id'=> $item->id_categorie ]) }}" title="info sur la categorie"><i class="glyphicon glyphicon-font"></i></a>
+                 <a href="{{ Route('direct.updateForm',['p-table'=> 'categories', 'p_id'=> $item->id_categorie ]) }}" title="modifier la categorie"><i class="glyphicon glyphicon-pencil"></i></a>
+                 <a onclick="return confirm('Êtes-vous sure de vouloir effacer la Categorie: {{ $item->libelle }} ?')" href="{{ Route('direct.delete',['p_table' => 'categories' , 'p_id' => $item->id_categorie ]) }}" title="effacer la categorie"><i class="glyphicon glyphicon-trash"></i></a>
                </td>
              </tr>
              @endforeach
@@ -111,7 +111,7 @@
         <div class="col-lg-4"></div>
         <div class="col-lg-8">
           <a type="button" class="btn btn-outline btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true">  Imprimer </i></a>
-          <a href="{{ Route('direct.addForm',[ 'param' => 'marque' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter une Marque</a>
+          <a href="{{ Route('direct.addForm',[ 'param' => 'categorie' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter une Categorie</a>
         </div>
       </div>
       <!-- row -->
