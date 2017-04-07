@@ -80,6 +80,14 @@
 									<td>Date de derniere modification</td>
 									<td><strong>{{ getDateHelper($data->updated_at) }} a {{ getTimeHelper($data->updated_at) }}     </strong></td>
 								</tr>
+
+								<tr></tr>
+
+								<tr>
+									<td>nombre d'articles dans la catégorie</td>
+									<td><strong>{{ App\Models\Article::whereIdCategorie($data->id_categorie)->count() }} </strong></td>
+								</tr>
+
 							</table>
 
 

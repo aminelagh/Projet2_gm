@@ -105,37 +105,35 @@
 						<hr>
 						<!-- row 5 -->
 						<div class="row">
-							<div class="col-lg-2"></div>
-							<div class="col-lg-6">
-								<div class="panel panel-primary">
-									<div class="panel-heading">
-										<h3 class="panel-title">Magasins</h3>
-									</div>
-									<div class="panel-body">
-										<ul class="list-group" align="center">
-											@foreach($data as $item)
-												<li class="list-group-item">{{ $item->libelle }}</li>
-											@endforeach
-                    </ul>
+							<div class="col-lg-3"></div>
+
+							<div class="col-lg-6" align="center">
+								<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo10" title="Cliquez ici pour visualiser la liste des articles existants">Liste des Categories</button>
+								<div id="demo10" class="collapse">
+									<br>
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<h3 class="panel-title" align="center">Categories <span class="badge">{{ App\Models\Categorie::count() }}</span></h3>
+										</div>
+										<div class="panel-body">
+											<ul class="list-group" align="center">
+												@foreach($data as $item)
+													<li class="list-group-item"><a href="{{ route('direct.info',[ 'p_table' => 'categories' , 'p_id' => $item->id_categorie ]) }}" title="detail sur la categorie"> {{ $item->libelle }}</a></li>
+												@endforeach
+											</ul>
+										</div>
 									</div>
 								</div>
 							</div>
 
+							<div class="col-lg-3"></div>
 						</div>
+
 						<!-- end row 5 -->
 						@endif
 						{{-- fin if --}}
 
 					</form>
-
-					{{-- erreur (not used) --}}
-					@if( isset($error) )
-					<div class="col-lg-12">
-						<div class="alert alert-danger">
-							<strong>Oh snap!</strong> {{ $error }}
-						</div>
-					</div>
-					@endif
 
 
 

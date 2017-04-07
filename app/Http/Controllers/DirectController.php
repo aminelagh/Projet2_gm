@@ -25,17 +25,12 @@ class DirectController extends Controller
   //affiche les formulaire d'ajout de la partie Direction
   public function addForm($param)
   {
-      $categories   = DB::table('categories')->get();
-      $fournisseurs = DB::table('fournisseurs')->get();
-      $marques      = DB::table('marques')->get();
-
     switch($param)
     {
-      case 'categorie':   return view('Espace_Direct.add-categorie-form');    break;
-      case 'fournisseur': return view('Espace_Direct.add-fournisseur-form')->with('data', DB::table('fournisseurs')->get());  break;
-      case 'marque':      return view('Espace_Direct.add-marque-form')->with('data', DB::table('marques')->get());      break;
-      case 'magasin':     return view('Espace_Direct.add-magasin-form')->with('data' , DB::table('magasins')->get() );      break;
-      case 'article':     return view('Espace_Direct.add-article-form')->with(['fournisseurs' => $fournisseurs , 'categories' => $categories]); break;
+      case 'categorie':   return view('Espace_Direct.add-categorie-form')->withData( Categorie::all() );    break;
+      case 'fournisseur': return view('Espace_Direct.add-fournisseur-form')->withData( Fournisseur::all() );  break;
+      case 'magasin':     return view('Espace_Direct.add-magasin-form')->withData( Magasin::all() );      break;
+      case 'article':     return view('Espace_Direct.add-article-form')->with(['data' => Article::all() , 'fournisseurs' => Fournisseur::all() , 'categories' => Categorie::all() ]); break;
       default: return 'DirectController@addForm($param)';
     }
   }
@@ -51,7 +46,6 @@ class DirectController extends Controller
     {
       case 'categories':   return view('Espace_Direct.update-categorie-form')->withData(  Categorie::find($p_id) );     break;
       case 'fournisseurs': return view('Espace_Direct.update-fournisseur-form')->withData( Fournisseur::find($p_id) );  break;
-      case 'marques':      return view('Espace_Direct.update-marque-form')->withData( Marque::find($p_id) );            break;
       case 'magasins':     return view('Espace_Direct.update-magasin-form')->withData( Magasin::find($p_id) );          break;
       case 'articles':     return view('Espace_Direct.update-article-form')->with(['data' =>  Article::find($p_id) , 'fournisseurs' => $fournisseurs , 'categories' => $categories] ); break;
       default: return 'DirectController@updateForm($param)';
@@ -87,7 +81,6 @@ class DirectController extends Controller
        case 'categories':   Categorie::find($p_id)->delete();   return back()->withInput()->with('alert_success','La catégorie a été effacée avec succès');   break;
        case 'fournisseurs': fournisseur::find($p_id)->delete(); return back()->withInput()->with('alert_success','Le fournisseur a été effacé avec succès');  break;
        case 'articles':     Article::find($p_id)->delete();     return back()->withInput()->with('alert_success','L\'article a été effacé avec succès');      break;
-       case 'marques':      Marque::find($p_id)->delete();      return back()->withInput()->with('alert_success','La marque a été effacée avec succès');      break;
        case 'magasins':     Magasin::find($p_id)->delete();     return back()->withInput()->with('alert_success','Le magasin a été effacé avec succès');      break;
        default:             return back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> probleme dans: DirectController@delete');             break;
      }
@@ -105,18 +98,17 @@ class DirectController extends Controller
   {
     switch($p_table)
     {
-      case 'categories':    $item = Categorie::find($p_id);   return ( $item != null ? view('Espace_Direct.info-categorie')->with('data',$item) :   back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> la catégorie choisit n\'existe pas') );   break;
-      case 'fournisseurs':  $item = fournisseur::find($p_id); return ( $item != null ? view('Espace_Direct.info-fournisseur')->with('data',$item) : back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le fournisseur choisit n\'existe pas') );   break;
-      case 'articles':      $item = Article::find($p_id);     return ( $item != null ? view('Espace_Direct.info-article')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> l\'article choisit n\'existe pas') );   break;
-      case 'marques':       $item = Marque::find($p_id);      return ( $item != null ? view('Espace_Direct.info-marque')->with('data',$item) :      back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> la marque choisit n\'existe pas') );   break;
-      case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le magasin choisit n\'existe pas') );   break;
+      case 'categories':    $item = Categorie::find($p_id);   return ( $item != null ? view('Espace_Direct.info-categorie')->with('data',$item) :   back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> la catégorie choisie n\'existe pas') );   break;
+      case 'fournisseurs':  $item = fournisseur::find($p_id); return ( $item != null ? view('Espace_Direct.info-fournisseur')->with('data',$item) : back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le fournisseur choisi n\'existe pas') );   break;
+      case 'articles':      $item = Article::find($p_id);     return ( $item != null ? view('Espace_Direct.info-article')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> l\'article choisi n\'existe pas') );   break;
+      case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le magasin choisi n\'existe pas') );   break;
       default: return back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> Vous avez pris le mauvais chemin. ==> DirectController@info');      break;
     }
   }
 
 
-
-
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   /********************************************************
     Valider L'ajout
   *********************************************************/
@@ -125,7 +117,6 @@ class DirectController extends Controller
    switch($param)
    {
      case 'magasin':        return $this->submitAddMagasin(); break;
-     case 'marque':         return $this->submitAddMarque(); break;
      case 'fournisseur':    return $this->submitAddFournisseur(); break;
      case 'categorie':      return $this->submitAddCategorie(); break;
      case 'article':        return $this->submitAddArticle(); break;
@@ -133,9 +124,6 @@ class DirectController extends Controller
    }
   }
 
-  /****************************
-  Fonctions pour valider les differents types de formulaires
-  ****************************/
   //Valider l'ajout de : Magasin
   public function submitAddMagasin()
   {
@@ -171,39 +159,6 @@ class DirectController extends Controller
   }
 
   //Valider l'ajout de : Marque
-  public function submitAddMarque()
-  {
-    if( request()->get('submit') == 'verifier' )
-    {
-      if( request()->get('libelle')==null )
-        return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> veuillez remplir le champ libelle');
-
-      if( Exists('marques', 'libelle', request()->get('libelle') )  )
-        return redirect()->back()->withInput()->with('alert_warning','<strong>Alert !!</strong> La marque <i>'.request()->get('libelle').'</i> existe déjà');
-
-      if( request()->get('description')==null )
-        return redirect()->back()->withInput()->with('alert_info','il est préférable de remplir le champs description aussi.');
-      else
-        return redirect()->back()->withInput()->with('alert_success','Rien à signaler, vous pouvez valider.');
-    }
-    else if( request()->get('submit') == 'valider' )
-    {
-      if( request()->get('libelle')==null )
-       return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> veuillez remplir le champ libelle');
-
-      $item = new Marque;
-      $item->libelle      = request()->get('libelle');
-      $item->description  = request()->get('description');
-      $item->save();
-      return redirect()->back()->with('alert_success','La Marque <strong>'.request()->get('libelle').'</strong> a bien été ajouté.');
-    }
-    else
-    {
-      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddMarque)');
-    }
-  }
-
-  //Valider l'ajout de : Marque
   public function submitAddCategorie()
   {
     if( request()->get('submit') == 'verifier' )
@@ -233,7 +188,7 @@ class DirectController extends Controller
     }
     else
     {
-      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddMarque)');
+      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddCategorie)');
     }
   }
 
@@ -279,9 +234,65 @@ class DirectController extends Controller
     }
     else
     {
-      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddMarque)');
+      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddFournisseur)');
     }
   }
+
+  //Valider l'ajout de : Magasin
+  public function submitAddArticle()
+  {
+    if( request()->get('submit') == 'verifier' )
+    {
+      if( Exists('articles', 'designation_c', request()->get('designation_c') )  )
+        return redirect()->back()->withInput()->with('alert_warning','<strong>Alert !!</strong> L\'article <i>'.request()->get('designation_c').'</i> existe déjà.');
+
+      if( Exists('articles', 'num_article', request()->get('num_article') )  )
+      {
+        if( Exists('articles', 'code_barre', request()->get('code_barre') )  )
+          return redirect()->back()->withInput()->with('alert_warning','<strong>Alert !!</strong> Le numero: <i>'.request()->get('num_article').'</i> et le code: <i>'.request()->get("code_barre").'</i> sont déjà utilisés pour un autre article.');
+        else
+          return redirect()->back()->withInput()->with('alert_warning','<strong>Alert !!</strong> Le numero: <i>'.request()->get('num_article').'</i> est deja utilise pour un autre article.');
+      }
+
+      if( Exists('articles', 'code_barre', request()->get('code_barre') )  )
+        return redirect()->back()->withInput()->with('alert_warning','<strong>Alert !!</strong> Le numero: <i>'.request()->get('num_article').'</i> est deja utilise pour un autre article.');
+
+      if( request()->get('prix')==null || request()->get('taille')==null )
+        return redirect()->back()->withInput()->with('alert_info','il est préférable de remplir tous les champs.');
+
+      else
+       return redirect()->back()->withInput()->with('alert_success','Rien à signaler, vous pouvez valider');
+    }
+    else if( request()->get('submit') == 'valider' )
+    {
+      $item = new Article;
+      $item->id_categorie   = request()->get('id_categorie');
+      $item->id_fournisseur = request()->get('id_fournisseur');
+      $item->num_article    = request()->get('num_article');
+      $item->code_barre     = request()->get('code_barre');
+      $item->designation_c  = request()->get('designation_c');
+      $item->designation_l  = request()->get('designation_l');
+      $item->taille         = request()->get('taille');
+      $item->sexe           = request()->get('sexe');
+      $item->couleur        = request()->get('couleur');
+      $item->prix           = request()->get('prix');
+
+      try
+      {
+        $item->save();
+      }
+      catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur! </strong> une erreur s\'est produite lors de l\'ajout de l\'article.<br>Message d\'erreur: '.$ex->getMessage() ); }
+
+      return redirect()->back()->with('alert_success','L\'article <strong>'.request()->get('designation_c').'</strong> a bien été ajouté.');
+    }
+    else
+    {
+      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddArticle)');
+    }
+  }
+
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
 

@@ -94,13 +94,7 @@
 								</tr>
 								<tr>
 									<td>Couleur</td>
-									<td>
-
-										@if( isColor( $data->couleur ) )
-											{{ $data->couleur }} <svg height="60" width="60"><circle cx="20" cy="20" r="20" fill="{{ $data->couleur }}" /></svg> </div>
-										@else
-											<strong>{{ $data->couleur }}</strong>
-										@endif
+									<td><strong>{{ $data->couleur }} </strong></td>
 								</tr>
 								<tr>
 									<td>Sexe</td>

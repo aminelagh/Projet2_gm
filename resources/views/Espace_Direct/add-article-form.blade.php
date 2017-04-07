@@ -72,7 +72,7 @@
 									<select class="form-control" name="id_categorie" autofocus>
 									@if( !$categories->isEmpty() )
 										@foreach( $categories as $item )
-											<option value="{{ $item->id_categorie }}" @if( $item->id_categorie == old('id_categorie') ) selected @endif  >{{ $item->libelle }} </option>
+											<option value="{{ $item->id_categorie }}" @if( $item->id_categorie == old('id_categorie') ) selected @endif  > {{ $item->libelle }} ( {{ DB::table('articles')->whereIdCategorie($item->id_categorie)->count() }} article(s) )</option>
 										@endforeach
 									@endif
 								</select>
@@ -86,7 +86,7 @@
 									<select class="form-control" name="id_fournisseur">
 									@if( !$fournisseurs->isEmpty() )
 										@foreach( $fournisseurs as $item )
-											<option value="{{ $item->id_fournisseur }}" @if( $item->id_fournisseur == old('id_fournisseur') ) selected @endif  >{{ $item->libelle }} </option>
+											<option value="{{ $item->id_fournisseur }}" @if( $item->id_fournisseur == old('id_fournisseur') ) selected @endif  > {{ $item->libelle }} ( {{ DB::table('articles')->whereIdFournisseur($item->id_fournisseur)->count() }} article(s) )</option>
 										@endforeach
 									@endif
 								</select>
@@ -126,7 +126,7 @@
 							<div class="col-lg-6">
 								{{-- Designation_l --}}
 								<div class="form-group">
-									<label>Description</label>
+									<label>Designation Logue</label>
 									<textarea type="text" class="form-control" rows="2" placeholder="Designation Longue" name="designation_l">{{ old('designation_l') }}</textarea>
 								</div>
 							</div>
@@ -137,7 +137,7 @@
 						<!-- row 3 -->
 						<div class="row">
 
-							<div class="col-lg-2">
+							<div class="col-lg-3">
 								{{-- Taille --}}
 								<div class="form-group">
 									<label>Taille</label>
@@ -145,19 +145,19 @@
 								</div>
 							</div>
 
-							<div class="col-lg-2">
+							<div class="col-lg-3">
 								{{-- Sexe --}}
 								<div class="form-group">
 									<label>Sexe</label>
 									<select class="form-control" name="sexe">
-										<option value="aucun">Aucun</option>
-										<option value="h">Homme</option>
-										<option value="f">Femme</option>
+										<option value="aucun" {{ old('sexe')=="aucun" ? 'selected' : '' }}>Aucun</option>
+										<option value="h" {{ old('sexe')=="h" ? 'selected' : '' }}>Homme</option>
+										<option value="f" {{ old('sexe')=="f" ? 'selected' : '' }}>Femme</option>
 									</select>
 								</div>
 							</div>
 
-							<div class="col-lg-2">
+							<div class="col-lg-3">
 								{{-- Prix --}}
 								<div class="form-group">
 									<label>Prix (HT)</label>
@@ -169,8 +169,7 @@
 								{{-- Couleur --}}
 								<div class="form-group">
 									<label>Couleur</label>
-									<input type="color" class="form-control" placeholder="Couleur" name="couleur_value" value="{{ old('couleur_value') ? old('couleur_value') :'#ffffff'   }}">ou
-									<input type="text" class="form-control" placeholder="Couleur" name="couleur_name" value="{{ old('couleur_name') ? old('couleur_name') :''   }}">
+									<input type="text" class="form-control" placeholder="Couleur" name="couleur" value="{{ old('couleur')  }}">
 								</div>
 							</div>
 
@@ -196,22 +195,28 @@
 						<hr>
 						<!-- row 5 -->
 						<div class="row">
-							<div class="col-lg-2"></div>
-							<div class="col-lg-6">
-								<div class="panel panel-primary">
-									<div class="panel-heading">
-										<h3 class="panel-title">Articles</h3>
-									</div>
-									<div class="panel-body">
-										<ul class="list-group" align="center">
-											@foreach($data as $item)
-												<li class="list-group-item">{{ $item->num_article }}: {{ $item->designation_c }}</li>
-											@endforeach
-                    </ul>
+							<div class="col-lg-3"></div>
+
+							<div class="col-lg-6" align="center">
+								<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo10" title="Cliquez ici pour visualiser la liste des articles existants">Liste des Articles</button>
+								<div id="demo10" class="collapse">
+									<br>
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<h3 class="panel-title" align="center">Articles <span class="badge">{{ App\Models\Article::count() }}</span></h3>
+										</div>
+										<div class="panel-body">
+											<ul class="list-group" align="center">
+												@foreach($data as $item)
+													<li class="list-group-item"><a href="{{ route('direct.info',[ 'p_table' => 'articles' , 'p_id' => $item->id_article ]) }}" title="detail sur l'article">{{ $item->num_article }}: {{ $item->designation_c }}</a></li>
+												@endforeach
+	                    </ul>
+										</div>
 									</div>
 								</div>
 							</div>
 
+							<div class="col-lg-3"></div>
 						</div>
 						<!-- end row 5 -->
 						@endif

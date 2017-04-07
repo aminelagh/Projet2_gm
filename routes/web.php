@@ -23,6 +23,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/t', function () {
+
+    return DB::table('articles')->whereIdCategorie(9)->count();
+    //print_r(  DB::select('select count(*) as nbre from articles where id_categorie=2')[0] );
+});
+
 
 //Route pour generer des PDF
 Route::get('print/{param}','PDFController@imprimer')->name('print');

@@ -175,11 +175,7 @@
 								{{-- Couleur --}}
 								<div class="form-group">
 									<label>Couleur</label>
-									@if( substr($data->couleur,0,1) == '#' )
-										<input type="color" class="form-control" placeholder="Couleur" name="couleur" value="{{ $data->couleur }}">
-									@else
-										<input type="text"  class="form-control" placeholder="Couleur" name="couleur" value="{{ $data->couleur }}">
-									@endif
+									<input type="text"  class="form-control" placeholder="Couleur" name="couleur" value="{{ $data->couleur }}">
 								</div>
 							</div>
 
