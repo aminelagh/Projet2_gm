@@ -16,6 +16,7 @@ use App\Models\Article;
 use App\Models\Categorie;
 use App\Models\Role;
 use App\Models\Magasin;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -23,10 +24,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/tablea', function () {
+    return view('table');
+});
+
 Route::get('/t', function () {
 
-    return DB::table('articles')->whereIdCategorie(9)->count();
-    //print_r(  DB::select('select count(*) as nbre from articles where id_categorie=2')[0] );
+  $stocks = Stock::where('id_magasin',1)->get();
+
+  dump($stocks->first()->quantite);
+
 });
 
 
@@ -81,6 +89,8 @@ Route::prefix('/direct')->group( function()
   Route::get('/add/{param}','DirectController@addForm')->name('direct.addForm');
   Route::post('/submitAdd/{param}','DirectController@submitAdd')->name('direct.submitAdd');
 
+  Route::get('/addStock/{p_id_magasin}','DirectController@addFormStock')->name('direct.addFormStock');  //formulaire d'ajout au stock
+
   //lister
   Route::get('/lister/{param}','DirectController@lister')->name('direct.lister');
 
@@ -93,6 +103,9 @@ Route::prefix('/direct')->group( function()
   //afficher
   Route::get('/update/{p_table}/{p_id}','DirectController@updateForm')->name('direct.updateForm');
   Route::post('/submitUpdate/{param}','DirectController@submitUpdate')->name('direct.submitUpdate');
+
+  //lister stocks
+  Route::get('/stocks/{p_id_magasin}','DirectController@listerStocks')->name('direct.stocks');
 
   Route::get('/update/{value}/{aa}','DirectController@routeError');
   Route::get('/update','DirectController@routeError');

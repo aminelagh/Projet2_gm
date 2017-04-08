@@ -1,32 +1,148 @@
-<table id="dataTables-example1">
-    <thead>
-        <tr>
-            <th>Nom</th>
-            <th>prenom</th>
-            <th>ville</th>
-            <th>email</th>
-            <th>Role</th>
-            <th>magasin</th>
-        </tr>
-    </thead>
-    <tbody>
 
-        @foreach( $data as $item)
-        <tr class="odd gradeA">
-            <td>{{ $item->nom }}</td>
-            <td>{{ $item->prenom }}</td>
-            <td>{{ $item->ville }}</td>
-            <td>{{ $item->email }}</td>
-            <td>{{ getRoleName($item->id_role) }}</td>
-            <td>{{ getMagasinName($item->id_magasin) }}</td>
-        </tr>
-        @endforeach
+<link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+<link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+<link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 
-    </tbody>
-</table>
+
+
+
+<!--Shopping Cart table-->
+<div class="table-responsive">
+    <table class="table product-table">
+        <!--Table head-->
+        <thead>
+            <tr>
+                <th></th>
+                <th>Product</th>
+                <th>Color</th>
+                <th>Size</th>
+                <th>Price</th>
+                <th>QTY</th>
+                <th>Amount</th>
+                <th></th>
+            </tr>
+        </thead>
+        <!--/Table head-->
+
+        <!--Table body-->
+        <tbody>
+
+            <!--First row-->
+            <tr>
+                <th scope="row">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/shoes.jpg" alt="" class="img-fluid">
+                </th>
+                <td>
+                    <h5><strong>Sportswear</strong></h5>
+                    <p class="text-muted">by FifeSteps</p>
+                </td>
+                <td>Blue</td>
+                <td>38</td>
+                <td>200 $</td>
+                <td>
+                    <span class="qty">1 </span>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-sm btn-primary btn-rounded">
+                            <input type="radio" name="options" id="option1">&mdash;
+                        </label>
+                        <label class="btn btn-sm btn-primary btn-rounded">
+                            <input type="radio" name="options" id="option2">+
+                        </label>
+                    </div>
+                </td>
+                <td>200 $</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Remove item">X
+                    </button>
+                </td>
+            </tr>
+            <!--/First row-->
+
+            <!--Second row-->
+            <tr>
+                <th scope="row">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/sweater.jpg" alt="" class="img-fluid">
+                </th>
+                <td>
+                    <h5><strong>Striped sweater</strong></h5>
+                    <p class="text-muted">by FifeSteps</p>
+                </td>
+                <td>Blue</td>
+                <td>L</td>
+                <td>200 $</td>
+                <td>
+                    <span class="qty">3 </span>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-sm btn-primary btn-rounded">
+                            <input type="radio" name="options" id="option1">&mdash;
+                        </label>
+                        <label class="btn btn-sm btn-primary btn-rounded">
+                            <input type="radio" name="options" id="option2">+
+                        </label>
+                    </div>
+                </td>
+                <td>600 $</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Remove item">X
+                    </button>
+                </td>
+            </tr>
+            <!--/Second row-->
+
+            <!--Third row-->
+            <tr>
+                <th scope="row">
+                    <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Products/tie.jpg" alt="" class="img-fluid">
+                </th>
+                <td>
+                    <h5><strong>Elegant tie</strong></h5>
+                    <p class="text-muted">by FifeSteps</p>
+                </td>
+                <td>Blue</td>
+                <td>M</td>
+                <td>200 $</td>
+                <td>
+                    <span class="qty">2 </span>
+                    <div class="btn-group" data-toggle="buttons">
+                        <label class="btn btn-sm btn-primary btn-rounded">
+                            <input type="radio" name="options" id="option1">&mdash;
+                        </label>
+                        <label class="btn btn-sm btn-primary btn-rounded">
+                            <input type="radio" name="options" id="option2">+
+                        </label>
+                    </div>
+                </td>
+                <td>400 $</td>
+                <td>
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="top" title="Remove item">X
+                    </button>
+                </td>
+            </tr>
+            <!--/Third row-->
+
+            <!--Fourth row-->
+            <tr>
+                <td colspan="3"></td>
+                <td>
+                    <h4><strong>Total</strong></h4></td>
+                <td>
+                    <h4><strong>1200 $</strong></h4></td>
+                <td colspan="3"><button type="button" class="btn btn-primary">Complete purchase  <i class="fa fa-angle-right right"></i></button></td>
+            </tr>
+            <!--/Fourth row-->
+
+        </tbody>
+        <!--/Table body-->
+    </table>
+</div>
+<!--/Shopping Cart table-->
+
 
 
 <!-- jQuery -->
+<script src="{{  asset('js/jquery.js') }}"></script>
+<script src="{{  asset('js/bootstrap.js') }}"></script>
+
 <script src="{{  asset('table/jquery.js') }}"></script>
 <script src="{{  asset('table/jquery.dataTables.js') }}"></script>
 <script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>

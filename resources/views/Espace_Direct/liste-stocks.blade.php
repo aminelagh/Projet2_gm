@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Magasins @endsection
+@section('title') Stock du magasin  @endsection
 
 @section('styles')
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -30,7 +30,7 @@
   <!-- main row -->
   <div class="row">
 
-    <h1 class="page-header">Liste des Magasins <small> </small></h1>
+    <h1 class="page-header">Stock du magasin <strong>{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</strong> <small> </small></h1>
 
     <!-- row -->
     <div class="row">
@@ -75,7 +75,7 @@
 	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
 
            <thead>
-             <tr><th width="2%"> # </th><th width="25%"> Nom du Magasin </th><th>Description</th><th>Etat Stock</th><th width="10%">Autres</th></tr>
+             <tr><th width="2%"> # </th><th> Article </th><th>Quantite</th><th width="10%">Autres</th></tr>
            </thead>
 
            <tbody>
@@ -86,9 +86,8 @@
              @foreach( $data as $item )
              <tr class="odd gradeA">
                <td>{{ $loop->index+1 }}</td>
-               <td>{{ $item->libelle }}</td>
-               <td>{{ $item->description }}</td>
-               <td>Etat du <a href="{{ route('direct.stocks', [ 'p_id_magasin' => $item->id_magasin ] ) }}" title="voir le stock ">Stock</a></td>
+               <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
+               <td {{ $item->quantite<=$item->quantite_min ? 'bgcolor="red"' : '' }}> {{ $item->quantite }}</td>
                <td>
                  <a href="{{ Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}" title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
                  <a href="{{ Route('direct.updateForm',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}" title="modifier"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -111,8 +110,8 @@
       <div class="row">
         <div class="col-lg-4"></div>
         <div class="col-lg-8">
-          <a type="button" class="btn btn-outline btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true">  Imprimer </i></a>
-          <a href="{{ Route('direct.addForm',[ 'param' => 'magasin' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Magasin </a>
+          <a onclick="return alert('Printing ....')" type="button" class="btn btn-outline btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true">  Imprimer </i></a>
+          <a href="{{ Route('direct.addFormStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter Au Stock </a>
         </div>
       </div>
       <!-- row -->

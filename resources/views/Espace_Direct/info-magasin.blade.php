@@ -11,6 +11,18 @@
 @section('scripts')
 <script src="{{  asset('js/jquery.js') }}"></script>
 <script src="{{  asset('js/bootstrap.js') }}"></script>
+
+<script src="{{  asset('table/jquery.js') }}"></script>
+<script src="{{  asset('table/jquery.dataTables.js') }}"></script>
+<script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
 @endsection
 
 @section('main_content')
@@ -127,9 +139,66 @@
 			</div>
 			<!-- /.container-fluid -->
 
+			<div class="row">
+				<div class="col-lg-1"></div>
+			<div class="col-lg-10">
+
+					<div class="panel panel-default">
+						<!-- Default panel contents -->
+						<div class="panel-heading">Stock du Magasin</div>
+						<div class="panel-body">
+							<p>le tableau suivant montre, en detail, le stock de ce magasin</p>
+						</div>
+
+						{{-- Table de: Stock --}}
+						<div class="table-responsive">
+
+							{{-- Table --}}
+		          <div class="col-lg-12">
+							 <table class="table table-bordered table-hover table-striped" id="dataTables-example">
+
+								 <thead>
+									 <tr><th width="2%"> # </th><th> Article </th><th>Quantite</th><th width="10%">Autres</th></tr>
+								 </thead>
+
+								 <tbody>
+									 @if ( isset( $stocks ) )
+									 @if( $stocks->isEmpty() )
+									 <tr><td colspan="4">le stock de ce magasin est vide, appuyez sur le bouton en bas de la page pour lui ajouter des articles</td></tr>
+									 @else
+									 @foreach( $stocks as $item )
+									 <tr class="odd gradeA">
+										 <td>{{ $loop->index+1 }}</td>
+										 <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
+										 <td {{ $item->quantite<=$item->quantite_min ? 'bgcolor="red"' : '' }}> {{ $item->quantite }}</td>
+										 <td>
+											 <a href="{{ Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}" title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
+											 <a href="{{ Route('direct.updateForm',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}" title="modifier"><i class="glyphicon glyphicon-pencil"></i></a>
+											 <a onclick="return confirm('Êtes-vous sure de vouloir effacer le magasin: {{ $item->libelle }} ?')" href="{{ Route('direct.delete',['p_table' => 'magasins' , 'p_id' => $item->id_magasin ]) }}" title="supprimer"><i class="glyphicon glyphicon-trash"></i></a>
+										 </td>
+									 </tr>
+									 @endforeach
+									 @endif
+									 @endif
+
+								 </tbody>
+							 </table>
+						 </div>
+						</div>
+						 {{-- Fin Table de: Stock --}}
+
+
+					</div>
+				</div>
+			</div>
+
 		</div>
 		<!-- /#page-wrapper -->
 	</div>
+
+
+
+
 </div>
 <!-- /.row -->
 @endsection

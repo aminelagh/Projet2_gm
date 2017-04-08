@@ -34,64 +34,60 @@
 		<div id="page-wrapper">
 
 			<div class="container-fluid">
-					<div class="col-lg-1"></div>
 
-					<div class="col-lg-10">
-						<div class="table-responsive">
-							<table class="table table-bordered table-hover table-striped" id="dataTables-example" width="100%">
-								<thead>
-									<tr>
-										<th width="4%">#</th>
-										<th width="6%">Role</th>
-										<th>Nom</th>
-										<th>Prenom</th>
-										<th>Ville</th>
-										<th>Email</th>
-										<th width="10%">Magasin</a></th>
-										<th>Autres</a></th>
-									</tr>
-								</thead>
+        {{-- div Table --}}
+				<div class="table-responsive">
+          {{-- Table --}}
+          <div class="col-lg-12">
+					<table class="table table-bordered table-hover table-striped" id="dataTables-example" >
+						<thead>
+							<tr>
+								<th width="4%">#</th>
+								<th width="6%">Role</th>
+								<th>Nom</th>
+								<th>Prenom</th>
+								<th>Ville</th>
+								<th>Email</th>
+								<th width="10%">Magasin</a></th>
+								<th>Autres</a></th>
+							</tr>
+						</thead>
 
-								<tbody>
-									@if ( isset( $data ) )
-									@if( $data->isEmpty() )
-									<tr>
-										<td colspan="7">Aucun employe</td>
-									</tr>
-									@else
-									@foreach( $data as $item )
-									<tr class="odd gradeA">
-										<td>{{ $loop->index+1 }}</td>
-										<td>{{ getRoleName( $item->id_role ) }}</td>
-										<td>{{ $item->nom }}</td>
-										<td>{{ $item->prenom }}</td>
-										<td>{{ $item->ville }}</td>
-										<td>{{ $item->email }}</td>
-										<td><a href=""> {!! getMagasinName( $item->id_magasin )!=null ? getMagasinName( $item->id_magasin ) : '<i>Aucun</i>'   !!}</a></td>
-										<td>
-											<a href="{{ Route('admin.infoUser',['id'=> $item->id_user]) }}" ><i class="glyphicon glyphicon-user"></i></a>
-											<a href="{{ Route('admin.updateUser',['id' => $item->id_user ]) }}" ><i class="glyphicon glyphicon-cog"></i></a>
-											<a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->nom }} {{ $item->prenom }} ?')" href="{{ Route('admin.deleteUser',['id' => $item->id_user ]) }}" ><i class="glyphicon glyphicon-trash"></i></a>
-										</td>
-									</tr>
-									@endforeach
-									@endif
-									@endif
+						<tbody>
+							@if ( isset( $data ) )
+							@if( $data->isEmpty() )
+							<tr>
+								<td colspan="7">Aucun employe</td>
+							</tr>
+							@else
+							@foreach( $data as $item )
+							<tr class="odd gradeA">
+								<td>{{ $loop->index+1 }}</td>
+								<td>{{ getRoleName( $item->id_role ) }}</td>
+								<td>{{ $item->nom }}</td>
+								<td>{{ $item->prenom }}</td>
+								<td>{{ $item->ville }}</td>
+								<td>{{ $item->email }}</td>
+								<td><a href=""> {!! getMagasinName( $item->id_magasin )!=null ? getMagasinName( $item->id_magasin ) : '<i>Aucun</i>'   !!}</a></td>
+								<td>
+									<a href="{{ Route('admin.infoUser',['id'=> $item->id_user]) }}" title="Detail"><i class="glyphicon glyphicon-user"></i></a>
+									<a href="{{ Route('admin.updateUser',['id' => $item->id_user ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
+									<a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->nom }} {{ $item->prenom }} ?')" href="{{ Route('admin.deleteUser',['id' => $item->id_user ]) }}" title="Supprimer"><i class="glyphicon glyphicon-trash"></i></a>
+								</td>
+							</tr>
+							@endforeach
+							@endif
+							@endif
+						</tbody>
 
-								</tbody>
-							</table>
-						</div>
-					</div>
+					</table>
+          <div>
+          {{-- end Table --}}
 
-					<div class="col-lg-1"></div>
+				</div>
+        {{-- end div Table --}}
+
         </div>
-        <div class="row">
-          <div class="col-lg-4"></div>
-					<div class="col-lg-8">
-						<a type="button" class="btn btn-outline btn-default"><i class="fa-file-pdf-o"></i>Imprimer </a>
-					</div>
-
-			</div>
 			<!-- /.container-fluid -->
 
 		</div>

@@ -89,7 +89,7 @@
                <td>{{ $item->libelle }}</td>
                <td>{{ $item->description }}</td>
                <td>
-                 <a href="{{ Route('direct.info',['p-table'=> 'categories', 'p_id'=> $item->id_categorie ]) }}" title="info sur la categorie"><i class="glyphicon glyphicon-font"></i></a>
+                 <a href="{{ Route('direct.info',['p-table'=> 'categories', 'p_id'=> $item->id_categorie ]) }}" title="info sur la categorie"><i class="glyphicon glyphicon-eye-open"></i></a>
                  <a href="{{ Route('direct.updateForm',['p-table'=> 'categories', 'p_id'=> $item->id_categorie ]) }}" title="modifier la categorie"><i class="glyphicon glyphicon-pencil"></i></a>
                  <a onclick="return confirm('Êtes-vous sure de vouloir effacer la Categorie: {{ $item->libelle }} ?')" href="{{ Route('direct.delete',['p_table' => 'categories' , 'p_id' => $item->id_categorie ]) }}" title="effacer la categorie"><i class="glyphicon glyphicon-trash"></i></a>
                </td>

@@ -13,6 +13,7 @@ use App\Models\Categorie;
 use App\Models\Fournisseur;
 use App\Models\Article;
 use App\Models\Marque;
+use App\Models\Stock;
 use \Exception;
 
 class DirectController extends Controller
@@ -20,36 +21,6 @@ class DirectController extends Controller
   public function home()
   {
     return view('Espace_Direct.dashboard');
-  }
-
-  //affiche les formulaire d'ajout de la partie Direction
-  public function addForm($param)
-  {
-    switch($param)
-    {
-      case 'categorie':   return view('Espace_Direct.add-categorie-form')->withData( Categorie::all() );    break;
-      case 'fournisseur': return view('Espace_Direct.add-fournisseur-form')->withData( Fournisseur::all() );  break;
-      case 'magasin':     return view('Espace_Direct.add-magasin-form')->withData( Magasin::all() );      break;
-      case 'article':     return view('Espace_Direct.add-article-form')->with(['data' => Article::all() , 'fournisseurs' => Fournisseur::all() , 'categories' => Categorie::all() ]); break;
-      default: return 'DirectController@addForm($param)';
-    }
-  }
-
-
-  //afficher les formulaire de modification
-  public function updateForm($p_table, $p_id)
-  {
-    $categories   = DB::table('categories')->get();
-    $fournisseurs = DB::table('fournisseurs')->get();
-
-    switch($p_table)
-    {
-      case 'categories':   return view('Espace_Direct.update-categorie-form')->withData(  Categorie::find($p_id) );     break;
-      case 'fournisseurs': return view('Espace_Direct.update-fournisseur-form')->withData( Fournisseur::find($p_id) );  break;
-      case 'magasins':     return view('Espace_Direct.update-magasin-form')->withData( Magasin::find($p_id) );          break;
-      case 'articles':     return view('Espace_Direct.update-article-form')->with(['data' =>  Article::find($p_id) , 'fournisseurs' => $fournisseurs , 'categories' => $categories] ); break;
-      default: return 'DirectController@updateForm($param)';
-    }
   }
 
   /****************************************
@@ -62,7 +33,6 @@ class DirectController extends Controller
       case 'categories':   $data = DB::table('categories')->get();   return view('Espace_Direct.liste-categories')->with('data',$data);    break;
       case 'fournisseurs': $data = DB::table('fournisseurs')->get(); return view('Espace_Direct.liste-fournisseurs')->with('data',$data);  break;
       case 'articles':     $data = DB::table('articles')->get();     return view('Espace_Direct.liste-articles')->with('data',$data);      break;
-      case 'marques':      $data = DB::table('marques')->get();      return view('Espace_Direct.liste-marques')->with('data',$data);      break;
       case 'magasins':     $data = DB::table('magasins')->get();     return view('Espace_Direct.liste-magasins')->with('data',$data);      break;
       default: return back()->withInput()->with('alert_warning','<strong>Erreur !!</strong>');      break;
     }
@@ -82,6 +52,7 @@ class DirectController extends Controller
        case 'fournisseurs': fournisseur::find($p_id)->delete(); return back()->withInput()->with('alert_success','Le fournisseur a été effacé avec succès');  break;
        case 'articles':     Article::find($p_id)->delete();     return back()->withInput()->with('alert_success','L\'article a été effacé avec succès');      break;
        case 'magasins':     Magasin::find($p_id)->delete();     return back()->withInput()->with('alert_success','Le magasin a été effacé avec succès');      break;
+       case 'stocks':     Stock::find($p_id)->delete();         return back()->withInput()->with('alert_success','Le stock a été effacé avec succès');        break;
        default:             return back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> probleme dans: DirectController@delete');             break;
      }
    }
@@ -101,7 +72,7 @@ class DirectController extends Controller
       case 'categories':    $item = Categorie::find($p_id);   return ( $item != null ? view('Espace_Direct.info-categorie')->with('data',$item) :   back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> la catégorie choisie n\'existe pas') );   break;
       case 'fournisseurs':  $item = fournisseur::find($p_id); return ( $item != null ? view('Espace_Direct.info-fournisseur')->with('data',$item) : back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le fournisseur choisi n\'existe pas') );   break;
       case 'articles':      $item = Article::find($p_id);     return ( $item != null ? view('Espace_Direct.info-article')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> l\'article choisi n\'existe pas') );   break;
-      case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le magasin choisi n\'existe pas') );   break;
+      case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with(['data'=>$item, 'stocks'=> Stock::where('id_magasin',1)->get() ]) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le magasin choisi n\'existe pas') );   break;
       default: return back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> Vous avez pris le mauvais chemin. ==> DirectController@info');      break;
     }
   }
@@ -109,6 +80,30 @@ class DirectController extends Controller
 
   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+
+  /****************************
+  Afficher le fomulaire d'ajout pour le stock
+  ****************************/
+  public function addFormStock($p_id_magasin)
+  {
+    return view('Espace_Direct.add-stock_Magasin-form')->with(['data' => Stock::all() , 'articles' => Article::all(),  'magasins' => Magasin::all() ]);
+  }
+
+  /********************************************************
+  Afficher le formulaire d'ajout
+  *********************************************************/
+  public function addForm($param)
+  {
+    switch($param)
+    {
+      case 'categorie':     return view('Espace_Direct.add-categorie-form')->withData( Categorie::all() );      break;
+      case 'fournisseur':   return view('Espace_Direct.add-fournisseur-form')->withData( Fournisseur::all() );  break;
+      case 'magasin':       return view('Espace_Direct.add-magasin-form')->withData( Magasin::all() );          break;
+      case 'article':       return view('Espace_Direct.add-article-form')->with(['data' => Article::all() , 'fournisseurs' => Fournisseur::all() , 'categories' => Categorie::all() ]); break;
+      case 'stock':         return view('Espace_Direct.add-stock-form')->with(['data' => Stock::all() , 'articles' => Article::all(),  'magasins' => Magasin::all() ]);
+      default: return 'DirectController@addForm($param)';
+    }
+  }
   /********************************************************
     Valider L'ajout
   *********************************************************/
@@ -120,6 +115,7 @@ class DirectController extends Controller
      case 'fournisseur':    return $this->submitAddFournisseur(); break;
      case 'categorie':      return $this->submitAddCategorie(); break;
      case 'article':        return $this->submitAddArticle(); break;
+     case 'stock':          return $this->submitAddStock(); break;
      default: return back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> Vous avez pris le mauvais chemin. ==> DirectController@submitAdd');      break;
    }
   }
@@ -191,7 +187,6 @@ class DirectController extends Controller
       return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddCategorie)');
     }
   }
-
 
   //Valider l'ajout de Fournisseur
   public function submitAddFournisseur()
@@ -291,13 +286,61 @@ class DirectController extends Controller
     }
   }
 
+  //Valider l'ajout de : Stock
+  public function submitAddStock()
+  {
+    if( request()->get('submit') == 'verifier' )
+    {
+       return redirect()->back()->withInput()->with('alert_success','Verifier le stock (magasin/article).s');
+    }
+    else if( request()->get('submit') == 'valider' )
+    {
+      //if( request()->get('libelle')==null )
+       //return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> veuillez remplir le champ libelle');
+
+      $item = new Stock;
+      $item->id_magasin    = request()->get('id_magasin');
+      $item->id_article    = request()->get('id_article');
+      $item->quantite      = request()->get('quantite');
+      $item->quantite_min  = request()->get('quantite_min');
+      $item->quantite_max  = request()->get('quantite_max');
+
+      $item->save();
+      return redirect()->back()->with('alert_success','Done');
+    }
+    else
+    {
+      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddStock)');
+    }
+  }
+
   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
   //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
   /********************************************************
-    Valider L'ajout
+    afficher le formulaire de modification
+  *********************************************************/
+  public function updateForm($p_table, $p_id)
+  {
+    $categories   = DB::table('categories')->get();
+    $fournisseurs = DB::table('fournisseurs')->get();
+
+    switch($p_table)
+    {
+      case 'categories':   return view('Espace_Direct.update-categorie-form')->withData(  Categorie::find($p_id) );     break;
+      case 'fournisseurs': return view('Espace_Direct.update-fournisseur-form')->withData( Fournisseur::find($p_id) );  break;
+      case 'magasins':     return view('Espace_Direct.update-magasin-form')->withData( Magasin::find($p_id) );          break;
+      case 'articles':     return view('Espace_Direct.update-article-form')->with(['data' =>  Article::find($p_id) , 'fournisseurs' => $fournisseurs , 'categories' => $categories] ); break;
+      default: return 'DirectController@updateForm($param)';
+    }
+  }
+
+  /********************************************************
+    Valider La modification
   *********************************************************/
   public function submitUpdate($param)
   {
@@ -311,7 +354,6 @@ class DirectController extends Controller
      default: return back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> Vous avez pris le mauvais chemin.');      break;
    }
   }
-
 
   //Valider la modification d un article
   public function submitUpdateArticle()
@@ -372,11 +414,26 @@ class DirectController extends Controller
         'adresse'     => request()->get('adresse'),
         'description' => request()->get('description')
       ]);
-     return redirect()->route('direct.info',['p_tables' => 'magasins', 'id' => request()->get('id_magasin') ])->with('alert_success','Modification du fournisseur reussi.');
+     return redirect()->route('direct.info',['p_tables' => 'magasins', 'id' => request()->get('id_magasin') ])->with('alert_success','Modification du magasin reussi.');
   }
 
 
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
+  /*****************************************************************************
+  Lister Stocks
+  *****************************************************************************/
+  public function listerStocks($p_id_magasin)
+  {
+    $data = Stock::where('id_magasin', $p_id_magasin)->get();
+    if($data->isEmpty())
+      return redirect()->back()->withInput()->with('alert_warning','No stock in that Shop.');
+
+    else
+      return view('Espace_Direct.liste-stocks')->with('data',$data);
+
+  }
 
 
 }

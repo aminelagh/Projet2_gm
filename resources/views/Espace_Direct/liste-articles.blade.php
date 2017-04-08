@@ -72,6 +72,8 @@
       {{-- **************endAlerts**************  --}}
 
       <div class="table-responsive">
+
+        <div class="col-lg-12">
 	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
 
            <thead>
@@ -92,7 +94,7 @@
                <td>{{ $item->prix }}</td>
                <td>{{ ($item->prix)*1.2 }}</td>
                <td>
-                 <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}" title="detail" ><i class="glyphicon glyphicon-font"></i></a>
+                 <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}" title="detail" ><i class="glyphicon glyphicon-eye-open"></i></a>
                  <a href="{{ Route('direct.updateForm',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
                  <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')" href="{{ Route('direct.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}" title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
                </td>
@@ -100,10 +102,11 @@
              @endforeach
              @endif
              @endif
-
            </tbody>
+
          </table>
        </div>
+     </div>
 
      </div>
     <!-- row -->
