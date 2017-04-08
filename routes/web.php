@@ -25,8 +25,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('/tablea', function () {
-    return view('table');
+Route::get('/form', function () {
+    return view('form')->with('articles', Article::all() );
 });
 
 Route::get('/t', function () {

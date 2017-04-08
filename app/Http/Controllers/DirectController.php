@@ -72,7 +72,7 @@ class DirectController extends Controller
       case 'categories':    $item = Categorie::find($p_id);   return ( $item != null ? view('Espace_Direct.info-categorie')->with('data',$item) :   back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> la catégorie choisie n\'existe pas') );   break;
       case 'fournisseurs':  $item = fournisseur::find($p_id); return ( $item != null ? view('Espace_Direct.info-fournisseur')->with('data',$item) : back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le fournisseur choisi n\'existe pas') );   break;
       case 'articles':      $item = Article::find($p_id);     return ( $item != null ? view('Espace_Direct.info-article')->with('data',$item) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> l\'article choisi n\'existe pas') );   break;
-      case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with(['data'=>$item, 'stocks'=> Stock::where('id_magasin',1)->get() ]) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le magasin choisi n\'existe pas') );   break;
+      case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with(['data'=>$item, 'stocks'=> Stock::where('id_magasin',$p_id)->get() ]) :     back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> le magasin choisi n\'existe pas') );   break;
       default: return back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> Vous avez pris le mauvais chemin. ==> DirectController@info');      break;
     }
   }
@@ -86,7 +86,20 @@ class DirectController extends Controller
   ****************************/
   public function addFormStock($p_id_magasin)
   {
-    return view('Espace_Direct.add-stock_Magasin-form')->with(['data' => Stock::all() , 'articles' => Article::all(),  'magasins' => Magasin::all() ]);
+    $magasin = Magasin::where('id_magasin',$p_id_magasin)->first();
+    $articles = Article::all();
+
+    if( $articles == null )
+      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> la base de données des articles est vide, veuillez ajouter les articles avant de procéder à la création des stocks.');
+
+    if( $magasin == null )
+      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> Le magasin choisi n\'existe pas .(veuillez choisir un autre magasin.)');
+
+    else
+      return view('Espace_Direct.add-stock_Magasin-form')->with(['data' => Stock::all(), 'articles' => $articles,  'magasin' => $magasin ]);
+
+
+
   }
 
   /********************************************************
@@ -100,7 +113,7 @@ class DirectController extends Controller
       case 'fournisseur':   return view('Espace_Direct.add-fournisseur-form')->withData( Fournisseur::all() );  break;
       case 'magasin':       return view('Espace_Direct.add-magasin-form')->withData( Magasin::all() );          break;
       case 'article':       return view('Espace_Direct.add-article-form')->with(['data' => Article::all() , 'fournisseurs' => Fournisseur::all() , 'categories' => Categorie::all() ]); break;
-      case 'stock':         return view('Espace_Direct.add-stock-form')->with(['data' => Stock::all() , 'articles' => Article::all(),  'magasins' => Magasin::all() ]);
+      //case 'stock':         return view('Espace_Direct.add-stock-form')->with(['data' => Stock::all() , 'articles' => Article::all(),  'magasins' => Magasin::all() ]);
       default: return 'DirectController@addForm($param)';
     }
   }

@@ -26,19 +26,20 @@
 @endsection
 
 @section('main_content')
+<!-- Container -->
 <div class="container-fluid">
+
   <!-- main row -->
   <div class="row">
 
     <h1 class="page-header">Liste des Magasins <small> </small></h1>
 
-    <!-- row -->
+    <!-- row 1 -->
     <div class="row">
 
       {{-- **************Alerts**************  --}}
       <div class="row">
         <div class="col-lg-2"></div>
-
         <div class="col-lg-8">
           {{-- Debut Alerts --}}
           @if (session('alert_success'))
@@ -66,12 +67,13 @@
           @endif
           {{-- Fin Alerts --}}
         </div>
-
         <div class="col-lg-2"></div>
       </div>
       {{-- **************endAlerts**************  --}}
-
+    </div>
+    <div class="row">
       <div class="table-responsive">
+        <div class="col-lg-12">
 	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
 
            <thead>
@@ -102,25 +104,22 @@
            </tbody>
          </table>
        </div>
-
-     </div>
-    <!-- row -->
-
-
-      <!-- row -->
-      <div class="row">
-        <div class="col-lg-4"></div>
-        <div class="col-lg-8">
-          <a type="button" class="btn btn-outline btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true">  Imprimer </i></a>
-          <a href="{{ Route('direct.addForm',[ 'param' => 'magasin' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Magasin </a>
-        </div>
       </div>
-      <!-- row -->
+    </div>
+  </div>
+  <!-- row -->
+
+
+
+      <div class="row" align="center">
+        <a href="{{ Route('direct.addForm',[ 'param' => 'magasin' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Magasin </a>
+      </div>
 
     </div>
     <!-- end main row -->
 
 </div>
+<!-- end Container-->
 @endsection
 
 

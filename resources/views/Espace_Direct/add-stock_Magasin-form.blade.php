@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Ajout Stock du magasin {{ $magasin->libelle }}   @endsection
+@section('title') Ajout Stock du magasin {{ $magasin->libelle }}  @endsection
 
 @section('styles')
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -11,6 +11,18 @@
 @section('scripts')
 <script src="{{  asset('js/jquery.js') }}"></script>
 <script src="{{  asset('js/bootstrap.js') }}"></script>
+
+<script src="{{  asset('table/jquery.js') }}"></script>
+<script src="{{  asset('table/jquery.dataTables.js') }}"></script>
+<script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#dataTables-example').DataTable({
+            responsive: true
+        });
+    });
+</script>
 @endsection
 
 @section('main_content')
@@ -65,70 +77,48 @@
 						<!-- Row 1 -->
 						<div class="row">
 
-							<div class="col-lg-3">
-								{{-- Magasin --}}
-								<div class="form-group">
-									<label>Magasin</label>
-									<select class="form-control" name="id_magasin" autofocus>
-									@if( !$magasins->isEmpty() )
-										@foreach( $magasins as $item )
-											<option value="{{ $item->id_magasin }}" {{ $item->id_magasin == old('id_magasin') ? 'selected' : '' }} > {{ $item->libelle }} () </option>
-										@endforeach
-									@endif
-								</select>
-								</div>
-							</div>
+							<div class="table-responsive">
 
-							<div class="col-lg-3">
-								{{-- Article --}}
-								<div class="form-group">
-									<label>Article</label>
-									<select class="form-control" name="id_article">
-										@if( !$articles->isEmpty() )
-											@foreach( $articles as $item )
-												<option value="{{ $item->id_article }}" {{ $item->id_article == old('id_article') ? 'selected' : '' }} > {{ $item->designation_c }}</option>
-											@endforeach
-										@endif
-								</select>
-								</div>
+								<div class="col-lg-12">
+								 <table class="table table-bordered table-hover table-striped" id="dataTables-example">
+
+									 <thead>
+										 <tr><th width="2%"> # </th><th width="25%">Article</th><th>Designation</th><th>Prix (HT)</th><th>Prix (TTC)</th><th width="10%">Autres</th></tr>
+									 </thead>
+
+									 <tbody>
+										 @if ( isset( $articles ) )
+										 @if( $articles->isEmpty() )
+										 <tr><td colspan="5" align="center">Aucun Article</td></tr>
+										 @else
+										 @foreach( $articles as $item )
+										 <tr class="odd gradeA">
+											 <td>{{ $loop->index+1 }}</td>
+											 <td>{{ $item->designation_c }}</td>
+											 <td>{{ $item->designation_c }}</td>
+
+											 <td>{{ $item->prix }}</td>
+											 <td>{{ ($item->prix)*1.2 }}</td>
+											 <td>
+												 <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}" title="detail" ><i class="glyphicon glyphicon-eye-open"></i></a>
+												 <a href="{{ Route('direct.updateForm',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
+												 <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')" href="{{ Route('direct.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}" title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
+											 </td>
+										 </tr>
+										 @endforeach
+										 @endif
+										 @endif
+									 </tbody>
+
+								 </table>
+							 </div>
 							</div>
 
 						</div>
 						<!-- end row 1 -->
 
-						<!-- Row 2 -->
-						<div class="row">
 
-							<div class="col-lg-3">
-								{{-- Quantite --}}
-								<div class="form-group">
-									<label>Quantite</label>
-									<input type="number" min="0" class="form-control"  placeholder="Quantite" name="quantite" value="{{ old('quantite') }}" required>
-								</div>
-							</div>
-
-							<div class="col-lg-3">
-								{{-- Quantite_min --}}
-								<div class="form-group">
-									<label>Quantite minimum</label>
-									<input type="number" min="0" class="form-control"  placeholder="Quantite Min" name="quantite_min" value="{{ old('quantite_min') }}" required>
-								</div>
-							</div>
-
-							<div class="col-lg-3">
-								{{-- Quantite_max --}}
-								<div class="form-group">
-									<label>Quantite maximum</label>
-									<input type="number" min="0" class="form-control"  placeholder="Quantite Max" name="quantite_max" value="{{ old('quantite_max') }}" required>
-								</div>
-							</div>
-
-
-						</div>
-						<!-- end row 2 -->
-
-
-						<!-- row 4 -->
+						<!-- row 2 -->
 						<div class="row">
 
 							<div class="col-lg-4"></div>
@@ -140,7 +130,7 @@
 							</div>
 
 						</div>
-						<!-- end row 4 -->
+						<!-- end row 2 -->
 
 						{{-- verifier si data exist et non vide --}}
 						@if( isset($data) && !$data->isEmpty())
