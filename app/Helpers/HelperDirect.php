@@ -50,5 +50,4 @@ if( !function_exists('getChamp') )
 	{
 		return DB::table($table)->where($id_field,$id)->pluck($field)->first();
 	}
-
 }

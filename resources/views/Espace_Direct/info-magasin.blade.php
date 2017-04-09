@@ -12,17 +12,8 @@
 <script src="{{  asset('js/jquery.js') }}"></script>
 <script src="{{  asset('js/bootstrap.js') }}"></script>
 
-<script src="{{  asset('table/jquery.js') }}"></script>
 <script src="{{  asset('table/jquery.dataTables.js') }}"></script>
 <script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
 @endsection
 
 @section('main_content')
@@ -121,7 +112,8 @@
 
 							<div class="col-lg-4"></div>
 							<div class="col-lg-4">
-								<a href="{{ Route('direct.delete',['p_table' => 'magasins', 'p_id' => $data->id_magasin ]) }}" onclick="return confirm('Êtes-vous sure de vouloir effacer le magasin: {{ $data->libelle }} ?')" type="button" class="btn btn-outline btn-danger">Supprimer </a>
+								<a href="{{ Route('direct.delete',['p_table' => 'magasins', 'p_id' => $data->id_magasin ]) }}" onclick="return confirm('Êtes-vous sure de vouloir effacer le magasin: {{ $data->libelle }} ?')" type="button" class="btn btn-outline btn-danger"
+                  title="" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Supprimer le magasin et vider son stock" >Supprimer </a>
 								<a href="{{ Route('direct.updateForm',['id_article' => $data->id_magasin, 'p_table' => 'magasins' ]) }}" type="button" class="btn btn-outline btn-info"> Modifier </a>
 
 							</div>

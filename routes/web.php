@@ -19,6 +19,7 @@ use App\Models\Magasin;
 use App\Models\Stock;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Input;
 
 Route::get('/', function () {
     return view('welcome');
@@ -31,8 +32,19 @@ Route::get('/form', function () {
 
 Route::get('/t', function () {
 
-  $stocks = Stock::where('id_magasin',1)->get();
+  $v = Input::get("aa");
+  dump($v);
+  $data = DB::select( DB::raw("SELECT * FROM stocks s join articles a on s.id_article=a.id_article ") );
+  dump($data);
 
+  $data = DB::statement('select * from users where id_role=:id', array('id' => 1) );
+  dump($data);
+
+
+
+  return "a";
+
+  $stocks = Stock::where('id_magasin',1)->get();
   dump($stocks->first()->quantite);
 
 });

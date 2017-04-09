@@ -12,17 +12,10 @@
 <script src="{{  asset('js/jquery.js') }}"></script>
 <script src="{{  asset('js/bootstrap.js') }}"></script>
 
-<script src="{{  asset('table/jquery.js') }}"></script>
 <script src="{{  asset('table/jquery.dataTables.js') }}"></script>
 <script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
+
 @endsection
 
 @section('main_content')

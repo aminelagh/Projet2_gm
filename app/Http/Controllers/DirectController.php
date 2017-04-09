@@ -302,6 +302,29 @@ class DirectController extends Controller
   //Valider l'ajout de : Stock
   public function submitAddStock()
   {
+    $id_article = request()->get('id_article');
+    $quantite = request()->get('quantite');
+    $quantite_min = request()->get('quantite_min');
+    $quantite_max = request()->get('quantite_max');
+
+
+    for( $i=1; $i< count($id_article) ; $i++ )
+    {
+      echo $id_article[$i]." ".$quantite[$i]." ".$quantite_min[$i]." ".$quantite_max[$i]."<br>";
+    }
+
+    dump ( 'id_article', request()->get('id_article'));
+    dump ( 'quantite', request()->get('quantite') );
+    dump ( 'quantite_min', request()->get('quantite_min') );
+
+    dump(request());
+
+    foreach( request()->get('quantite') as $q )
+    {
+      echo $q."<br>";
+    }
+    return 'aa';
+
     if( request()->get('submit') == 'verifier' )
     {
        return redirect()->back()->withInput()->with('alert_success','Verifier le stock (magasin/article).s');
