@@ -58,7 +58,7 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('admin.submitAddUser') }}">
+					<form role="form" method="post" action="{{ Route('admin.submitAdd',['p_table' => 'users']) }}">
 						{{ csrf_field() }}
 
 
@@ -167,7 +167,6 @@
 								<br/><br/>
 								{{-- Submit & Reset --}}
 								<button type="submit" name="submit" value="valider" class="btn btn-default" width="60">Valider</button>
-								<button type="submit" name="submit" value="verifier" class="btn btn-default" width="60">Vérifier</button>
 								<button type="reset" class="btn btn-default">Effacer</button>
 							</div>
 

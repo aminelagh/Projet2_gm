@@ -58,7 +58,7 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'article']) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitAdd',['p_table' => 'articles']) }}">
 						{{ csrf_field() }}
 
 
@@ -145,7 +145,7 @@
 								</div>
 							</div>
 
-							<div class="col-lg-3">
+							<div class="col-lg-2">
 								{{-- Sexe --}}
 								<div class="form-group">
 									<label>Sexe</label>
@@ -158,14 +158,6 @@
 							</div>
 
 							<div class="col-lg-3">
-								{{-- Prix --}}
-								<div class="form-group">
-									<label>Prix (HT)</label>
-									<input type="number" step="0.0001" pattern=".####" min="0" class="form-control" placeholder="Prix" name="prix" value="{{ old('prix') }}">
-								</div>
-							</div>
-
-							<div class="col-lg-3">
 								{{-- Couleur --}}
 								<div class="form-group">
 									<label>Couleur</label>
@@ -173,20 +165,32 @@
 								</div>
 							</div>
 
+							<div class="col-lg-2">
+								{{-- Prix vente --}}
+								<div class="form-group">
+									<label>Prix de Vente (HT)</label>
+									<input type="number" step="0.01" pattern=".##" min="0" class="form-control" placeholder="Prix de vente" name="prix_vente" value="{{ old('prix_vente') }}">
+								</div>
+							</div>
+
+							<div class="col-lg-2">
+								{{-- Prix achat --}}
+								<div class="form-group">
+									<label>Prix d'achat (HT)</label>
+									<input type="number" step="0.01" pattern=".##" min="0" class="form-control" placeholder="Prix d'achat" name="prix_achat" value="{{ old('prix_achat') }}">
+								</div>
+							</div>
+
 						</div>
 						<!-- end row 3 -->
 
 						<!-- row 4 -->
-						<div class="row">
-
-							<div class="col-lg-4"></div>
-							<div>
+						<div class="row" align="center">
 								{{-- Submit & Reset --}}
+								<label title="aa">cochez pour forcer l'ajout de l'article</label>
+								<input type="checkbox" name="force" value="true"><br>
 								<button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-								<button type="submit" name="submit" value="verifier" class="btn btn-default">Vérifier</button>
 								<button type="reset" class="btn btn-default">Effacer</button>
-							</div>
-
 						</div>
 						<!-- end row 4 -->
 

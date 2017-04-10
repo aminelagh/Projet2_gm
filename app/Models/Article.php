@@ -13,6 +13,6 @@ class Article extends Model
       'id_article', 'id_fournisseur','id_categorie' ,
       'designation_c', 'designation_l',
       'code_barre','num_article' ,
-      'couleur','taille', 'sexe','prix',
+      'couleur','taille', 'sexe','prix_achat','prix_vente',
     ];
 }

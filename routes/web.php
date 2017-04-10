@@ -25,6 +25,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/c','ChartsController@index');  //afficher les chart
+
 
 Route::get('/form', function () {
     return view('form')->with('articles', Article::all() );
@@ -53,6 +55,35 @@ Route::get('/t', function () {
 //Route pour generer des PDF
 Route::get('print/{param}','PDFController@imprimer')->name('print');
 
+
+
+
+
+
+
+
+
+/**************************************
+Routes AddForm et SubmitAdd
+***************************************/
+Route::get('/admin/add/{p_table}','AddController@addForm')->name('admin.add');
+Route::post('/admin/submitAdd/{p_table}','AddController@submitAdd')->name('admin.submitAdd');
+
+Route::get('/direct/add/{p_table}','AddController@addForm')->name('direct.add');
+Route::post('/direct/submitAdd/{p_table}','AddController@submitAdd')->name('direct.submitAdd');
+/***************************************
+***************************************/
+
+/**************************************
+Routes Delete
+***************************************/
+Route::get('/admin/delete/{p_table}/{p_id}','DeleteController@delete')->name('admin.delete');
+Route::get('/direct/delete/{p_table}/{p_id}','DeleteController@delete')->name('direct.delete');
+/***************************************
+***************************************/
+
+
+
 /**************************
 Routes pour l espace Admin
 ***************************/
@@ -62,9 +93,6 @@ Route::prefix('/admin')->group( function()
   //home --> Dashboard
   Route::get('','AdminController@home')->name('admin.home');
 
-  //afficher le formulaire d'ajout et le valider
-  Route::get('/addUser','AdminController@addFormUser')->name('admin.addUser');
-  Route::post('/submitAddUser','AdminController@submitAddUser')->name('admin.submitAddUser');
 
   //update user
   Route::get('/updateUser/{id}','AdminController@updateFormUser')->name('admin.updateUser');
@@ -97,9 +125,6 @@ Route::prefix('/direct')->group( function()
   //home --> Dashboard
   Route::get('/','DirectController@home')->name('direct.home');
 
-  //afficher et valider le formulaire
-  Route::get('/add/{param}','DirectController@addForm')->name('direct.addForm');
-  Route::post('/submitAdd/{param}','DirectController@submitAdd')->name('direct.submitAdd');
 
   Route::get('/addStock/{p_id_magasin}','DirectController@addFormStock')->name('direct.addFormStock');  //formulaire d'ajout au stock
 

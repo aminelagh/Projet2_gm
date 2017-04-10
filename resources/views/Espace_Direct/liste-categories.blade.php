@@ -102,7 +102,7 @@
         <!-- row -->
         <div class="row" align="center">
             <a type="button" class="btn btn-outline btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true">  Imprimer </i></a>
-            <a href="{{ Route('direct.addForm',[ 'param' => 'categorie' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter une Categorie</a>
+            <a href="{{ Route('direct.add',[ 'p_table' => 'categories' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter une Categorie</a>
         </div>
         <!-- row -->
 

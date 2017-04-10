@@ -137,16 +137,12 @@
 						<!-- end row 3 -->
 
 						<!-- row 4 -->
-						<div class="row">
-
-							<div class="col-lg-4"></div>
-							<div>
+						<div class="row" align="center">
 								{{-- Submit & Reset --}}
+								<label title="aa">cochez pour forcer l'ajout de l'article</label>
+								<input type="checkbox" name="force" value="true"><br>
 								<button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-								<button type="submit" name="submit" value="verifier" class="btn btn-default">Vérifier</button>
 								<button type="reset" class="btn btn-default">Effacer</button>
-							</div>
-
 						</div>
 						<!-- end row 4 -->
 

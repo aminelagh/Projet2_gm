@@ -12,17 +12,8 @@
 <script src="{{  asset('js/jquery.js') }}"></script>
 <script src="{{  asset('js/bootstrap.js') }}"></script>
 
-<script src="{{  asset('table/jquery.js') }}"></script>
 <script src="{{  asset('table/jquery.dataTables.js') }}"></script>
 <script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>
-
-<script>
-    $(document).ready(function() {
-        $('#dataTables-example').DataTable({
-            responsive: true
-        });
-    });
-</script>
 @endsection
 
 @section('main_content')
@@ -77,7 +68,7 @@
 	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
 
            <thead>
-             <tr><th width="2%"> # </th><th width="25%">numero</th><th>Designation</th><th>Prix (HT)</th><th>Prix (TTC)</th><th width="10%">Autres</th></tr>
+             <tr><th width="2%"> # </th><th width="25%">numero</th><th>Designation</th><th title="prix HT">Prix d'achat</th><th>Prix de vente</th><th width="10%">Autres</th></tr>
            </thead>
 
            <tbody>
@@ -91,8 +82,8 @@
                <td>{{ $item->num_article }}</td>
                <td>{{ $item->designation_c }}</td>
 
-               <td>{{ $item->prix }}</td>
-               <td>{{ ($item->prix)*1.2 }}</td>
+               <td>{{ $item->prix_achat }}</td>
+               <td>{{ $item->prix_vente }}</td>
                <td>
                  <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}" title="detail" ><i class="glyphicon glyphicon-eye-open"></i></a>
                  <a href="{{ Route('direct.updateForm',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -117,7 +108,7 @@
         <div class="col-lg-4"></div>
         <div class="col-lg-8">
           <a type="button" class="btn btn-outline btn-default"><i class="fa fa-file-pdf-o" aria-hidden="true">  Imprimer </i></a>
-          <a href="{{ Route('direct.addForm',[ 'param' => 'article' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Article</a>
+          <a href="{{ Route('direct.add',[ 'p_table' => 'articles' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Article</a>
         </div>
       </div>
       <!-- row -->
