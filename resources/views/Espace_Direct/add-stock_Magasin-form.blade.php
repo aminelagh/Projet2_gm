@@ -25,97 +25,73 @@
 
 			<div class="container-fluid">
 
+				{{-- **************Alerts************** --}}
 				<div class="row">
-					<div class="col-lg-2"></div>
+						<div class="col-lg-2"></div>
 
-					<div class="col-lg-8">
-						{{-- Debut Alerts --}}
-						@if (session('alert_success'))
-						<div class="alert alert-success alert-dismissable">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_success') !!}
+						<div class="col-lg-8">
+								{{-- Debut Alerts --}} @if (session('alert_success'))
+								<div class="alert alert-success alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_success') !!}
+								</div>
+								@endif @if (session('alert_info'))
+								<div class="alert alert-info alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_info') !!}
+								</div>
+								@endif @if (session('alert_warning'))
+								<div class="alert alert-warning alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_warning') !!}
+								</div>
+								@endif @if (session('alert_danger'))
+								<div class="alert alert-danger alert-dismissable">
+										<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_danger') !!}
+								</div>
+								@endif {{-- Fin Alerts --}}
 						</div>
-						@endif
 
-						@if (session('alert_info'))
-						<div class="alert alert-info alert-dismissable">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_info') !!}
-						</div>
-						@endif
-
-						@if (session('alert_warning'))
-						<div class="alert alert-warning alert-dismissable">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_warning') !!}
-						</div>
-						@endif
-
-						@if (session('alert_danger'))
-						<div class="alert alert-danger alert-dismissable">
-							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_danger') !!}
-						</div>
-						@endif
-						{{-- Fin Alerts --}}
-					</div>
-
-					<div class="col-lg-2"></div>
-
+						<div class="col-lg-2"></div>
 				</div>
+				{{-- **************endAlerts************** --}}
 
+					<!-- Row 1 -->
+					<div class="row">
+						<div class="table-responsive">
+							<div class="col-lg-12">
+                {{-- *************** formulaire ***************** --}}
+                <form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'stock']) }}">
+                  {{ csrf_field() }}
+                  <input type="hidden"  name="id_magasin" value="{{ $magasin->id_magasin }}" />
 
-
-
-						<!-- Row 1 -->
-						<div class="row">
-
-							<div class="table-responsive">
-
-								<div class="col-lg-12">
-
-
-
-                  {{-- *************** formulaire ***************** --}}
-                  <form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'stock']) }}">
-                    {{ csrf_field() }}
-                    <input type="hidden"  name="id_magasin" value="{{ $magasin->id_magasin }}" />
-
-
-								 <table class="table table-bordered table-hover table-striped" id="dataTables-example">
-
-									 <thead>
-										 <tr><th width="2%"> # </th><th width="25%">Article</th><th>Categorie</th><th>Fournisseur</th><th>Quantite</th><th>Quantite min</th><th>Quantite max</th><th width="10%">Autres</th></tr>
-									 </thead>
-
-									 <tbody>
-										 @if ( isset( $articles ) )
-										 @if( $articles->isEmpty() )
-										 <tr><td colspan="5" align="center">Aucun Article</td></tr>
-										 @else
-										 @foreach( $articles as $item )
-
-										 <tr class="odd gradeA">
-                       <input type="hidden" name="id_article[{{ $loop->index+1 }}]" value="{{ $item->id_article }}" >
-											 <td>{{ $loop->index+1 }}</td>
-											 <td>{{ $item->designation_c }}</td>
-                       <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie, 'libelle') }}</td>
-                       <td>{{ getChamp('fournisseurs', 'id_fournisseur',  $item->id_fournisseur, 'libelle') }}</td>
-											 <td><input type="number" min="0" placeholder="Quantite" name="quantite[{{ $loop->index+1 }}]"  ></td>
-                       <td><input type="number" min="0" placeholder="Quantite Min" name="quantite_min[{{ $loop->index+1 }}]" value="{{ old('quantite_min[$loop->index+1]') }}"></td>
-                       <td><input type="number" min="0" placeholder="Quantite Max" name="quantite_max[{{ $loop->index+1 }}]" value="{{ old('quantite_max[$loop->index+1]') }}"></td>
-											 <td>
-                         autre
-                       </td>
-										 </tr>
-
-										 @endforeach
-										 @endif
-										 @endif
-
-									 </tbody>
-
-                   <tr><td colspan="8" align="center"><button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button></td></tr>
-
-
-								 </table>
-</form>
+									<table class="table table-bordered table-hover table-striped" id="dataTables-example">
+								 <thead>
+									 <tr><th width="2%"> # </th><th width="25%">Article</th><th>Categorie</th><th>Fournisseur</th><th>Quantite</th><th>Quantite min</th><th>Quantite max</th><th width="10%">Autres</th></tr>
+								 </thead>
+								 <tbody>
+									 @if ( isset( $articles ) )
+									 @if( $articles->isEmpty() )
+									 <tr><td colspan="5" align="center">Aucun Article</td></tr>
+									 @else
+									 @foreach( $articles as $item )
+									 <tr class="odd gradeA">
+                     <input type="hidden" name="id_article[{{ $loop->index+1 }}]" value="{{ $item->id_article }}" >
+										 <td>{{ $loop->index+1 }}</td>
+										 <td>{{ $item->designation_c }}</td>
+                     <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie, 'libelle') }}</td>
+                     <td>{{ getChamp('fournisseurs', 'id_fournisseur',  $item->id_fournisseur, 'libelle') }}</td>
+										 <td><input type="number" min="0" placeholder="Quantite" name="quantite[{{ $loop->index+1 }}]"  ></td>
+                     <td><input type="number" min="0" placeholder="Quantite Min" name="quantite_min[{{ $loop->index+1 }}]" value="{{ old('quantite_min[$loop->index+1]') }}"></td>
+                     <td><input type="number" min="0" placeholder="Quantite Max" name="quantite_max[{{ $loop->index+1 }}]" value="{{ old('quantite_max[$loop->index+1]') }}"></td>
+										 <td>
+                       autre
+                     </td>
+									 </tr>
+									 @endforeach
+									 @endif
+									 @endif
+								 </tbody>
+                 <tr><td colspan="8" align="center"><button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button></td></tr>
+							 </table>
+						 </form>
 
 							 </div>
 							</div>

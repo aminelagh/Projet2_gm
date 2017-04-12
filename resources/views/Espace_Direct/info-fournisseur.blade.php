@@ -110,7 +110,7 @@
 							<div class="col-lg-4"></div>
 							<div class="col-lg-4">
 								<a href="{{ Route('direct.delete',['p_table' => 'magasins', 'p_id' => $data->id_magasin ]) }}" onclick="return confirm('Êtes-vous sure de vouloir effacer le fournisseur: {{ $data->libelle }} ?')" type="button" class="btn btn-outline btn-danger">Supprimer </a>
-								<a href="{{ Route('direct.updateForm',['id_article' => $data->id_fournisseur, 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-info"> Modifier </a>
+								<a href="{{ Route('direct.update',['id_article' => $data->id_fournisseur, 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-info"> Modifier </a>
 
 							</div>
 

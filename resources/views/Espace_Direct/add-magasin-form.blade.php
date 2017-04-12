@@ -58,7 +58,7 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'magasin']) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitAdd',['p_table' => 'magasins']) }}">
 						{{ csrf_field() }}
 
 

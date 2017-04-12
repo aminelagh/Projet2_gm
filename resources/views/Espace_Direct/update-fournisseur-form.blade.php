@@ -58,7 +58,7 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitUpdate',['param' => 'fournisseur' ]) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitUpdate',['p_table' => 'fournisseurs' ]) }}">
 						{{ csrf_field() }}
 
 						<input type="hidden" class="form-control" name="id_fournisseur" value="{{ $data->id_fournisseur }}" >

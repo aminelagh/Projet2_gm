@@ -59,7 +59,7 @@
 				{{-- **************endAlerts**************  --}}
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitAdd',['param' => 'categorie']) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitAdd',['p_table' => 'categories']) }}">
 						{{ csrf_field() }}
 
 

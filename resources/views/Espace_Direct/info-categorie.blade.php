@@ -103,7 +103,7 @@
 							<div class="col-lg-4"></div>
 							<div class="col-lg-4">
 								<a href="{{ Route('direct.delete',['p_table' => 'categories', 'p_id' => $data->id_categorie ]) }}" onclick="return confirm('Êtes-vous sure de vouloir effacer la categorie: {{ $data->libelle }} ?')" type="button" class="btn btn-outline btn-danger">Supprimer </a>
-								<a href="{{ Route('direct.updateForm',['p_table' => 'categories', 'p_id' => $data->id_categorie ]) }}" type="button" class="btn btn-outline btn-info"> Modifier </a>
+								<a href="{{ Route('direct.update',['p_table' => 'categories', 'p_id' => $data->id_categorie ]) }}" type="button" class="btn btn-outline btn-info"> Modifier </a>
 
 							</div>
 

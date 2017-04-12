@@ -25,7 +25,22 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/c','ChartsController@index');  //afficher les chart
+Route::get('/proc', function () {
+  dump( DB::select("SELECT hello('aaaa') as rep; ") );
+  echo '<hr>';
+  dump( DB::select("call getArticlesForStock(1); ") );
+  echo '<hr>';
+    $id = 1;
+    $data =  DB::select("select * from articles where id_article not in (select id_article from stocks where id_magasin=".$id.")");
+
+    foreach( $data as $item )
+    {
+      echo $item->id_article." ".$item->designation_c." ".$item->couleur." ".$item->prix_achat." ".$item->prix_vente."<br>";
+    }
+    echo '<hr>';
+    //dump( DB::select("SELECT getArticlesForStock(2) ") );
+});
+
 
 
 Route::get('/form', function () {
@@ -34,30 +49,19 @@ Route::get('/form', function () {
 
 Route::get('/t', function () {
 
-  $v = Input::get("aa");
-  dump($v);
-  $data = DB::select( DB::raw("SELECT * FROM stocks s join articles a on s.id_article=a.id_article ") );
-  dump($data);
+  //$v = Input::get("aa");
+  //$data = DB::select( DB::raw("SELECT * FROM stocks s join articles a on s.id_article=a.id_article ") );
+  //$data = DB::statement('select * from users where id_role=:id', array('id' => 1) );
 
-  $data = DB::statement('select * from users where id_role=:id', array('id' => 1) );
-  dump($data);
-
-
-
-  return "a";
-
-  $stocks = Stock::where('id_magasin',1)->get();
-  dump($stocks->first()->quantite);
+  return view('table')->withData( Categorie::all() );
 
 });
 
 
+
+
 //Route pour generer des PDF
 Route::get('print/{param}','PDFController@imprimer')->name('print');
-
-
-
-
 
 
 
@@ -71,16 +75,25 @@ Route::post('/admin/submitAdd/{p_table}','AddController@submitAdd')->name('admin
 
 Route::get('/direct/add/{p_table}','AddController@addForm')->name('direct.add');
 Route::post('/direct/submitAdd/{p_table}','AddController@submitAdd')->name('direct.submitAdd');
-/***************************************
+/******************************************************************************/
+
+/**************************************
+Routes Update
 ***************************************/
+Route::get('/admin/update/{p_table}/{p_id}','UpdateController@updateForm')->name('admin.update');
+Route::post('/admin/submitUpdate/{p_table}','UpdateController@submitUpdate')->name('admin.submitUpdate');
+
+Route::get('/direct/update/{p_table}/{p_id}','UpdateController@updateForm')->name('direct.update');
+Route::post('/direct/submitUpdate/{p_table}','UpdateController@submitUpdate')->name('direct.submitUpdate');
+
+/******************************************************************************/
 
 /**************************************
 Routes Delete
 ***************************************/
 Route::get('/admin/delete/{p_table}/{p_id}','DeleteController@delete')->name('admin.delete');
 Route::get('/direct/delete/{p_table}/{p_id}','DeleteController@delete')->name('direct.delete');
-/***************************************
-***************************************/
+/******************************************************************************/
 
 
 
@@ -95,12 +108,10 @@ Route::prefix('/admin')->group( function()
 
 
   //update user
-  Route::get('/updateUser/{id}','AdminController@updateFormUser')->name('admin.updateUser');
-  Route::post('/submitUpdateUser','AdminController@submitUpdateUser')->name('admin.submitUpdateUser');
+
 
   //update password
-  Route::get('/updatePasswordUser/{id}','AdminController@updatePasswordFormUser')->name('admin.updatePasswordUser');
-  Route::post('/submitUpdatePasswordUser','AdminController@submitUpdatePasswordUser')->name('admin.submitUpdatePasswordUser');
+
 
   //delete User
   Route::get('/deleteUser/{id}','AdminController@deleteUser')->name('admin.deleteUser');
@@ -138,8 +149,6 @@ Route::prefix('/direct')->group( function()
   Route::get('/info/{p_table}/{p_id}','DirectController@info')->name('direct.info');
 
   //afficher
-  Route::get('/update/{p_table}/{p_id}','DirectController@updateForm')->name('direct.updateForm');
-  Route::post('/submitUpdate/{param}','DirectController@submitUpdate')->name('direct.submitUpdate');
 
   //lister stocks
   Route::get('/stocks/{p_id_magasin}','DirectController@listerStocks')->name('direct.stocks');

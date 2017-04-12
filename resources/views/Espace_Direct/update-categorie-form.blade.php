@@ -59,7 +59,7 @@
 				{{-- **************endAlerts**************  --}}
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitUpdate',['param' => 'categorie']) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitUpdate',['p_table' => 'categories']) }}">
 						{{ csrf_field() }}
 
 						<input type="hidden" class="form-control" name="id_categorie" value="{{ $data->id_categorie }}" >

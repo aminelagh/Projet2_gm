@@ -58,7 +58,7 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('direct.submitUpdate',[ 'p_table' => 'article' ]) }}">
+					<form role="form" method="post" action="{{ Route('direct.submitUpdate',[ 'p_table' => 'articles' ]) }}">
 						{{ csrf_field() }}
 
 						<input type="hidden" class="form-control" name="id_article" value="{{ $data->id_article }}" >
@@ -143,7 +143,7 @@
 						<!-- row 3 -->
 						<div class="row">
 
-							<div class="col-lg-2">
+							<div class="col-lg-3">
 								{{-- Taille --}}
 								<div class="form-group">
 									<label>Taille</label>
@@ -163,19 +163,27 @@
 								</div>
 							</div>
 
-							<div class="col-lg-2">
-								{{-- Prix --}}
-								<div class="form-group">
-									<label>Prix (HT)</label>
-									<input type="number" step="0.0001" pattern=".####" min="0" class="form-control" placeholder="Prix" name="prix" value="{{ $data->prix or old('prix') }}">
-								</div>
-							</div>
-
 							<div class="col-lg-3">
 								{{-- Couleur --}}
 								<div class="form-group">
 									<label>Couleur</label>
 									<input type="text"  class="form-control" placeholder="Couleur" name="couleur" value="{{ $data->couleur }}">
+								</div>
+							</div>
+
+							<div class="col-lg-2">
+								{{-- Prix achat --}}
+								<div class="form-group">
+									<label>Prix d'achat</label>
+									<input type="number" step="0.01" pattern=".##" min="0" class="form-control" placeholder="Prix d'achat" name="prix" value="{{ $data->prix_achat }}">
+								</div>
+							</div>
+
+							<div class="col-lg-2">
+								{{-- Prix vente --}}
+								<div class="form-group">
+									<label>Prix (HT)</label>
+									<input type="number" step="0.01" pattern=".##" min="0" class="form-control" placeholder="Prix de Vente" name="prix" value="{{ $data->prix_vente }}">
 								</div>
 							</div>
 

@@ -58,10 +58,10 @@
 				</div>
 
 					{{-- *************** formulaire ***************** --}}
-					<form role="form" method="post" action="{{ Route('admin.submitUpdateUser') }}">
+					<form role="form" method="post" action="{{ Route('admin.submitUpdate',['p_table'=> 'users']) }}">
 						{{ csrf_field() }}
 
-						<input type="hidden" class="form-control" name="id_user" id="id_user" value="{{ $data->id_user }}" >
+						<input type="hidden" class="form-control" name="id_user" value="{{ $data->id_user }}" >
 
 
 						<!-- Row 1 -->
@@ -71,7 +71,7 @@
 								{{-- Role --}}
 								<div class="form-group">
 									<label>Role</label>
-									<select class="form-control" name="id_role" id="id_role">
+									<select class="form-control" name="id_role">
 									@if( !$roles->isEmpty() )
 										@foreach( $roles as $item )
 											<option value="{{ $item->id_role }}" @if( $item->id_role == $data->id_role ) selected @endif >{{ $item->libelle }}</option>
@@ -85,7 +85,7 @@
 								{{-- Magasin --}}
 								<div class="form-group">
 									<label>Magasin</label>
-									<select class="form-control" name="id_magasin" id="id_magasin">
+									<select class="form-control" name="id_magasin">
 									<option value="0" selected>Aucun</option>
 									@if( !$magasins->isEmpty() )
 										@foreach( $magasins as $item )
@@ -100,18 +100,10 @@
 								{{-- Email --}}
 								<div class="form-group">
 									<label>Email</label>
-									<input type="email" class="form-control" placeholder="E-mail" name="email" id="email" value="{{ $data->email }}" required>
+									<input type="email" class="form-control" placeholder="E-mail" name="email" value="{{ $data->email }}" required>
 									<p class="help-block">utilisé pour l'authentification</p>
 								</div>
 							</div>
-
-							<!--div class="col-lg-4">
-								{{-- Password --}}
-								<div class="form-group">
-									<label>Password</label>
-									<input type="text" class="form-control" placeholder="Password" name="password" id="password" required min="8">
-								</div>
-							</div-->
 
 						</div>
 						<!-- end row 1 -->
@@ -123,7 +115,7 @@
 								{{-- nom --}}
 								<div class="form-group">
 									<label>Nom</label>
-									<input type="text" class="form-control" placeholder="Nom" name="nom" id="nom" value="{{ $data->nom }}" required>
+									<input type="text" class="form-control" placeholder="Nom" name="nom" value="{{ $data->nom }}" required>
 								</div>
 							</div>
 
@@ -131,7 +123,7 @@
 								{{-- Prenom --}}
 								<div class="form-group">
 									<label>Prenom</label>
-									<input type="text" class="form-control" placeholder="Prenom" name="prenom" id="prenom" value="{{ $data->prenom }}">
+									<input type="text" class="form-control" placeholder="Prenom" id="prenom" value="{{ $data->prenom }}">
 								</div>
 							</div>
 
@@ -139,7 +131,7 @@
 								{{-- Ville --}}
 								<div class="form-group">
 									<label>Ville</label>
-									<input type="text" class="form-control" placeholder="Ville" name="ville" id="ville" value="{{ $data->ville }}">
+									<input type="text" class="form-control" placeholder="Ville" name="ville" value="{{ $data->ville }}">
 								</div>
 							</div>
 
@@ -147,7 +139,7 @@
 								{{-- Telephone --}}
 								<div class="form-group">
 									<label>Telephone</label>
-									<input type="number" class="form-control" placeholder="Telephone" name="telephone" id="telephone" value="{{ $data->telephone }}">
+									<input type="number" class="form-control" placeholder="Telephone" name="telephone" value="{{ $data->telephone }}">
 								</div>
 							</div>
 
@@ -161,7 +153,7 @@
 								{{-- Description --}}
 								<div class="form-group">
 									<label>Description</label>
-									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description" id="description">{{ $data->description }}</textarea>
+									<textarea type="text" class="form-control" rows="5" placeholder="Description" name="description" >{{ $data->description }}</textarea>
 								</div>
 							</div>
 
@@ -169,7 +161,6 @@
 								<br/><br/>
 								{{-- Submit & Reset --}}
 								<button type="submit" name="submit" value="valider" class="btn btn-default" width="60">Valider</button>
-								<button type="submit" name="submit" value="verifier" class="btn btn-default" width="60" disabled>Vérifier</button>
 								<button type="reset" value="" class="btn btn-default">Réinitialiser</button>
 							</div>
 

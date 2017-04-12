@@ -25,18 +25,7 @@ class AdminController extends Controller
     return view('Espace_Admin.add-user-form')->with([ 'magasins' => $magasins, 'roles' => $roles ]);
   }
 
-  //permet de retourner la vue qui contient le formulaire de modification
-  public function updateFormUser($id)
-  {
-    $magasins = DB::table('magasins')->get();      $roles = DB::table('roles')->get();
-    $data = DB::table('users')->where('id_user',$id)->first();
 
-    //si l'utilisateur n'existe pas, redirect vers la page precedente avec un message d'erreur
-    if($data==null)
-     return redirect()->back()->with('alert_danger','<strong>Erreur !!</strong> l\'utilisateur que vous avez choisi n\'existe pas, veuillez actualiser la page.');
-
-    return view('Espace_Admin.update-user-form')->with([ 'data' => $data ,'magasins' => $magasins, 'roles' => $roles ]);
-  }
 
   //permet de retourner la vue qui contient le formulaire de modification du mot de passe
   public function updatePasswordFormUser($id)
@@ -119,42 +108,12 @@ class AdminController extends Controller
     /*********************
     Valider La modification des Users
     ***********************/
-    public function submitUpdateUser(Request $request)
-    {
-      if( EmailExist_2( $request->email , $request->id_user )  )
-        return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur: </strong>  "'.$request->email.'" est deja utilisé pour un autre utilisateur.');
-      else
-        $user = User::find($request->id_user);
-        $user->update([
-          'id_role'     => $request->id_role,
-          'id_magasin'  => $request->id_magasin,
-          'nom'         => $request->nom,
-          'prenom'      => $request->prenom,
-          'ville'       => $request->ville,
-          'telephone'   => $request->telephone,
-          'email'       => $request->email,
-          'description' => $request->description
-        ]);
-       echo "notification !!!!!";
-       return redirect()->route('admin.infoUser',['id' => $request->id_user ])->with('alert_success','Modification de l\'utilisateur reussi.');
-    }
+
 
     /*********************
     Valider La modification du mot de passe
     ***********************/
-    public function submitUpdatePasswordUser(Request $request)
-    {
 
-      if( strlen($request->password)<8 )
-        return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur: </strong> le mot de passe doit contenir, au moins, 7 caractères.');
-
-      $user = User::find($request->id_user);
-      $user->update([
-          'password'     => Hash::make($request->password)
-      ]);
-      echo "notification !!!!!";
-      return redirect()->route('admin.infoUser',['id' => $request->id_user ])->with('alert_success','Modification du mot de passe de l\'utilisateur reussi.');
-    }
 
 
 
