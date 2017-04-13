@@ -5,7 +5,7 @@
 
     <li><a href="{{ Route('admin.add',['p_table'=>'users']) }}"><i class="fa fa-fw fa-desktop"></i> Ajouter User</a></li>
 
-    <li><a href="{{ Route('admin.lister') }}"><i class="fa fa-fw fa-wrench"></i> Liste User <span class="badge">{{ App\Models\User::count() }} </span> </a></li>
+    <li><a href="{{ Route('admin.lister',['p_table'=>'users']) }}"><i class="fa fa-fw fa-wrench"></i> Liste User <span class="badge">{{ App\Models\User::count() }} </span> </a></li>
 
 
 

@@ -95,6 +95,16 @@ Route::get('/admin/delete/{p_table}/{p_id}','DeleteController@delete')->name('ad
 Route::get('/direct/delete/{p_table}/{p_id}','DeleteController@delete')->name('direct.delete');
 /******************************************************************************/
 
+/*****************************************
+Routes Lister et infos
+*****************************************/
+Route::get('/direct/info/{p_table}/{p_id}','ShowController@info')->name('direct.info');
+Route::get('/admin/info/{p_table}/{p_id}','ShowController@info')->name('admin.info');
+
+Route::get('/admin/lister/{p_table}','ShowController@lister')->name('admin.lister');
+Route::get('/direct/lister/{p_table}','ShowController@lister')->name('direct.lister');
+/*******************************************************************************/
+
 
 
 /**************************
@@ -106,22 +116,8 @@ Route::prefix('/admin')->group( function()
   //home --> Dashboard
   Route::get('','AdminController@home')->name('admin.home');
 
-
-  //update user
-
-
-  //update password
-
-
   //delete User
   Route::get('/deleteUser/{id}','AdminController@deleteUser')->name('admin.deleteUser');
-
-  //lister les utlisateurs & trier les users
-  Route::get('/lister','AdminController@listerUsers')->name('admin.lister');
-  Route::get('/lister/{orderby}','AdminController@listerUsersOrder')->name('admin.listerOrder');
-
-  //afficher le profile d un user:
-  Route::get('/infoUser/{id}','AdminController@infoUser')->name('admin.infoUser');
 });
 
 
@@ -136,8 +132,7 @@ Route::prefix('/direct')->group( function()
   //home --> Dashboard
   Route::get('/','DirectController@home')->name('direct.home');
 
-
-  Route::get('/addStock/{p_id_magasin}','DirectController@addFormStock')->name('direct.addFormStock');  //formulaire d'ajout au stock
+  Route::get('/addStock/{p_id_magasin}','DirectController@addFormStock')->name('direct.addFormStock');
 
   //lister
   Route::get('/lister/{param}','DirectController@lister')->name('direct.lister');
@@ -146,7 +141,7 @@ Route::prefix('/direct')->group( function()
   Route::get('/delete/{p_table}/{p_id}','DirectController@delete')->name('direct.delete');
 
   //afficher le profile
-  Route::get('/info/{p_table}/{p_id}','DirectController@info')->name('direct.info');
+
 
   //afficher
 

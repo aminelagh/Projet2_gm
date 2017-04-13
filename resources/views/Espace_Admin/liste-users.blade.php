@@ -106,8 +106,8 @@
                         <td>{{ $item->email }}</td>
                         <td><a href=""> {!! getMagasinName( $item->id_magasin )!=null ? getMagasinName( $item->id_magasin ) : '<i>Aucun</i>'   !!}</a></td>
                         <td>
-                            <a href="{{ Route('admin.infoUser',['id'=> $item->id_user]) }}" title="Detail"><i class="glyphicon glyphicon-user"></i></a>
-                            <a href="{{ Route('admin.updateUser',['id' => $item->id_user ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
+                            <a href="{{ Route('admin.info',['p_id' => $item->id_user, 'p_table' => 'users' ] ) }}" title="Detail"><i class="glyphicon glyphicon-user"></i></a>
+                            <a href="{{ Route('admin.update',['p_id' => $item->id_user, 'p_table' => 'users' ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
                             <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->nom }} {{ $item->prenom }} ?')" href="{{ Route('admin.deleteUser',['id' => $item->id_user ]) }}" title="Supprimer"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                     </tr>

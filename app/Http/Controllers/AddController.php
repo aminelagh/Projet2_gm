@@ -163,8 +163,7 @@ class AddController extends Controller
 	//Valider l'ajout de : Magasin
 	public function submitAddArticle()
 	{
-		$alerts = "";
-		$alerts2 = "";
+		$alerts = "";		$alerts2 = "";
 		$item = new Article;
 		$item->id_categorie   = request()->get('id_categorie');
 		$item->id_fournisseur = request()->get('id_fournisseur');
@@ -189,7 +188,7 @@ class AddController extends Controller
 			{
 				$item->save();
 			}
-			catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur! </strong> une erreur s\'est produite lors de l\'ajout de l\'article.<br>Message d\'erreur: '.$ex->getMessage() ); }
+			catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger','<li>Une erreur s\'est produite lors de l\'ajout de l\'article.<br>Message d\'erreur: '.$ex->getMessage() ); }
 
 			return redirect()->back()->with('alert_success','L\'article <strong>'.request()->get('designation_c').'</strong> a bien été ajouté.');
 		}

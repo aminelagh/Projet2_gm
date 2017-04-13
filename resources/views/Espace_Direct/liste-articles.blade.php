@@ -9,18 +9,33 @@
 @endsection
 
 @section('scripts')
-<script src="{{  asset('js/jquery.js') }}"></script>
-<script src="{{  asset('js/bootstrap.js') }}"></script>
-
-<script src="{{  asset('table/jquery.dataTables.js') }}"></script>
-<script src="{{  asset('table/dataTables.bootstrap.js') }}"></script>
+<script src="{{  asset('table2/datatables.min.js') }}"></script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function() {
+            var title = $(this).text();
+            $(this).html('<input type="text" size="10" class="form-control" placeholder="Rechercher par ' + title + '" />');
+        });
+        // DataTable
+        var table = $('#example').DataTable();
+        // Apply the search
+        table.columns().every(function() {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function() {
+                if (that.search() !== this.value) {
+                    that.search(this.value).draw();
+                }
+            });
+        });
+    });
+</script>
 @endsection
 
 @section('main_content')
 <div class="container-fluid">
   <!-- main row -->
   <div class="row">
-
     <h1 class="page-header">Liste des Articles <small> </small></h1>
 
     <!-- row -->
@@ -63,13 +78,14 @@
       {{-- **************endAlerts**************  --}}
 
       <div class="table-responsive">
-
         <div class="col-lg-12">
-	       <table class="table table-bordered table-hover table-striped" id="dataTables-example">
-
-           <thead>
+	       <table id="example" class="table table-striped table-bordered table-hover" width="100%">
+           <thead bgcolor="#DBDAD8">
              <tr><th width="2%"> # </th><th width="25%">numero</th><th>Designation</th><th title="prix HT">Prix d'achat</th><th>Prix de vente</th><th width="10%">Autres</th></tr>
            </thead>
+           <tfoot bgcolor="#DBDAD8">
+             <tr><th width="2%"> # </th><th width="25%">numero</th><th>Designation</th><th title="prix HT">Prix d'achat</th><th>Prix de vente</th><th width="10%">Autres</th></tr>
+           </tfoot>
 
            <tbody>
              @if ( isset( $data ) )
@@ -77,11 +93,10 @@
              <tr><td colspan="5" align="center">Aucun Article</td></tr>
              @else
              @foreach( $data as $item )
-             <tr class="odd gradeA">
+             <tr>
                <td>{{ $loop->index+1 }}</td>
                <td>{{ $item->num_article }}</td>
                <td>{{ $item->designation_c }}</td>
-
                <td>{{ $item->prix_achat }}</td>
                <td>{{ $item->prix_vente }}</td>
                <td>

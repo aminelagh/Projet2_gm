@@ -6,16 +6,6 @@
 <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
 <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
 <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-<style>
-#circle {
-	width: 30px;
-	height: 30px;
-	-webkit-border-radius: 20px;
-	-moz-border-radius: 20px;
-	border-radius: 20px;
-	background: red;
-}
-</style>
 @endsection
 
 @section('scripts')
@@ -34,34 +24,43 @@
 			<div class="row">
 				<div class="col-lg-2"></div>
 				<div class="col-lg-8">
-				{{-- Debut Alerts --}}
-				@if (session('alert_success'))
-				<div class="alert alert-success alert-dismissable">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_success') !!}
-				</div>
-				@endif
+					{{-- **************Alerts**************  --}}
+					<div class="row">
+						<div class="col-lg-2"></div>
 
-				@if (session('alert_info'))
-				<div class="alert alert-info alert-dismissable">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_info') !!}
-				</div>
-				@endif
+						<div class="col-lg-8">
+							{{-- Debut Alerts --}}
+							@if (session('alert_success'))
+							<div class="alert alert-success alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_success') !!}
+							</div>
+							@endif
 
-				@if (session('alert_warning'))
-				<div class="alert alert-warning alert-dismissable">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_warning') !!}
-				</div>
-				@endif
+							@if (session('alert_info'))
+							<div class="alert alert-info alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_info') !!}
+							</div>
+							@endif
 
-				@if (session('alert_danger'))
-				<div class="alert alert-danger alert-dismissable">
-					<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_danger') !!}
-				</div>
-				@endif
-				{{-- Fin Alerts --}}
+							@if (session('alert_warning'))
+							<div class="alert alert-warning alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_warning') !!}
+							</div>
+							@endif
+
+							@if (session('alert_danger'))
+							<div class="alert alert-danger alert-dismissable">
+								<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> {!! session('alert_danger') !!}
+							</div>
+							@endif
+							{{-- Fin Alerts --}}
+						</div>
+
+						<div class="col-lg-2"></div>
+					</div>
+					{{-- **************endAlerts**************  --}}
 			</div>
 			<div class="col-lg-2"></div>
-
 			</div>
 
 			<div class="container-fluid">
@@ -101,8 +100,12 @@
 									<td><strong>{{ getSexeName($data->sexe) }} </strong></td>
 								</tr>
 								<tr>
-									<td>Prix</td>
-									<td><strong>{{ $data->prix }} </strong></td>
+									<td>Prix d'achat</td>
+									<td><strong>{{ $data->prix_achat }} </strong></td>
+								</tr>
+								<tr>
+									<td>Prix de vente</td>
+									<td><strong>{{ $data->prix_vente }} </strong></td>
 								</tr>
 								<tr>
 									<td>Date de creation</td>
@@ -124,11 +127,10 @@
 							</div>
 							@endif
 
-							<div class="col-lg-4"></div>
-							<div class="col-lg-4">
+
+							<div class="row" align="center">
 								<a href="{{ Route('direct.delete',['p_table' => 'articles', 'p_id' => $data->id_article ]) }}" onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $data->designation_c }} ?')" type="button" class="btn btn-outline btn-danger">Supprimer </a>
 								<a href="{{ Route('direct.update',['id_article' => $data->id_article, 'p_table' => 'articles' ]) }}" type="button" class="btn btn-outline btn-info"> Modifier </a>
-
 							</div>
 
 						</div>
