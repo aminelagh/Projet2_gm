@@ -21,10 +21,11 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
 
+
 Route::get('/', function () {
     return view('welcome');
 });
-
+/*
 Route::get('/proc', function () {
   dump( DB::select("SELECT hello('aaaa') as rep; ") );
   echo '<hr>';
@@ -41,13 +42,25 @@ Route::get('/proc', function () {
     //dump( DB::select("SELECT getArticlesForStock(2) ") );
 });
 
-
+/*
 
 Route::get('/form', function () {
     return view('form')->with('articles', Article::all() );
 });
 
 Route::get('/t', function () {
+
+$type = 'csv';
+
+      $data = User::get()->toArray();
+      return Excel::create('User', function($excel) use ($data) {
+          $excel->sheet('mySheet', function($sheet) use ($data)
+          {
+              $sheet->fromArray($data);
+          });
+      })->download($type);
+
+return 'a';
 
   //$v = Input::get("aa");
   //$data = DB::select( DB::raw("SELECT * FROM stocks s join articles a on s.id_article=a.id_article ") );
@@ -57,14 +70,18 @@ Route::get('/t', function () {
 
 });
 
-
+*/
 
 
 //Route pour generer des PDF
-Route::get('print/{param}','PDFController@imprimer')->name('print');
+//Route::get('print/{param}','PDFController@imprimer')->name('print');
 
 
-
+/***************************************
+Routes Excel:
+****************************************/
+Route::get('/export/{p_table}','ExcelController@export')->name('export');
+Route::get('/export/{p_table}','ExcelController@export')->name('export');
 
 
 /**************************************
@@ -121,8 +138,6 @@ Route::prefix('/admin')->group( function()
 });
 
 
-
-
 /***************************
 Routes pour l espace Direct
 ***************************/
@@ -134,26 +149,12 @@ Route::prefix('/direct')->group( function()
 
   Route::get('/addStock/{p_id_magasin}','DirectController@addFormStock')->name('direct.addFormStock');
 
-  //lister
-  Route::get('/lister/{param}','DirectController@lister')->name('direct.lister');
-
-  //delete data
-  Route::get('/delete/{p_table}/{p_id}','DirectController@delete')->name('direct.delete');
-
-  //afficher le profile
-
-
-  //afficher
-
   //lister stocks
   Route::get('/stocks/{p_id_magasin}','DirectController@listerStocks')->name('direct.stocks');
 
   Route::get('/update/{value}/{aa}','DirectController@routeError');
   Route::get('/update','DirectController@routeError');
-
 });
 
 
-Route::get('/{param}',function(){
-  return view('welcome');
-});
+//Route::get('/{param}',function(){  return view('welcome'); });

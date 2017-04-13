@@ -125,6 +125,11 @@
 
         </div>
         {{-- end div Table --}}
+
+
+        <div class="row" align="center">
+          <a target="_blank" href="{{ Route('admin.export',[ 'p_table' => 'users' ]) }}" type="button" class="btn btn-outline btn-default" title="Exporter la liste des utilisateur" > Export Excel</a>
+        </div>
   </div>
 </div>
 @endsection

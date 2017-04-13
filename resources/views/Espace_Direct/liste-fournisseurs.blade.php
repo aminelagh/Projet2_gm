@@ -131,6 +131,7 @@
     <!-- row -->
     <div class="row" align="center">
         <a href="{{ Route('direct.add',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Fournisseur </a>
+        <a target="_blank" href="{{ Route('export',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default" title="Exporter la liste des utilisateur" > Export Excel</a>
     </div>
     <!-- row -->
 
