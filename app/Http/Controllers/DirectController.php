@@ -27,98 +27,6 @@ class DirectController extends Controller
 
 
 
-
-
-
-
-  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-  /****************************
-  Afficher le fomulaire d'ajout pour le stock
-  ****************************/
-  public function addFormStock($p_id_magasin)
-  {
-    $magasin = Magasin::where('id_magasin',$p_id_magasin)->first();
-    $articles = Article::all();
-
-    if( $articles == null )
-      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> la base de données des articles est vide, veuillez ajouter les articles avant de procéder à la création des stocks.');
-
-    if( $magasin == null )
-      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> Le magasin choisi n\'existe pas .(veuillez choisir un autre magasin.)');
-
-    else
-      return view('Espace_Direct.add-stock_Magasin-form')->with(['data' => Stock::all(), 'articles' => $articles,  'magasin' => $magasin ]);
-  }
-
-
-
-  //Valider l'ajout de : Stock
-  public function submitAddStock()
-  {
-    $id_article   = request()->get('id_article');
-    $quantite     = request()->get('quantite');
-    $quantite_min = request()->get('quantite_min');
-    $quantite_max = request()->get('quantite_max');
-
-    foreach( $id_article as $item )
-    {
-      echo "<li>".$item;
-    }
-
-
-    for( $i=1; $i< count($id_article) ; $i++ )
-    {
-      echo $id_article[$i]." ".$quantite[$i]." ".$quantite_min[$i]." ".$quantite_max[$i]."<br>";
-    }
-
-    dump ( 'id_article', request()->get('id_article'));
-    dump ( 'quantite', request()->get('quantite') );
-    dump ( 'quantite_min', request()->get('quantite_min') );
-
-    dump(request());
-
-    foreach( request()->get('quantite') as $q )
-    {
-      echo $q."<br>";
-    }
-    return 'aa';
-
-    if( request()->get('submit') == 'verifier' )
-    {
-       return redirect()->back()->withInput()->with('alert_success','Verifier le stock (magasin/article).s');
-    }
-    else if( request()->get('submit') == 'valider' )
-    {
-      //if( request()->get('libelle')==null )
-       //return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> veuillez remplir le champ libelle');
-
-      $item = new Stock;
-      $item->id_magasin    = request()->get('id_magasin');
-      $item->id_article    = request()->get('id_article');
-      $item->quantite      = request()->get('quantite');
-      $item->quantite_min  = request()->get('quantite_min');
-      $item->quantite_max  = request()->get('quantite_max');
-
-      $item->save();
-      return redirect()->back()->with('alert_success','Done');
-    }
-    else
-    {
-      return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur de Redirection</strong><br> from: DirectController@submitAdd (submitAddStock)');
-    }
-  }
-
-  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-  //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
-
   /*****************************************************************************
   Lister Stocks
   *****************************************************************************/
@@ -130,7 +38,6 @@ class DirectController extends Controller
 
     else
       return view('Espace_Direct.liste-stocks')->with('data',$data);
-
   }
 
 

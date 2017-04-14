@@ -50,18 +50,6 @@ Route::get('/form', function () {
 
 Route::get('/t', function () {
 
-$type = 'csv';
-
-      $data = User::get()->toArray();
-      return Excel::create('User', function($excel) use ($data) {
-          $excel->sheet('mySheet', function($sheet) use ($data)
-          {
-              $sheet->fromArray($data);
-          });
-      })->download($type);
-
-return 'a';
-
   //$v = Input::get("aa");
   //$data = DB::select( DB::raw("SELECT * FROM stocks s join articles a on s.id_article=a.id_article ") );
   //$data = DB::statement('select * from users where id_role=:id', array('id' => 1) );
@@ -122,32 +110,28 @@ Route::get('/admin/lister/{p_table}','ShowController@lister')->name('admin.liste
 Route::get('/direct/lister/{p_table}','ShowController@lister')->name('direct.lister');
 /*******************************************************************************/
 
+/****************************************
+Routes gestion des Stocks
+*****************************************/
+Route::get('/direct/addStock/{p_id_magasin}','StockController@addStock')->name('direct.addStock');
+/*******************************************************************************/
 
 
-/**************************
-Routes pour l espace Admin
-***************************/
 
 Route::prefix('/admin')->group( function()
 {
   //home --> Dashboard
   Route::get('','AdminController@home')->name('admin.home');
-
-  //delete User
-  Route::get('/deleteUser/{id}','AdminController@deleteUser')->name('admin.deleteUser');
 });
 
 
-/***************************
-Routes pour l espace Direct
-***************************/
 
 Route::prefix('/direct')->group( function()
 {
   //home --> Dashboard
   Route::get('/','DirectController@home')->name('direct.home');
 
-  Route::get('/addStock/{p_id_magasin}','DirectController@addFormStock')->name('direct.addFormStock');
+
 
   //lister stocks
   Route::get('/stocks/{p_id_magasin}','DirectController@listerStocks')->name('direct.stocks');
