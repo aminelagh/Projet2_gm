@@ -44,6 +44,7 @@ if( !function_exists('isColor') )
 
 
 // fonction permet de retourner un champ d'une table a partir d un id
+//exemple: getChamp("articles", "id_article",  $item->id_article , "designation_c")
 if( !function_exists('getChamp') )
 {
 	function getChamp($table, $id_field, $id, $field)

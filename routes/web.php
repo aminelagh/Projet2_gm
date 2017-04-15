@@ -114,6 +114,7 @@ Route::get('/direct/lister/{p_table}','ShowController@lister')->name('direct.lis
 Routes gestion des Stocks
 *****************************************/
 Route::get('/direct/addStock/{p_id_magasin}','StockController@addStock')->name('direct.addStock');
+Route::post('/direct/submitAddStock','StockController@submitAddStock')->name('direct.submitAddStock');
 /*******************************************************************************/
 
 
@@ -134,7 +135,7 @@ Route::prefix('/direct')->group( function()
 
 
   //lister stocks
-  Route::get('/stocks/{p_id_magasin}','DirectController@listerStocks')->name('direct.stocks');
+  Route::get('/stocks/{p_id_magasin}','StockController@listerStocks')->name('direct.stocks');
 
   Route::get('/update/{value}/{aa}','DirectController@routeError');
   Route::get('/update','DirectController@routeError');
