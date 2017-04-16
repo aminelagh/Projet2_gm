@@ -159,7 +159,7 @@
                   </tbody>
                   <tr>
                     <td colspan="8" align="center">
-                      <button data-toggle="popover" data-placement="top" data-trigger="hover" title="Valider l'ajout" data-content="Cliquez" type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
+                      <button data-toggle="popover" data-placement="top" data-trigger="hover" title="Valider l'ajout" data-content="Cliquez ici pour valider la création du stock avec l'ensemble des articles choisi" type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
                     </td>
                   </tr>
                 </table>
