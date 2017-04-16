@@ -14,6 +14,7 @@ use App\Models\Fournisseur;
 use App\Models\Article;
 use App\Models\Marque;
 use App\Models\Stock;
+use App\Models\Promotion;
 use \Exception;
 
 class ShowController extends Controller
@@ -30,6 +31,7 @@ class ShowController extends Controller
       case 'categories':    $item = Categorie::find($p_id);   return ( $item != null ? view('Espace_Direct.info-categorie')->with('data',$item)   : back()->withInput()->with('alert_warning','La catégorie choisie n\'existe pas.') );     break;
       case 'fournisseurs':  $item = fournisseur::find($p_id); return ( $item != null ? view('Espace_Direct.info-fournisseur')->with('data',$item) : back()->withInput()->with('alert_warning','Le fournisseur choisi n\'existe pas.') );    break;
       case 'articles':      $item = Article::find($p_id);     return ( $item != null ? view('Espace_Direct.info-article')->with('data',$item)     : back()->withInput()->with('alert_warning','L\'article choisi n\'existe pas.') );        break;
+      case 'promotions':    $item = Article::find($p_id);     return ( $item != null ? view('Espace_Direct.info-article')->with('data',$item)     : back()->withInput()->with('alert_warning','La promotion choisie n\'existe pas.') );     break;
       case 'magasins':      $item = Magasin::find($p_id);     return ( $item != null ? view('Espace_Direct.info-magasin')->with(['data'=>$item, 'stocks'=> Stock::where('id_magasin',$p_id)->get() ]) :     back()->withInput()->with('alert_warning','Le magasin choisi n\'existe pas') );   break;
       default: return back()->withInput()->with('alert_warning','Vous avez pris le mauvais chemin. ==> ShowController@info');      break;
     }
@@ -48,7 +50,8 @@ class ShowController extends Controller
       case 'fournisseurs':  $data = Fournisseur::all(); return view('Espace_Direct.liste-fournisseurs')->with('data',$data);  break;
       case 'articles':      $data = Article::all();     return view('Espace_Direct.liste-articles')->with('data',$data);      break;
       case 'magasins':      $data = Magasin::all();     return view('Espace_Direct.liste-magasins')->with('data',$data);      break;
-      default: return back()->withInput()->with('alert_warning','Vous avez pris le mauvais chemin. ==> ShowController@lister');  
+      case 'promotions':    $data = Promotion::all();   return view('Espace_Direct.liste-promotions')->with('data',$data);    break;
+      default: return back()->withInput()->with('alert_warning','Vous avez pris le mauvais chemin. ==> ShowController@lister');
     }
   }
 

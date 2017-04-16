@@ -47,8 +47,8 @@ if( !function_exists('isColor') )
 //exemple: getChamp("articles", "id_article",  $item->id_article , "designation_c")
 if( !function_exists('getChamp') )
 {
-	function getChamp($table, $id_field, $id, $field)
+	function getChamp($table, $id_field, $id_value, $field)
 	{
-		return DB::table($table)->where($id_field,$id)->pluck($field)->first();
+		return DB::table($table)->where($id_field,$id_value)->pluck($field)->first();
 	}
 }

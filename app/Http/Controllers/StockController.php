@@ -112,8 +112,6 @@ class StockController extends Controller
 			back()->withInput()->with('alert_danger',$alert2);
 
 		return redirect()->back()->with('alert_success','Creation du stock reussit. nbre articles: '.$nbre_articles);
-
-
 	}
 
 

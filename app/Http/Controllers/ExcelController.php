@@ -74,18 +74,18 @@ class ExcelController extends Controller
 			{
 				$data = Fournisseur::all(); $i=2;
 				//$sheet->setOrientation('landscape');
-				$sheet->fromArray( array('id_fournisseur', 'code','libelle','agent','email','telephone','fax','description','created_at','updated_at') );
+				$sheet->fromArray( array('code','Nom','agent','email','telephone','fax','description','created_at','updated_at') );
 				foreach( $data as $item )
 				{
-					$sheet->row( $i++ , array(
-						$item->id_fournisseur,
+					$sheet->row( $i++ ,
+					array(
 						$item->code,$item->libelle,
 						$item->agent,$item->email,
 						$item->telephone,$item->fax,
 						$item->description,
 						$item->created_at,
-						$item->updated_at
-					) );
+						$item->updated_at )
+					);
 				}
 			});
 		})->download('xls');
