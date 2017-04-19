@@ -34,7 +34,7 @@
             if(title=="Couleur")
             {
                 $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-            }else{}
+            }
         });
 
 

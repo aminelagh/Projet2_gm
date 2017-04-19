@@ -63,7 +63,7 @@ class StockController extends Controller
 		//array des element du formulaire
 		$id_article   	= request()->get('id_article');
 		$designation_c	= request()->get('designation_c');
-		$quantite     	= request()->get('quantite');
+		//$quantite     	= request()->get('quantite');
 		$quantite_min 	= request()->get('quantite_min');
 		$quantite_max 	= request()->get('quantite_max');
 
@@ -75,7 +75,8 @@ class StockController extends Controller
 
 		for( $i=1; $i<=count($id_article) ; $i++ )
 		{
-			if( $quantite[$i] == null ) continue;
+		    //verifier si l utilisateur n a pas saisi les quantites min ou Max
+			if( $quantite_min[$i] == null || $quantite_max[$i] == null ) continue;
 
 			if( $quantite_min[$i]>$quantite_max[$i] )
 			{
@@ -94,7 +95,7 @@ class StockController extends Controller
 				$item = new Stock;
 				$item->id_magasin    = $id_magasin;
 				$item->id_article    = $id_article[$i];
-				$item->quantite      = $quantite[$i];
+				$item->quantite      = 0;
 				$item->quantite_min  = $quantite_min[$i];
 				$item->quantite_max  = $quantite_max[$i];
 
@@ -111,7 +112,10 @@ class StockController extends Controller
 		if($error2)
 			back()->withInput()->with('alert_danger',$alert2);
 
-		return redirect()->back()->with('alert_success','Creation du stock reussit. nbre articles: '.$nbre_articles);
+		if($error1 || $error2)
+		    return redirect()->back()->withInput();
+		else
+		    return redirect()->back()->with('alert_success','Creation du stock reussit. nbre articles: '.$nbre_articles);
 	}
 
 

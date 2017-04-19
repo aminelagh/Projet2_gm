@@ -9,30 +9,80 @@
 @endsection
 
 @section('scripts')
-<script src="{{  asset('table2/datatables.min.js') }}"></script>
-<script type="text/javascript" charset="utf-8">
-    $(document).ready(function() {
-        // Setup - add a text input to each footer cell
-        $('#example tfoot th').each(function() {
-            var title = $(this).text();
-            $(this).html('<input type="text" size="10" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-        });
-        // DataTable
-        var table = $('#example').DataTable();
-        // Apply the search
-        table.columns().every(function() {
-            var that = this;
-            $('input', this.footer()).on('keyup change', function() {
-                if (that.search() !== this.value) {
-                    that.search(this.value).draw();
+    <script src="{{  asset('table2/datatables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function() {
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function() {
+                var title = $(this).text();
+                if(title!="")
+                {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
                 }
+                if(title=="numero" || title=="code")
+                {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                if(title=="Designation")
+                {
+                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                if(title=="Taille")
+                {
+                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                if(title=="Couleur")
+                {
+                    $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }else{}
+            });
+
+
+            var table = $('#example').DataTable( {
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+
+
+                "columnDefs": [
+                    { "width": "2%", "targets": 0 },//#
+                    { "width": "5%", "targets": 1 },//numero
+                    { "width": "7%", "targets": 2 },//code
+                    { "width": "3%", "targets": 4 },//taille
+                    { "width": "6%", "targets": 5 },//couleur
+                    { "width": "6%", "targets": 6 },//sexe
+                    { "width": "5%", "targets": 7 },//pr
+                    { "width": "5%", "targets": 8 },//pr
+                    { "width": "10%", "targets": 9 }//autre
+                ]
+            } );
+
+            $('a.toggle-vis').on( 'click', function (e) {
+                e.preventDefault();
+                var column = table.column( $(this).attr('data-column') );
+                column.visible( ! column.visible() );
+            } );
+
+            table.columns().every(function() {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function() {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
             });
         });
-    });
-    $(document).ready(function(){
-        $('[data-toggle="popover"]').popover();
-    });
-</script>
+
+        //script pour le popover detail
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+
 @endsection
 
 @section('main_content')
@@ -121,12 +171,12 @@
                       <td>
                         <select class="form-control" name="id_magasin[{{ $loop->index+1 }}]">
                           <option value="0" selected>Aucun</option>
-      									@if( !$magasins->isEmpty() )
-      										@foreach( $magasins as $magasin )
-      											<option value="{{ $item->id_magasin }}">{{ $magasin->libelle }}</option>
-      										@endforeach
-      									@endif
-      								</select>
+                            @if( !$magasins->isEmpty() )
+                                @foreach( $magasins as $magasin )
+                                    <option value="{{ $item->id_magasin }}">{{ $magasin->libelle }}</option>
+                                @endforeach
+                            @endif
+                        </select>
                       </td>
                       <td>{{ $item->prix_vente }}</td>
                       <td><input type="number" min="0" patern=".##" placeholder="Taux" name="taux[{{ $loop->index+1 }}]"></td>
