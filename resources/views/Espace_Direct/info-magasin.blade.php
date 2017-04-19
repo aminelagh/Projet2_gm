@@ -155,32 +155,35 @@ $(document).ready(function(){
 
 							{{-- Table --}}
 		          <div class="col-lg-12">
-								<table class="table table-bordered table-hover table-striped" id="dataTables-example">
-
-								<thead>
-									<tr><th width="2%"> # </th><th> Article </th><th width="15%">Quantite</th><th width="50%">Etat</th></tr>
-								</thead>
-
-								<tbody>
-									@if ( isset( $stocks ) )
-										@if( $stocks->isEmpty() )
-											<tr><td colspan="4">le stock de ce magasin est vide, appuyez sur le bouton en bas de la page pour lui ajouter des articles</td></tr>
-										@else
-
-										{{-- boucle sur les elements du stock --}}
-										@foreach( $stocks as $item )
-
-										{{-- Tests pour definir la couleur de la ligne --}}
-										@if( $item->quantite > $item->quantite_min )
-										<tr class="success">
-										@endif
-										@if( $item->quantite < $item->quantite_min )
-										<tr class="danger">
-										@endif
-										@if( $item->quantite == $item->quantite_min )
-										<tr class="warning">
-										@endif
-										{{-- fin Tests pour definir la couleur de la ligne --}}
+					  <table class="table table-bordered table-hover table-striped" id="dataTables-example">
+						  <thead>
+						  	<tr>
+								<th width="2%"> # </th>
+								<th> Article </th>
+								<th width="15%">Quantite</th>
+								<th width="50%">Etat</th>
+							</tr>
+						  </thead>
+						  <tbody>
+						  @if ( isset( $stocks ) )
+							  @if( $stocks->isEmpty() )
+								  <tr>
+									  <td colspan="4">le stock de ce magasin est vide, appuyez sur le bouton en bas de la page pour lui ajouter des articles</td>
+								  </tr>
+							  @else
+								  {{-- boucle sur les elements du stock --}}
+								  @foreach( $stocks as $item )
+									  {{-- Tests pour definir la couleur de la ligne --}}
+									  @if( $item->quantite > $item->quantite_min )
+										  <tr class="success">
+									  @endif
+									  @if( $item->quantite < $item->quantite_min )
+										  <tr class="danger">
+									  @endif
+									  @if( $item->quantite == $item->quantite_min )
+										  <tr class="warning">
+									  @endif
+									  {{-- fin Tests pour definir la couleur de la ligne --}}
 
 										<td>{{ $loop->index+1 }}</td>
 										<td>{{ getChamp("articles", "id_article",  $item->id_article , "designation_c") }}</td>

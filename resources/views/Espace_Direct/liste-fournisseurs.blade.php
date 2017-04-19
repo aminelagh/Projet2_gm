@@ -131,7 +131,20 @@
     <!-- row -->
     <div class="row" align="center">
         <a href="{{ Route('direct.add',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default">  Ajouter un Fournisseur </a>
-        <a target="_blank" href="{{ Route('export',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default" title="Exporter la liste des utilisateur" > Export Excel</a>
+
+        <div class="row" align="center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exporter<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a target="_blank" href="{{ Route('export',[ 'p_table' => 'fournisseurs' ]) }}" title="Exporter la liste des utilisateur" >Excel</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div>
+          <a target="_blank" href="{{ Route('export',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default" title="Exporter la liste des utilisateur" > Export Excel</a>
+        </div>
     </div>
     <!-- row -->
 

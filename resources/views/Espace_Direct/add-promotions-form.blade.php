@@ -83,34 +83,32 @@
                   <thead bgcolor="#DBDAD8">
                     <tr>
                       <th width="1%">#</th>
-                      <th>Article</th>
                       <th>Categorie</th>
                       <th>Fournisseur</th>
+                      <th>Article</th>
                       <th>Magasin</th>
-                      <th>Taux</th>
-                      <th>Date debut</th>
-                      <th>Date fin</th>
+                      <th width="5%">Prix de vente</th>
+                      <th width="2%">Taux</th>
+                      <th width="2%">Date debut</th>
+                      <th width="2%">Date fin</th>
                       <th width="2%">Autres</th>
                     </tr>
                   </thead>
                   <tfoot bgcolor="#DBDAD8">
                     <tr>
                       <th width="1%">#</th>
-                      <th>Article</th>
                       <th>Categorie</th>
                       <th>Fournisseur</th>
+                      <th>Article</th>
                       <th>Magasin</th>
-                      <th width="2%">Taux</th>
+                      <th>Prix de vente</th>
+                      <th>Taux</th>
                       <th>Date debut</th>
                       <th>Date fin</th>
                       <th width="2%">Autres</th>
                     </tr>
                   </tfoot>
                   <tbody>
-                    @if ( isset( $articles ) )
-                    @if( $articles->isEmpty() )
-                      {{ Redirect::to('direct.home') }}
-                    @else
                     @foreach( $articles as $item )
                     <tr>
                       <input type="hidden" name="id_article[{{ $loop->index+1 }}]"    value="{{ $item->id_article }}">
@@ -124,49 +122,48 @@
                         <select class="form-control" name="id_magasin[{{ $loop->index+1 }}]">
                           <option value="0" selected>Aucun</option>
       									@if( !$magasins->isEmpty() )
-      										@foreach( $magasins as $item )
-      											<option value="{{ $item->id_magasin }}">{{ $item->libelle }}</option>
+      										@foreach( $magasins as $magasin )
+      											<option value="{{ $item->id_magasin }}">{{ $magasin->libelle }}</option>
       										@endforeach
       									@endif
       								</select>
                       </td>
+                      <td>{{ $item->prix_vente }}</td>
                       <td><input type="number" min="0" patern=".##" placeholder="Taux" name="taux[{{ $loop->index+1 }}]"></td>
-                      <td><input type="date" name="date_debut[{{ $loop->index+1 }}]" value="{{ old('date_debut[$loop->index+1]') }}"></td>
+                      <td><input type="date" name="date_debut[{{ $loop->index+1 }}]" value="{{ 'old(date_debut[$loop->index+1])' }}"></td>
                       <td><input type="date" name="date_fin[{{ $loop->index+1 }}]" value="{{ old('date_fin[$loop->index+1]') }}"></td>
                       <td>
-                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{ $loop->index+1 }}">Detail Article</button>
+                          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{ $loop->index+1 }}">Detail</button>
                       </td>
 
                       {{-- Modal (pour afficher les details de chaque article) --}}
                       <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">
-                          <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">{{ $item->designation_c }}</h4>
-                              </div>
-                              <div class="modal-body">
-                                <p><b>numero</b> {{ $item->num_article }}</p>
-                                <p><b>code a barres</b> {{ $item->code_barre }}</p>
-                                <p><b>Taille</b> {{ $item->taille }}</p>
-                                <p><b>Couleur</b> {{ $item->couleur }}</p>
-                                <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
-                                <p><b>Prix d'achat</b> {{ $item->prix_achat }}</p>
-                                <p><b>Prix de vente</b> {{ $item->prix_vente }}</p>
-                                <p>{{ $item->designation_l }}</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                              </div>
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">{{ $item->designation_c }}</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p><b>numero</b> {{ $item->num_article }}</p>
+                              <p><b>code a barres</b> {{ $item->code_barre }}</p>
+                              <p><b>Taille</b> {{ $item->taille }}</p>
+                              <p><b>Couleur</b> {{ $item->couleur }}</p>
+                              <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
+                              <p><b>Prix d'achat</b> {{ $item->prix_achat }}</p>
+                              <p><b>Prix de vente</b> {{ $item->prix_vente }}</p>
+                              <p>{{ $item->designation_l }}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                             </div>
                           </div>
                         </div>
+                      </div>
                       {{-- fin Modal (pour afficher les details de chaque article) --}}
 
                     </tr>
                     @endforeach
-                    @endif
-                    @endif
                   </tbody>
                   <tr>
                     <td colspan="9" align="center">

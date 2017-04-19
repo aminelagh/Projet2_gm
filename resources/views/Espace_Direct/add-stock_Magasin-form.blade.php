@@ -128,28 +128,28 @@
 
                       {{-- Modal (pour afficher les details de chaque article) --}}
                       <div class="modal fade" id="myModal{{ $loop->index+1 }}" role="dialog">
-                          <div class="modal-dialog modal-sm">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">{{ $item->designation_c }}</h4>
-                              </div>
-                              <div class="modal-body">
-                                <p><b>numero</b> {{ $item->num_article }}</p>
-                                <p><b>code a barres</b> {{ $item->code_barre }}</p>
-                                <p><b>Taille</b> {{ $item->taille }}</p>
-                                <p><b>Couleur</b> {{ $item->couleur }}</p>
-                                <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
-                                <p><b>Prix d'achat</b> {{ $item->prix_achat }}</p>
-                                <p><b>Prix de vente</b> {{ $item->prix_vente }}</p>
-                                <p>{{ $item->designation_l }}</p>
-                              </div>
-                              <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
-                              </div>
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal">&times;</button>
+                              <h4 class="modal-title">{{ $item->designation_c }}</h4>
+                            </div>
+                            <div class="modal-body">
+                              <p><b>numero</b> {{ $item->num_article }}</p>
+                              <p><b>code a barres</b> {{ $item->code_barre }}</p>
+                              <p><b>Taille</b> {{ $item->taille }}</p>
+                              <p><b>Couleur</b> {{ $item->couleur }}</p>
+                              <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
+                              <p><b>Prix d'achat</b> {{ $item->prix_achat }}</p>
+                              <p><b>Prix de vente</b> {{ $item->prix_vente }}</p>
+                              <p>{{ $item->designation_l }}</p>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
                             </div>
                           </div>
                         </div>
+                      </div>
                       {{-- fin Modal (pour afficher les details de chaque article) --}}
 
                     </tr>

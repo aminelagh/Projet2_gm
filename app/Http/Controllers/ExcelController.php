@@ -28,10 +28,58 @@ class ExcelController extends Controller
 		{
 			case 'users': 				$this->ExportUsers(); 				break;
 			case 'fournisseurs': 	$this->ExportFournisseurs(); 	break;
+			case 'categories': 		$this->ExportCategories(); 		break;
 			default: return redirect()->back()->withInput()->with('alert_warning',' Vous avez pris le mauvais chemin. ==> ExcelController@export');      break;
 		}
 	}
 
+
+	//fonction pour exporter la liste des utilisateurs
+	/*public function ExportUsers2()
+	{
+		$carbon = new Carbon();
+		$date =  $carbon->format('d/m/Y H:m:s');
+
+		Excel::create('Users '.$date, function($excel)
+		{
+			//sheet 1
+			$excel->sheet('Utilisateurs', function($sheet) {
+				$sheet->setFontFamily('Times New Roman');
+
+				$sheet->row(1, function($row){
+					$row->setBackground('#A4A4A4');
+
+				} )->with( array('Role','Magasin', 'nom','prenom','ville','telephone','description','email','Date de creation') );
+
+				//$sheet->row(1,  array('Role','Magasin', 'nom','prenom','ville','telephone','description','email','Date de creation') );
+
+
+				//$sheet->setFontSize(12);
+				//$sheet->setFontBold(false);
+
+				$data = User::all();
+				$i=2;
+				foreach( $data as $item )
+				{
+					$sheet->row( $i++ ,
+					array(
+						getChamp('roles', 'id_role', $item->id_role, 'libelle'),
+						getChamp('magasins', 'id_magasin', $item->id_magasin, 'libelle'),
+						$item->nom,$item->prenom,
+						$item->ville,
+						$item->telephone,
+						$item->description,
+						$item->email,
+						$item->created_at )
+					);
+				}
+			});
+
+			//sheet 2
+			$excel->sheet('Second sheet', function($sheet) { });
+
+		})->download('xls');
+	}*/
 
 	//fonction pour exporter la liste des utilisateurs
 	public function ExportUsers()
@@ -39,24 +87,27 @@ class ExcelController extends Controller
 		$carbon = new Carbon();
 		$date =  $carbon->format('d/m/Y H:m:s');
 
-		Excel::create('Users '.$date, function($excel)
+		Excel::create('T '.$date, function($excel)
 		{
 			$excel->sheet('Utilisateurs', function($sheet)
 			{
 				$data = User::all(); $i=2;
 				//$sheet->setOrientation('landscape');
-				$sheet->fromArray( array('id_user', 'nom','prenom','ville','telephone','description','email','password','created_at','updated_at') );
+				$sheet->with( array('Role','Magasin', 'nom','prenom','ville','telephone','description','email','Date de creation') );
 				foreach( $data as $item )
 				{
-					$sheet->row( $i++ , array($item->id_user,
-					$item->nom,$item->prenom,
-					$item->ville,
-					$item->telephone,
-					$item->description,
-					$item->email,
-					$item->password,
-					$item->created_at,
-					$item->updated_at) );
+					$sheet->row( $i++ ,
+					array(
+						getChamp('roles', 'id_role', $item->id_role, 'libelle'),
+						getChamp('magasins', 'id_magasin', $item->id_magasin, 'libelle'),
+						$item->nom,$item->prenom,
+						$item->ville,
+						$item->telephone,
+						$item->description,
+						$item->email,
+						getDateHelper($item->created_at).' à '.getTimeHelper($item->created_at)
+						)
+					);
 				}
 			});
 		})->download('xls');
@@ -74,7 +125,7 @@ class ExcelController extends Controller
 			{
 				$data = Fournisseur::all(); $i=2;
 				//$sheet->setOrientation('landscape');
-				$sheet->fromArray( array('code','Nom','agent','email','telephone','fax','description','created_at','updated_at') );
+				$sheet->fromArray( array('code','Nom','agent','email','telephone','fax','description','Date de creation') );
 				foreach( $data as $item )
 				{
 					$sheet->row( $i++ ,
@@ -83,8 +134,33 @@ class ExcelController extends Controller
 						$item->agent,$item->email,
 						$item->telephone,$item->fax,
 						$item->description,
-						$item->created_at,
-						$item->updated_at )
+						getDateHelper($item->created_at).' à '.getTimeHelper($item->created_at))
+					);
+				}
+			});
+		})->download('xls');
+	}
+
+	//fonction pour exporter la liste des categories
+	public function ExportCategories()
+	{
+		$carbon = new Carbon();
+		$date =  $carbon->format('d/m/Y H:m:s');
+
+		Excel::create('Categories '.$date, function($excel)
+		{
+			$excel->sheet('Fournisseurs', function($sheet)
+			{
+				$data = Categorie::all(); $i=2;
+				//$sheet->setOrientation('landscape');
+				$sheet->fromArray( array('Categorie','description','Date de creation') );
+				foreach( $data as $item )
+				{
+					$sheet->row( $i++ ,
+					array(
+						$item->libelle,
+						$item->description,
+						getDateHelper($item->created_at).' à '.getTimeHelper($item->created_at))
 					);
 				}
 			});

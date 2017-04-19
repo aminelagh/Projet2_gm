@@ -108,7 +108,7 @@
                         <td>
                             <a href="{{ Route('admin.info',['p_id' => $item->id_user, 'p_table' => 'users' ] ) }}" title="Detail"><i class="glyphicon glyphicon-user"></i></a>
                             <a href="{{ Route('admin.update',['p_id' => $item->id_user, 'p_table' => 'users' ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
-                            <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->nom }} {{ $item->prenom }} ?')" href="{{ Route('admin.deleteUser',['id' => $item->id_user ]) }}" title="Supprimer"><i class="glyphicon glyphicon-trash"></i></a>
+                            <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'utilisateur: {{ $item->nom }} {{ $item->prenom }} ?')" href="{{ Route('admin.delete',['p_id' => $item->id_user , 'p_table' => 'users' ]) }}" title="Supprimer"><i class="glyphicon glyphicon-trash"></i></a>
                         </td>
                     </tr>
                     @endforeach @endif @endif
@@ -128,7 +128,17 @@
 
 
         <div class="row" align="center">
-          <a target="_blank" href="{{ Route('admin.export',[ 'p_table' => 'users' ]) }}" type="button" class="btn btn-outline btn-default" title="Exporter la liste des utilisateur" > Export Excel</a>
+          <div class="btn-group">
+            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exporter<span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><a target="_blank" href="{{ Route('export',[ 'p_table' => 'users' ]) }}" title="Exporter la liste des utilisateur" >Excel</a></li>
+              <li><a href="#">Another action</a></li>
+              <li><a href="#">Something else here</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="#">Separated link</a></li>
+            </ul>
+          </div>
+          <a target="_blank" href="{{ Route('export',[ 'p_table' => 'users' ]) }}" type="button" class="btn btn-outline btn-default" title="Exporter la liste des utilisateur" > Export Excel</a>
         </div>
   </div>
 </div>
