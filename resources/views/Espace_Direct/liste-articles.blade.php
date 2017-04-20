@@ -134,12 +134,14 @@
         <div class="col-lg-12">
 
             <div>
-                Toggle column: <a class="toggle-vis" data-column="1">Numero</a> -
+                Afficher/Masquer: <a class="toggle-vis" data-column="1">Numero</a> -
                 <a class="toggle-vis" data-column="2">Code</a> -
                 <a class="toggle-vis" data-column="3">Designation</a> -
                 <a class="toggle-vis" data-column="4">Taille</a> -
                 <a class="toggle-vis" data-column="5">Couleur</a> -
-                <a class="toggle-vis" data-column="6">Sexe</a>
+                <a class="toggle-vis" data-column="6">Sexe</a> -
+                <a class="toggle-vis" data-column="7">Prix d'achat</a> -
+                <a class="toggle-vis" data-column="8">Prix de vente</a>
             </div>
 
             <table id="example" class="table table-striped table-bordered table-hover" width="100%">
@@ -191,7 +193,7 @@
                   <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}" title="detail" ><i class="glyphicon glyphicon-eye-open"></i></a>
                   <a href="{{ Route('direct.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}" title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
                   <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')" href="{{ Route('direct.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}" title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
-                  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{ $loop->index+1 }}">Detail</button>
+                  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#modal{{ $loop->index+1 }}" title="Detail article">Detail</button>
                 </td>
 
                 {{-- Modal (pour afficher les details de chaque article) --}}

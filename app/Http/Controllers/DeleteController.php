@@ -20,31 +20,109 @@ use \Exception;
 class DeleteController extends Controller
 {
 
-  /******************************************
-  Fonction pour effacer une ligne d'une table
-  *******************************************/
-  public function delete($p_table,$p_id)
-  {
-    try
+    /******************************************
+     * Fonction pour effacer une ligne d'une table
+     *******************************************/
+    public function delete($p_table, $p_id)
     {
-      switch ($p_table)
-      {
-        case 'categories':   Categorie::find($p_id)->delete();   return back()->withInput()->with('alert_success','La catégorie a été effacée avec succès');   break;
-        case 'users':        User::find($p_id)->delete();        return back()->withInput()->with('alert_success','L\'utilisateur a été effacé avec succès');  break;
-        case 'fournisseurs': fournisseur::find($p_id)->delete(); return back()->withInput()->with('alert_success','Le fournisseur a été effacé avec succès');  break;
-        case 'articles':     Article::find($p_id)->delete();     return back()->withInput()->with('alert_success','L\'article a été effacé avec succès');      break;
-        case 'magasins':     Magasin::find($p_id)->delete();     return back()->withInput()->with('alert_success','Le magasin a été effacé avec succès');      break;
-        case 'stocks':       Stock::find($p_id)->delete();       return back()->withInput()->with('alert_success','Le stock a été effacé avec succès');        break;
-        case 'promotions':   Promotion::find($p_id)->delete();   return back()->withInput()->with('alert_success','La promotion a été effacée avec succès');   break;
-        default:             return back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> probleme dans: DeleteController@delete');             break;
-      }
-    }
-    catch(Exception $ex)
-    {
-      return back()->with('alert_danger','<strong>Erreur de suppression<strong><br>Message d\'erreur: <strong>'.$ex->getMessage().'</strong> ');
-    }
-  }
+        $x = Article::find($p_id);
+        dump($x);
+        //return 'a';
 
+        try {
+            switch ($p_table) {
+                case 'categories':
+                    $item = Categorie::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'La catégorie a été effacée avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'La catégorie choisie n\'existe pas.');
+                    }
+                    break;
+                case 'users':
+                    $item = User::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'L\'utilisateur a été effacé avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'L\'utilisateur choisi n\'existe pas.');
+                    }
+                    break;
+                case 'fournisseurs':
+                    $item = Fournisseur::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'Le fournisseur a été effacé avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'Le fournisseur choisi n\'existe pas.');
+                    }
+                    break;
+                case 'articles':
+                    $item = Article::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'L\article a été effacé avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'L\'article choisi n\'existe pas.');
+                    }
+                    break;
+                case 'magasins':
+                    $item = Magasin::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'Le magasin a été effacé avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'Le magasin choisi n\'existe pas.');
+                    }
+                    break;
+                case 'stocks':
+                    $item = Stock::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'L\'element du stock a été effacé avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'L\'element du stock choisi n\'existe pas.');
+                    }
+                    break;
+                case 'promotions':
+                    $item = Promotion::find($p_id);
+                    if( $item != null)
+                    {
+                        $item->delete();
+                        return back()->withInput()->with('alert_success', 'La promotion a été effacée avec succès');
+                    }
+                    else
+                    {
+                        return back()->withInput()->with('alert-warning', 'La promotion choisie n\'existe pas.');
+                    }
+                    break;
+                default:
+                    return back()->withInput()->with('alert_danger', 'Probleme de redirection. DeleteController@delete');
+                    break;
+            }
+        } catch (Exception $ex) {
+            return back()->with('alert_danger', '<strong>Erreur de suppression<strong><br>Message d\'erreur: <strong>' . $ex->getMessage() . '</strong> ');
+        }
+    }
 
 
 }

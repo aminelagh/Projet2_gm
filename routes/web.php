@@ -115,6 +115,9 @@ Routes gestion des Stocks
 *****************************************/
 Route::get('/direct/addStock/{p_id_magasin}','StockController@addStock')->name('direct.addStock');
 Route::post('/direct/submitAddStock','StockController@submitAddStock')->name('direct.submitAddStock');
+
+Route::get('/direct/supply/{p_id_magasin}','StockController@supplyStock')->name('direct.supplyStock');
+Route::post('/direct/submitSupply','StockController@submitSupplyStock')->name('direct.submitAddStock');
 /*******************************************************************************/
 
 

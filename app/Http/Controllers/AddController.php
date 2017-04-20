@@ -166,7 +166,9 @@ class AddController extends Controller
 	//Valider l'ajout de : Magasin
 	public function submitAddArticle()
 	{
-		$alerts = "";		$alerts2 = "";
+		$alerts1 = "";		$alerts2 = "";
+		$error1 = false;    $error2 = false;
+
 		$item = new Article;
 		$item->id_categorie   = request()->get('id_categorie');
 		$item->id_fournisseur = request()->get('id_fournisseur');
@@ -182,42 +184,63 @@ class AddController extends Controller
 
 		if( request()->has('force') && request()->get('force')=="true" )
 		{
-			if( Exists('articles', 'designation_c', request()->get('designation_c') )  )
-				$alerts = $alerts."<li>L\'article <i>".request()->get('designation_c')."</i> existe déjà.";
-			if( Exists('articles', 'num_article', request()->get('num_article') )  )
-				$alerts = $alerts."<li>Le numero: <i>".request()->get('num_article')."</i> est deja utilise pour un autre article.";
-
+			if( Exists('articles', 'designation_c', request()->get('designation_c') )  ) {
+                $alerts1 = $alerts1."<li>L\'article <i>".request()->get('designation_c')."</i> existe déjà.";
+                $error1 = true;
+            }
+			if( Exists('articles', 'num_article', request()->get('num_article') )  ){
+                $alerts1 = $alerts1."<li>Le numero: <i>".request()->get('num_article')."</i> est deja utilise pour un autre article.";
+                $error1 = true;
+            }
 			try
 			{
 				$item->save();
 			}
 			catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger','<li>Une erreur s\'est produite lors de l\'ajout de l\'article.<br>Message d\'erreur: '.$ex->getMessage() ); }
 
+            if($error1)
+			    redirect()->back()->with('alert-info',$alerts1);
+
 			return redirect()->back()->with('alert_success','L\'article <strong>'.request()->get('designation_c').'</strong> a bien été ajouté.');
 		}
 		else
 		{
-			if( Exists('articles', 'designation_c', request()->get('designation_c') )  )
-				$alerts = $alerts."<li>L\'article <i>".request()->get('designation_c')."</i> existe déjà.";
+			if( Exists('articles', 'designation_c', request()->get('designation_c') )  ) {
+			    $alerts1 = $alerts1."<li>L'article <i>".request()->get('designation_c')."</i> existe déjà.";
+			    $error1 = true;
+            }
 
-			if( Exists('articles', 'num_article', request()->get('num_article') )  )
-				$alerts = $alerts."<li>Le numero: <i>".request()->get('num_article')."</i> est deja utilise pour un autre article.";
+			if( Exists('articles', 'num_article', request()->get('num_article') )  ) {
+                $alerts1 = $alerts1."<li>Le numero: <i>".request()->get('num_article')."</i> est deja utilisé pour un autre article.";
+                $error1 = true;
+            }
+			if( Exists('articles', 'code_barre', request()->get('code_barre') )  ){
+			    $alerts1 = $alerts1."<li>Le code: <i>".request()->get('code')."</i> est deja utilisé pour un autre article.";
+                $error1 = true;
+            }
+			if( request()->get('prix_vente')==null ) {
+			    $alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Prix de vente</i>";
+                $error2 = true;
+            }
+			if( request()->get('prix_achat')==null ) {
+			    $alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Prix d'achat</i>";
+                $error2 = true;
+            }
 
-			if( Exists('articles', 'code_barre', request()->get('code_barre') )  )
-				$alerts = $alerts."<li>Le code: <i>".request()->get('code')."</i> est deja utilise pour un autre article.";
+			if( request()->get('taille')==null ) {
+			    $alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Taille</i>";
+                $error2 = true;
+            }
+			if( request()->get('couleur')==null ) {
+			    $alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Couleur</i>";
+                $error2 = true;
+            }
 
-			if( request()->get('prix_vente')==null )
-				$alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Prix de vente</i>";
-			if( request()->get('prix_achat')==null )
-				$alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Prix d'achat</i>";
+			redirect()->back()->withInput()->with('alert_info',$alerts1);
+			redirect()->back()->withInput()->with('alert_warning',$alerts2);
 
-			if( request()->get('taille')==null )
-				$alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Taille</i>";
-			if( request()->get('couleur')==null )
-				$alerts2 = $alerts2."<li>Veuillez remplir le champ: <i>Couleur</i>";
-
-			redirect()->back()->withInput()->with('alert_info',$alerts2);
-			redirect()->back()->withInput()->with('alert_warning',$alerts);
+			if( $error1 || $error2)
+			    return redirect()->back()->withInput()->with('alert_success','vous pouvez forcer l\'ajout en cochant la case en dessous du formulaire.');
 
 			try
 			{
@@ -226,12 +249,7 @@ class AddController extends Controller
 			catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur! </strong> une erreur s\'est produite lors de l\'ajout de l\'article.<br>Message d\'erreur: '.$ex->getMessage() ); }
 
 			return redirect()->back()->with('alert_success','L\'article <strong>'.request()->get('designation_c').'</strong> a bien été ajouté.');
-
-
 		}
-
-
-
 	}
 
 	//Valider la creation des promotions

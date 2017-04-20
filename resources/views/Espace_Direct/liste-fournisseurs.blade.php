@@ -15,7 +15,9 @@
         // Setup - add a text input to each footer cell
         $('#example tfoot th').each(function() {
             var title = $(this).text();
-            $(this).html('<input type="text" size="10" class="form-control" placeholder="Rechercher par ' + title + '" />');
+            if (title != "") {
+                $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" />');
+            }
         });
         // DataTable
         var table = $('#example').DataTable();
@@ -91,12 +93,12 @@
           </thead>
           <tfoot bgcolor="#DBDAD8">
             <tr>
-              <th width="2%">#</th>
+              <th width="2%"></th>
               <th width="25%"> Nom du Fournisseur </th>
               <th>Agent</th>
               <th>Telephone</th>
               <th>Email</th>
-              <th width="10%">Autres</th>
+              <th width="10%"></th>
             </tr>
           </tfoot>
 

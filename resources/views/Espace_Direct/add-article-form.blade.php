@@ -22,9 +22,9 @@
 
 			<div class="container-fluid">
 
+				{{-- *************** Alerts ***************** --}}
 				<div class="row">
 					<div class="col-lg-2"></div>
-
 					<div class="col-lg-8">
 						{{-- Debut Alerts --}}
 						@if (session('alert_success'))
@@ -52,10 +52,9 @@
 						@endif
 						{{-- Fin Alerts --}}
 					</div>
-
 					<div class="col-lg-2"></div>
-
 				</div>
+				{{-- *************** Alerts ***************** --}}
 
 					{{-- *************** formulaire ***************** --}}
 					<form role="form" method="post" action="{{ Route('direct.submitAdd',['p_table' => 'articles']) }}">
@@ -96,7 +95,7 @@
 							<div class="col-lg-3">
 								{{-- num_article --}}
 								<div class="form-group">
-									<label>Numero de l'article</label>
+									<label>Numero de l'article *</label>
 									<input type="text" class="form-control" placeholder="Numero Article" name="num_article" value="{{ old('num_article') }}" required>
 								</div>
 							</div>
@@ -104,7 +103,7 @@
 							<div class="col-lg-3">
 								{{-- code_barre --}}
 								<div class="form-group">
-									<label>Code a Barres</label>
+									<label>Code a Barres *</label>
 									<input type="text" class="form-control" placeholder="Code a Barres" name="code_barre" value="{{ old('code_barre') }}" required>
 								</div>
 							</div>
@@ -118,7 +117,7 @@
 							<div class="col-lg-6">
 								{{-- Designation_c --}}
 								<div class="form-group">
-									<label>Designation Courte</label>
+									<label>Designation Courte *</label>
 									<input type="text" class="form-control"  placeholder="Designation Courte" name="designation_c" value="{{ old('designation_c') }}" required>
 								</div>
 							</div>
@@ -180,14 +179,13 @@
 									<input type="number" step="0.01" pattern=".##" min="0" class="form-control" placeholder="Prix d'achat" name="prix_achat" value="{{ old('prix_achat') }}">
 								</div>
 							</div>
-
 						</div>
 						<!-- end row 3 -->
 
 						<!-- row 4 -->
 						<div class="row" align="center">
 								{{-- Submit & Reset --}}
-								<label title="aa">cochez pour forcer l'ajout de l'article</label>
+								<label title="aa">Forcer l'ajout</label>
 								<input type="checkbox" name="force" value="true"><br>
 								<button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
 								<button type="reset" class="btn btn-default">Effacer</button>
@@ -200,7 +198,6 @@
 						<!-- row 5 -->
 						<div class="row">
 							<div class="col-lg-3"></div>
-
 							<div class="col-lg-6" align="center">
 								<button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo10" title="Cliquez ici pour visualiser la liste des articles existants">Liste des Articles</button>
 								<div id="demo10" class="collapse">
@@ -214,12 +211,11 @@
 												@foreach($data as $item)
 													<li class="list-group-item"><a href="{{ route('direct.info',[ 'p_table' => 'articles' , 'p_id' => $item->id_article ]) }}" title="detail sur l'article">{{ $item->num_article }}: {{ $item->designation_c }}</a></li>
 												@endforeach
-	                    </ul>
+											</ul>
 										</div>
 									</div>
 								</div>
 							</div>
-
 							<div class="col-lg-3"></div>
 						</div>
 						<!-- end row 5 -->

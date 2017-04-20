@@ -12,6 +12,9 @@
     <script src="{{  asset('table2/datatables.min.js') }}"></script>
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
+            //popover
+            $('[data-toggle="popover"]').popover();
+
             // Setup - add a text input to each footer cell
             $('#example tfoot th').each(function () {
                 var title = $(this).text();
@@ -21,7 +24,6 @@
                 if (title != "") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
                 }
-
 
             });
             // DataTable
@@ -36,6 +38,7 @@
                 });
             });
         });
+
     </script>
 @endsection
 
@@ -94,16 +97,18 @@
                     <thead bgcolor="#DBDAD8">
                     <tr>
                         <th width="2%"> #</th>
-                        <th> Article</th>
-                        <th>Quantite</th>
+                        <th>Article</th>
+                        <th width="15%">Quantite</th>
+                        <th width="30%">Etat</th>
                         <th width="10%">Autres</th>
-                    </tr>
+                    </th>
                     </thead>
                     <tfoot bgcolor="#DBDAD8">
                     <tr>
                         <th width="2%"></th>
-                        <th> Article</th>
+                        <th>Article</th>
                         <th>Quantite</th>
+                        <th></th>
                         <th width="10%"></th>
                     </tr>
                     </tfoot>
@@ -114,14 +119,96 @@
                     @else
                         --}}
                     @foreach( $data as $item )
-                        <tr>
+
+                            {{-- Tests pour definir la couleur de la ligne --}}
+                            @if( $item->quantite > $item->quantite_min )
+                                <tr class="success">
+                            @elseif( $item->quantite < $item->quantite_min )
+                                <tr class="danger">
+                            @elseif( $item->quantite == $item->quantite_min )
+                                <tr class="warning">
+                            @else
+                                <tr>
+                            @endif
+                            {{-- fin Tests pour definir la couleur de la ligne --}}
+
                             <td>{{ $loop->index+1 }}</td>
                             <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
-                            <td> {{ $item->quantite }}</td>
-                            <td align="center">
-                                <a href="#5{{-- Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) --}}"
-                                   title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
+                            <td>{{ $item->quantite }} article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%</td>
+                            <td>
+                                <div class="progress">
+                                    @if( $item->quantite<$item->quantite_min )
+                                        <div class="progress-bar progress-bar-danger progress-bar-striped"
+                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                    @elseif( $item->quantite==$item->quantite_min )
+                                        <div class="progress-bar progress-bar-warning progress-bar-striped"
+                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                    @else
+                                        <div class="progress-bar progress-bar-success progress-bar-striped"
+                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                    @endif
+                                </div>
                             </td>
+                            <td align="center">
+                                <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
+                                   title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ $loop->index+1 }}">Detail</button>
+                            </td>
+
+                                    {{-- Modal (pour afficher les details de chaque article) --}}
+                                    <div class="modal fade" id="myModal{{ $loop->index+1 }}"
+                                         role="dialog">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close"
+                                                            data-dismiss="modal">&times;
+                                                    </button>
+                                                    <h4 class="modal-title">{{ getChamp("articles", "id_article",  $item->id_article , "designation_c")  }}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><b>Quantité </b> {{ $item->quantite }}
+                                                    </p>
+                                                    <p><b>Quantité
+                                                            Min</b> {{ $item->quantite_min }}
+                                                    </p>
+                                                    <p><b>Quantité
+                                                            Max</b> {{ $item->quantite_max }}
+                                                    </p>
+                                                    <hr>
+                                                    <p>
+                                                        <b>numero</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}
+                                                    </p>
+                                                    <p><b>code a
+                                                            barres</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}
+                                                    </p>
+                                                    <p>
+                                                        <b>Taille</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}
+                                                    </p>
+                                                    <p>
+                                                        <b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
+                                                    </p>
+                                                    <p>
+                                                        <b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
+                                                    </p>
+                                                    <p><b>Prix
+                                                            d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}
+                                                    </p>
+                                                    <p><b>Prix de
+                                                            vente</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }}
+                                                    </p>
+                                                    <p>{{ getChamp("articles", "id_article",  $item->id_article , "designation_l")  }}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button"
+                                                            class="btn btn-default"
+                                                            data-dismiss="modal">Fermer
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{-- fin Modal (pour afficher les details de chaque article) --}}
                         </tr>
                     @endforeach
 
@@ -131,15 +218,11 @@
             </div>
 
 
+            <br/>
             <!-- row -->
-            <div class="row">
-                <div class="col-lg-4"></div>
-                <div class="col-lg-8">
-                    <a onclick="return alert('Printing ....')" type="button" class="btn btn-outline btn-default"><i
-                                class="fa fa-file-pdf-o" aria-hidden="true"> Imprimer </i></a>
-                    <a href="{{ Route('direct.addStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
-                       type="button" class="btn btn-outline btn-default"> Ajouter Au Stock </a>
-                </div>
+            <div class="row" align="center">
+                <a href="{{ Route('direct.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
+                   type="button" class="btn btn-outline btn-default"> alimenter le Stock </a>
             </div>
             <!-- row -->
 

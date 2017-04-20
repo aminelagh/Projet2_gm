@@ -49,7 +49,7 @@ class StockController extends Controller
 			return redirect()->back()->withInput()->with('alert_warning','Le magasin choisi n\'existe pas .(veuillez choisir un autre magasin.)');
 
 		else
-			return view('Espace_Direct.add-stock_Magasin-form')->with(['data' => Stock::all(), 'articles' => $articles,  'magasin' => $magasin ]);
+			return view('Espace_Direct.add-stock_Magasin-form')->with([ 'articles' => $articles,  'magasin' => $magasin ]);
 	}
 
 	/*****************************************************************************
@@ -67,10 +67,8 @@ class StockController extends Controller
 		$quantite_min 	= request()->get('quantite_min');
 		$quantite_max 	= request()->get('quantite_max');
 
-		$alert1 = "";
-		$alert2 = "";
-		$error1 = false;
-		$error2 = false;
+		$alert1 = "";		$alert2 = "";
+		$error1 = false;	$error2 = false;
 		$nbre_articles = 0;
 
 		for( $i=1; $i<=count($id_article) ; $i++ )
@@ -84,13 +82,7 @@ class StockController extends Controller
 				$error1 = true;
 			}
 
-			if( $quantite[$i] != null && ($quantite_min[$i] == null || $quantite_max[$i] == null) )
-			{
-				$alert1 = $alert1."<li> ".$i.": <b>".$designation_c[$i]."</b>: vous avez oublier de specifier la quantite min et/ou la quantite max.";
-				$error1 = true;
-			}
-
-			if( $quantite[$i]!=null && $quantite_min[$i]<=$quantite_max[$i] )
+			if( $quantite_min[$i]<=$quantite_max[$i] && $quantite_min[$i] != null && $quantite_max[$i] != null  )
 			{
 				$item = new Stock;
 				$item->id_magasin    = $id_magasin;
@@ -115,9 +107,34 @@ class StockController extends Controller
 		if($error1 || $error2)
 		    return redirect()->back()->withInput();
 		else
-		    return redirect()->back()->with('alert_success','Creation du stock reussit. nbre articles: '.$nbre_articles);
+        {
+            if( $nbre_articles > 1 )
+                return redirect()->back()->with('alert_success','Ajout de '.$nbre_articles.' aticle.');
+            else
+                return redirect()->back()->with('alert_success','Ajout de '.$nbre_articles.' articles.');
+        }
 	}
 
+
+    /*****************************************************************************
+    Afficher le formulaire d'alimentation de stock (liste du stock )
+    ******************************************************************************/
+    public function supplyStock($p_id_magasin)
+    {
+        //procedure pour recuperer le stock d'un magasin
+        $data = collect( DB::select("call getStockForSupply(".$p_id_magasin.");") );
+        $magasin = Magasin::where('id_magasin',$p_id_magasin)->first();
+
+        if( $data == null )
+            return redirect()->back()->withInput()->with('alert_warning','Veuillez créer le stock avant de procéder à son alimentation');
+
+        if( $magasin == null )
+            return redirect()->back()->withInput()->with('alert_warning',"Le magasin choisi n'existe pas .(veuillez choisir un autre magasin.)");
+
+        else
+            return view('Espace_Direct.supply-stock_Magasin-form')->with([ 'data' => $data,  'magasin' => $magasin ]);
+
+    }
 
 
 }
