@@ -186,8 +186,8 @@
                                                     @endif
                                                     @if( $item->quantite == $item->quantite_min )
                                                         <tr class="warning">
-                                                    @endif
-                                                    {{-- fin Tests pour definir la couleur de la ligne --}}
+                                                            @endif
+                                                            {{-- fin Tests pour definir la couleur de la ligne --}}
 
 
                                                             <td>{{ $loop->index+1 }}</td>
@@ -200,16 +200,16 @@
 
                                                             <td>
                                                                 <div class="progress">
-                                                                @if( $item->quantite<$item->quantite_min )
+                                                                    @if( $item->quantite<$item->quantite_min )
                                                                         <div class="progress-bar progress-bar-danger progress-bar-striped"
                                                                              style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                                                @elseif( $item->quantite==$item->quantite_min )
+                                                                    @elseif( $item->quantite==$item->quantite_min )
                                                                         <div class="progress-bar progress-bar-warning progress-bar-striped"
                                                                              style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                                                 @else
+                                                                    @else
                                                                         <div class="progress-bar progress-bar-success progress-bar-striped"
                                                                              style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                                                @endif
+                                                                    @endif
 
                                                                 </div>
                                                             </td>
@@ -234,36 +234,17 @@
                                                                             <h4 class="modal-title">{{ getChamp("articles", "id_article",  $item->id_article , "designation_c")  }}</h4>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <p><b>Quantité </b> {{ $item->quantite }}
-                                                                            </p>
-                                                                            <p><b>Quantité
-                                                                                    Min</b> {{ $item->quantite_min }}
-                                                                            </p>
-                                                                            <p><b>Quantité
-                                                                                    Max</b> {{ $item->quantite_max }}
-                                                                            </p>
+                                                                            <p><b>Quantité </b> {{ $item->quantite }}</p>
+                                                                            <p><b>Quantité Min</b> {{ $item->quantite_min }}</p>
+                                                                            <p><b>Quantité Max</b> {{ $item->quantite_max }}</p>
                                                                             <hr>
-                                                                            <p>
-                                                                                <b>numero</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}
-                                                                            </p>
-                                                                            <p><b>code a
-                                                                                    barres</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}
-                                                                            </p>
-                                                                            <p>
-                                                                                <b>Taille</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}
-                                                                            </p>
-                                                                            <p>
-                                                                                <b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
-                                                                            </p>
-                                                                            <p>
-                                                                                <b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
-                                                                            </p>
-                                                                            <p><b>Prix
-                                                                                    d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}
-                                                                            </p>
-                                                                            <p><b>Prix de
-                                                                                    vente</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }}
-                                                                            </p>
+                                                                            <p> <b>numero</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}</p>
+                                                                            <p><b>code a barres</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}</p>
+                                                                            <p><b>Taille</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}</p>
+                                                                            <p><b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}</p>
+                                                                            <p><b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}</p>
+                                                                            <p><b>Prix d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}</p>
+                                                                            <p><b>Prix de vente</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }}</p>
                                                                             <p>{{ getChamp("articles", "id_article",  $item->id_article , "designation_l")  }}</p>
                                                                         </div>
                                                                         <div class="modal-footer">
@@ -296,7 +277,11 @@
                                 <a href="{{ Route('direct.addStock',['p_id_magasin' => $data->id_magasin ]) }}"
                                    type="button" class="btn btn-outline btn-info"
                                    title="" data-toggle="popover" data-placement="top" data-trigger="hover"
-                                   data-content="Ajouter des articles au stock de ce magasin"> Remplir le Stock </a>
+                                   data-content="Ajouter des nouveaux articles au stock de ce magasin">Ajouter des articles</a>
+                                <a href="{{ Route('direct.supplyStock',['p_id_magasin' => $data->id_magasin ]) }}"
+                                   type="button" class="btn btn-outline btn-info"
+                                   title="" data-toggle="popover" data-placement="top" data-trigger="hover"
+                                   data-content="Alimenter le stock de ce magasin."> Alimenter </a>
                             </div>
 
                         </div>

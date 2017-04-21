@@ -109,7 +109,7 @@ class AddController extends Controller
 			$item->save();
 		}catch(Exception $e)
 		{
-			return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> l\'out du magasin: '.request()->get('libelle').' a echoue. <br> message d\'erreur: '.$ex->getMessage().'');
+			return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur !!</strong> l\'out du magasin: '.request()->get('libelle').' a echoue. <br> message d\'erreur: '.$e->getMessage().'');
 		}
 		return redirect()->back()->with('alert_success','Le Magasin <strong>'.request()->get('libelle').'</strong> a bien été ajouté.');
 
@@ -240,13 +240,13 @@ class AddController extends Controller
 			redirect()->back()->withInput()->with('alert_warning',$alerts2);
 
 			if( $error1 || $error2)
-			    return redirect()->back()->withInput()->with('alert_success','vous pouvez forcer l\'ajout en cochant la case en dessous du formulaire.');
+			    return redirect()->back()->withInput()->with('alert_success',"vous pouvez forcer l'ajout en cochant la case en dessous du formulaire.");
 
 			try
 			{
 				$item->save();
 			}
-			catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur! </strong> une erreur s\'est produite lors de l\'ajout de l\'article.<br>Message d\'erreur: '.$ex->getMessage() ); }
+			catch(Exception $ex){ return redirect()->back()->withInput()->with('alert_danger',"<strong>Erreur! </strong> une erreur s'est produite lors de l'ajout de l'article.<br>Message d'erreur: ".$ex->getMessage() ); }
 
 			return redirect()->back()->with('alert_success','L\'article <strong>'.request()->get('designation_c').'</strong> a bien été ajouté.');
 		}
@@ -325,60 +325,6 @@ class AddController extends Controller
 
 
 
-  //permet de retourner la vue qui contient le formulaire de modification du mot de passe
-  public function updatePasswordFormUser($id)
-  {
-		$magasins = DB::table('magasins')->get();
-		$roles = DB::table('roles')->get();
-		$data = DB::table('users')->where('id_user',$id)->first();
-
-		//si l'utilisateur n'existe pas, redirect vers la page precedente avec un message d'erreur
-		if($data==null)
-	 		return redirect()->back()->with('alert_danger','<strong>Erreur !!</strong> l\'utilisateur que vous avez choisi n\'existe pas, veuillez actualiser la page.');
-		else
-			return view('Espace_Admin.updatePassword-user-form')->with([ 'data' => $data ,'magasins' => $magasins, 'roles' => $roles ]);
-  }
-
-
-	/*********************
-	Valider La modification des Users
-	***********************/
-	public function submitUpdateUser()
-	{
-	  if( EmailExist_2( request()->get('email') , request()->get('id_user') )  )
-		return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur: </strong>  "'.request()->get('email').'" est deja utilisé pour un autre utilisateur.');
-	  else
-		$user = User::find(request()->get('id_user'));
-		$user->update([
-		  'id_role'     => request()->get('id_role'),
-		  'id_magasin'  => request()->get('id_magasin'),
-		  'nom'         => request()->get('nom'),
-		  'prenom'      => request()->get('prenom'),
-		  'ville'       => request()->get('ville'),
-		  'telephone'   => request()->get('telephone'),
-		  'email'       => request()->get('email'),
-		  'description' => request()->get('description'),
-		]);
-
-	   return redirect()->route('admin.infoUser',['id' => request()->get('id_user') ])->with('alert_success','Modification de l\'utilisateur reussi.');
-	}
-
-	/*********************
-	Valider La modification du mot de passe
-	***********************/
-	public function submitUpdatePasswordUser()
-	{
-
-	  if( strlen(request()->get('password'))<8 )
-		return redirect()->back()->withInput()->with('alert_danger','<strong>Erreur: </strong> le mot de passe doit contenir, au moins, 7 caractères.');
-
-	  $user = User::find(request()->get('id_user'));
-	  $user->update([
-		  'password'     => Hash::make( request()->get('password')  )
-	  ]);
-
-	  return redirect()->route('admin.infoUser',['id' => request()->get('id_user') ])->with('alert_success','Modification du mot de passe de l\'utilisateur reussi.');
-	}
 
 
 

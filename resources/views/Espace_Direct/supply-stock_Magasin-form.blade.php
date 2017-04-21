@@ -121,7 +121,7 @@
                 <div class="col-lg-2"></div>
                 <div class="col-lg-10">
                     Afficher/Masquer:
-                    <a class="toggle-vis" data-column="1">Categorie</a> -
+                    <a class="toggle-vis" data-column="1" title="cliquez pour afficher/masquer la colonne categorie">Categorie</a> -
                     <a class="toggle-vis" data-column="2">Fournisseur</a> -
                     <a class="toggle-vis" data-column="3">Designation</a> -
                     <a class="toggle-vis" data-column="4">Numero</a> -
@@ -141,25 +141,26 @@
                 <div class="table-responsive">
                     <div class="col-lg-12">
                         {{-- *************** begin form ***************** --}}
-                        <form role="form" method="post" action="{{ Route('direct.submitAddStock') }}">
+                        <form role="form" method="post" action="{{ Route('direct.submitSupplyStock') }}">
                             {{ csrf_field() }}
                             <input type="hidden" name="id_magasin" value="{{ $magasin->id_magasin }}"/>
+
                             <table id="example" class="table table-striped table-bordered table-hover">
                                 <thead bgcolor="#DBDAD8">
                                 <tr>
                                     <th>#</th>
-                                    <th>Categorie</th>
-                                    <th>Fournisseur</th>
-                                    <th>Designation</th>
-                                    <th>numero</th>
-                                    <th>Code</th>
-                                    <th>Taille</th>
-                                    <th>Couleur</th>
-                                    <th>Sexe</th>
-                                    <th title="prix HT">Prix d'achat</th>
-                                    <th>Prix de vente</th>
-                                    <th>Quantite</th>
-                                    <th>ajouter</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Categorie</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Fournisseur</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Designation</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> numero</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Code</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Taille</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Couleur</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> Sexe</th>
+                                    <th title="prix HT"><i class="fa fa-fw fa-sort"></i> Prix d'achat</th>
+                                    <th title="prix HT"><i class="fa fa-fw fa-sort"></i> Prix de vente</th>
+                                    <th>Quantité actuelle</th>
+                                    <th title="Quantité a alimenter">Alimenter</th>
                                     <th>Autres</th>
                                 </tr>
                                 </thead>
@@ -184,8 +185,8 @@
                                 <tbody>
                                 @foreach( $data as $item )
                                     <tr>
-                                        <input type="hidden" name="id_article[{{ $loop->index+1 }}]" value="{{ $item->id_article }}">
-                                        <input type="hidden" name="designation_c[{{ $loop->index+1 }}]" value="{{ $item->designation_c }}">
+                                        <input type="hidden" name="id_stock[{{ $loop->index+1 }}]" value="{{ $item->id_stock }}">
+                                        {{-- <input type="hidden" name="designation_c[{{ $loop->index+1 }}]" value="{{ $item->designation_c }}">--}}
 
                                         <td>{{ $loop->index+1 }}</td>
                                         <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie, 'libelle') }}</td>
@@ -199,8 +200,7 @@
                                         <td align="right">{{ $item->prix_achat }}</td>
                                         <td align="right">{{ $item->prix_vente }}</td>
                                         <td>{{ $item->quantite }} article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%</td>
-                                        <td><input type="number" min="0" placeholder="Quantite" name="quantite[{{ $loop->index+1 }}]"
-                                                   value="{{ old('quantite[$loop->index+1]') }}"></td>
+                                        <td><input type="number" min="0" placeholder="Quantite" name="quantite[{{ $loop->index+1 }}]" value="{{ old('quantite[$loop->index+1]') }}"></td>
                                         <td>
                                             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ $loop->index+1 }}">Detail Article</button>
                                         </td>
@@ -216,6 +216,9 @@
                                                         <h4 class="modal-title">{{ $item->designation_c }}</h4>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <p><b>Quantité </b> {{ $item->quantite }} article(s), {{ 100*($item->quantite/$item->quantite_max) }}%</p>
+                                                        <p><b>Quantité Min</b> {{ $item->quantite_min }}</p>
+                                                        <hr>
                                                         <p><b>numero</b> {{ $item->num_article }}</p>
                                                         <p><b>code a barres</b> {{ $item->code_barre }}</p>
                                                         <p><b>Taille</b> {{ $item->taille }}</p>
@@ -243,6 +246,7 @@
                             <div class="row" align="center">
                                 <button data-toggle="popover" data-placement="top" data-trigger="hover"
                                         title="Valider l'ajout"
+                                        formtarget="_blank"
                                         data-content="Cliquez ici pour valider la création du stock avec l'ensemble des articles choisi"
                                         type="submit" name="submit" value="valider" class="btn btn-default">Valider
                                 </button>
