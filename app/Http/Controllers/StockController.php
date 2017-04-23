@@ -9,11 +9,14 @@ use Hash;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Magasin;
-use App\Models\Categorie;
-use App\Models\Fournisseur;
+use App\Models\Transaction;
+use App\Models\Type_transaction;
 use App\Models\Article;
 use App\Models\Marque;
 use App\Models\Stock;
+use App\Models\Trans_article;
+use App\Models\Paiement;
+use App\Models\Mode_paiement;
 use \Exception;
 
 class StockController extends Controller
@@ -142,13 +145,16 @@ class StockController extends Controller
     {
         $id_magasin = request()->get('id_magasin');
 
-        //array des element du formulaire
+        //array des element du formulaire ******************
         $id_stock = request()->get('id_stock');
         //$designation_c = request()->get('designation_c');
         $quantite = request()->get('quantite');
+        //**************************************************
 
+        //alerts***************************
         $alert1 = "";       $alert2 = "";
         $error1 = false;    $error2 = false;
+        //***********************************
         $nbre_articles = 0;
 
         //verifier que l utilisateur a saisi 1..* quantites
@@ -156,12 +162,36 @@ class StockController extends Controller
         for ($i = 1; $i <= count($quantite); $i++)
         {
             if($quantite[$i]!=null)
+            {
                 $hasItems = true;
+                break;
+            }
         }
         //insert dans transaction
-        if( $hasItems )
-            echo "creation d une ligne dans transaction. <br>";
-        //Transaction $trans = new Transaction();
+        if( !$hasItems )
+            return redirect()->back()->withInput()->with('alert_info',"Vous devez saisir les quantités à alimenter.");
+
+
+        //recuperer la derniere transaction pour en retirer son id
+        $lastTransaction = Transaction::all()->last();
+        if( $lastTransaction->id_transaction == null )
+            $id = 1;
+        else $id = $lastTransaction->id_transacation + 1;
+
+        //chercher l id_type_transaction pour l alimentation du stock
+        $id_type_transaction_ajouter = Type_transaction::where('libelle','ajouter')->get()->first()->id_type_transaction;
+
+
+        //creation de la transation
+        $transaction = new Transaction();
+        $transaction->id_transaction = $id;
+        $transaction->id_user = 999;    //current user from session
+        $transaction->id_magasin = $id_magasin;
+        $transaction->id_type_transaction = $id_type_transaction_ajouter;
+        $transaction->id_paiement = null;
+
+        dump($transaction);
+
         //$trans->id_type_trans = 1;    /id type ajout au stock
         //$trans->id_magasin = $id_magasin;
         //$trans->id_user = session()->get('id_user');

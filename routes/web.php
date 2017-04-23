@@ -13,8 +13,8 @@
 
 use App\Models\User;
 use App\Models\Article;
-use App\Models\Categorie;
-use App\Models\Role;
+use App\Models\Type_transaction;
+use App\Models\Transaction;
 use App\Models\Magasin;
 use App\Models\Stock;
 use Illuminate\Http\Request;
@@ -24,6 +24,43 @@ use Illuminate\Support\Facades\Input;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/t', function(){
+
+    $id_type_transaction = Type_transaction::where('libelle','=','ajouter')->get()->first()->id_type_transaction;
+    dump( $id_type_transaction );
+
+});
+
+Route::get('/s', function(Request $req){
+
+    $req->session()->put('id_user',999);
+    $req->session()->put('id_user',999);
+    $req->session()->put('id_user',999);
+    $req->session()->put('session_name',"adazdlazhdazhdizeuhfzeu fierughieugh erugh eriu gherugh ");
+
+    echo $req->session()->get('id_user')."<br>";
+    echo $req->session()->get('session_name')."<hr>";
+
+    request()->session()->forget('session_name');
+
+    echo request()->session()->get('id_user')."<br>";
+    echo request()->session()->get('session_name')."<br>";
+
+
+      //$req->session()->put('id_user',999);
+      //$req->session()->put('session_name',"session de l'utilisateur numero 999 !!!");
+
+
+    //$req
+    //dump( request() );
+    //dump( $req );
+    dump( $req->session() );
+    dump( $req );
+
+    //dump( request()->session()->get('name') );
+
 });
 /*
 Route::get('/proc', function () {
