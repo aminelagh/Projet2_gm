@@ -15,6 +15,7 @@ use App\Models\Article;
 use App\Models\Marque;
 use App\Models\Stock;
 use App\Models\Promotion;
+use Carbon\Carbon;
 use \Exception;
 
 class AddController extends Controller
@@ -44,12 +45,12 @@ class AddController extends Controller
 	{
 	 switch($p_table)
 	 {
-		 case 'magasins':     return $this->submitAddMagasin(); 		break;
-		 case 'fournisseurs': return $this->submitAddFournisseur(); break;
-		 case 'categories':   return $this->submitAddCategorie(); 	break;
-		 case 'articles':     return $this->submitAddArticle(); 		break;
-		 case 'stocks':       return $this->submitAddStock(); 			break;
-		 case 'users':				return $this->submitAddUser(); 				break;
+		 case 'magasins':       return $this->submitAddMagasin(); 		break;
+		 case 'fournisseurs':   return $this->submitAddFournisseur();   break;
+		 case 'categories':     return $this->submitAddCategorie(); 	break;
+		 case 'articles':       return $this->submitAddArticle(); 		break;
+		 case 'stocks':         return $this->submitAddStock(); 		break;
+		 case 'users':		    return $this->submitAddUser(); 			break;
 		 case 'promotions':		return $this->submitAddPromotions(); 	break;
 		 default: return redirect()->back()->withInput()->with('alert_warning','<strong>Erreur !!</strong> Vous avez pris le mauvais chemin. ==> AddController@submitAdd');      break;
 	 }
@@ -255,55 +256,48 @@ class AddController extends Controller
 	//Valider la creation des promotions
 	public function submitAddPromotions()
 	{
-		dump(request());
-		return 'a';
-		//id du magasin
-		$id_magasin   	= request()->get('id_magasin');
 
-		//array des element du formulaire
 		$id_article   	= request()->get('id_article');
-		$designation_c	= request()->get('designation_c');
-		$quantite     	= request()->get('quantite');
-		$quantite_min 	= request()->get('quantite_min');
-		$quantite_max 	= request()->get('quantite_max');
+        $id_magasin   	= request()->get('id_magasin');
+		//$designation_c	= request()->get('designation_c');
+        $taux     	    = request()->get('taux');
+        $date_debut     = request()->get('date_debut');
+        $date_fin     	= request()->get('date_fin');
 
-		$alert1 = "";
-		$alert2 = "";
-		$error1 = false;
-		$error2 = false;
+		$alert1 = "";		$alert2 = "";
+		$error1 = false;	$error2 = false;
 		$nbre_articles = 0;
 
 		for( $i=1; $i<=count($id_article) ; $i++ )
 		{
-			if( $quantite[$i] == null ) continue;
+			if( $taux[$i] == 0 || $taux[$i] == null || $date_debut[$i] == null  || $date_fin[$i] == null || $id_magasin[$i] == 0  ) continue;
 
-			if( $quantite_min[$i]>$quantite_max[$i] )
+            $dd = Carbon::createFromFormat('d-m-Y', date('d-m-Y', strtotime($date_debut[$i])));
+            $df = Carbon::createFromFormat('d-m-Y', date('d-m-Y', strtotime($date_fin[$i])));
+
+            //echo "M: ".$id_magasin[$i]." - T: ".$taux[$i]." - DD: ".$date_debut[$i]." - DF: ".$date_fin[$i]."<br>";
+            //echo $dd->year."  ".$df->year."<br>";            echo $dd->month."  ".$df->month."<br>";            echo $dd->day."  ".$df->day."<hr>";
+
+            //skip if EndDate < BeginDate
+            if( $dd->year > $df->year ) continue;
+            elseif( $dd->month > $df->month ) continue;
+            elseif( $dd->day > $df->day ) continue;
+
+            $item = new Promotion;
+			$item->id_article   = $id_article[$i];
+            $item->id_magasin   = $id_magasin[$i];
+			$item->taux         = $taux[$i];
+			$item->date_debut   = $date_debut[$i];
+			$item->date_fin     = $date_fin[$i];
+			$item->active       = true;
+
+            try
 			{
-				$alert1 = $alert1."<li><b>".$designation_c[$i]."</b>: Quantite min superieur a la quantité max.";
-				$error1 = true;
+				$item->save();
+				$nbre_articles++;
 			}
+			catch (Exception $e) { $error2 = true; $alert2 = $alert2."<li>Erreur de l'ajout de l'article numero ".$i.": <br>Message d'erreur: ".$e->getMessage();}
 
-			if( $quantite[$i] != null && ($quantite_min[$i] == null || $quantite_max[$i] == null) )
-			{
-				$alert1 = $alert1."<li> ".$i.": <b>".$designation_c[$i]."</b>: vous avez oublier de specifier la quantite min et/ou la quantite max.";
-				$error1 = true;
-			}
-
-			if( $quantite[$i]!=null && $quantite_min[$i]<=$quantite_max[$i] )
-			{
-				$item = new Stock;
-				$item->id_magasin    = $id_magasin;
-				$item->id_article    = $id_article[$i];
-				$item->quantite      = $quantite[$i];
-				$item->quantite_min  = $quantite_min[$i];
-				$item->quantite_max  = $quantite_max[$i];
-
-				try
-				{
-					$item->save();
-					$nbre_articles++;
-				} catch (Exception $e) { $error2 = true; $alert2 = $alert2."<li>Erreur d'ajout de l'article: <b>".$designation_c[$i]."</b> Message d'erreur: ".$e->getMessage().". ";}
-			}
 		}
 
 		if($error1)
@@ -311,7 +305,7 @@ class AddController extends Controller
 		if($error2)
 			back()->withInput()->with('alert_danger',$alert2);
 
-		return redirect()->back()->with('alert_success','Creation du stock reussit. nbre articles: '.$nbre_articles);
+		return redirect()->back()->with('alert_success','Creation des promotions reussite. nbre articles: '.$nbre_articles);
 	}
 
 
