@@ -84,9 +84,7 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="row">
-            <h1 class="page-header">Création de promotions
-                <small></small>
-            </h1>
+            <h1 class="page-header">Création de promotions</h1>
 
             {{-- **************Alerts************** --}}
             <div class="row">
@@ -231,12 +229,10 @@
                                 </tbody>
                                 <tr>
                                     <td colspan="10" align="center">
-                                        <button  formtarget="_blank" data-toggle="popover" data-placement="top"
+                                        <button formtarget="_blank" data-toggle="popover" data-placement="top"
                                                 data-trigger="hover" title="Valider l'ajout"
                                                 data-content="Cliquez ici pour valider la création des promotions sur l'ensemble des articles choisi"
-                                                type="submit" name="submit" value="valider" class="btn btn-default">
-                                            Valider
-                                        </button>
+                                                type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
                                     </td>
                                 </tr>
                             </table>

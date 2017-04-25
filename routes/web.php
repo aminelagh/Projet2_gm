@@ -26,10 +26,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/t', function(){
+Route::get('/a', function(){
 
-    $id_type_transaction = Type_transaction::where('libelle','=','ajouter')->get()->first()->id_type_transaction;
-    dump( $id_type_transaction );
+    $x = collect( DB::select("call getPromotions;") );
+
 
 });
 

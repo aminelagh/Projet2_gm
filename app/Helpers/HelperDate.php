@@ -6,6 +6,16 @@ Helper pour le gerer les dates
 
 use Carbon\Carbon;
 
+// retourn date simple
+if( !function_exists('getSimpleDateHelper') )
+{
+    function getSimpleDateHelper($value)
+    {
+        $date = Carbon::createFromFormat('d-m-Y', date('d-m-Y', strtotime($value)));
+        return $date->day."/".$date->month."/".$date->year;
+    }
+}
+
 // permet de donner une date a partir d un timestamps from db
 if( !function_exists('getDateHelper') )
 {

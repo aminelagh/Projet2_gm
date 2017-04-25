@@ -26,9 +26,9 @@ if( !function_exists('getSexeName') )
 	function getSexeName($value)
 	{
 		switch ($value) {
-			case 'h': return 'Homme'; break;
-			case 'f': return 'Femme'; break;
-			default:  return '-'; 		break;
+			case 'h': return 'Homme';   break;
+			case 'f': return 'Femme';   break;
+			default:  return '-';       break;
 		}
 	}
 }
@@ -51,4 +51,14 @@ if( !function_exists('getChamp') )
 	{
 		return DB::table($table)->where($id_field,$id_value)->pluck($field)->first();
 	}
+}
+
+
+//pour les pop over
+if( !function_exists('setPopOver') )
+{
+    function setPopOver($title, $content)
+    {
+        return 'data-toggle="popover" data-placement="top" data-trigger="hover" title="'.$title.'" data-content="'.$content.'"';
+    }
 }

@@ -74,15 +74,13 @@
             $('[data-toggle="popover"]').popover();
         });
     </script>
-
 @endsection
 
 @section('main_content')
     <div class="container-fluid">
         <div class="row">
-            <h1 class="page-header">Ajouter au Stock du magasin {{ $magasin->libelle }}
-                <small></small>
-            </h1>
+            <h1 class="page-header">Ajouter au Stock du magasin {{ $magasin->libelle }}</h1>
+
 
             {{-- **************Alerts************** --}}
             <div class="row">
@@ -210,9 +208,7 @@
                                             <div class="modal-dialog modal-sm">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <button type="button" class="close"
-                                                                data-dismiss="modal">&times;
-                                                        </button>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                         <h4 class="modal-title">{{ $item->designation_c }}</h4>
                                                     </div>
                                                     <div class="modal-body">

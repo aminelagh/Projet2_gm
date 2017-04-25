@@ -275,9 +275,6 @@ class AddController extends Controller
             $dd = Carbon::createFromFormat('d-m-Y', date('d-m-Y', strtotime($date_debut[$i])));
             $df = Carbon::createFromFormat('d-m-Y', date('d-m-Y', strtotime($date_fin[$i])));
 
-            //echo "M: ".$id_magasin[$i]." - T: ".$taux[$i]." - DD: ".$date_debut[$i]." - DF: ".$date_fin[$i]."<br>";
-            //echo $dd->year."  ".$df->year."<br>";            echo $dd->month."  ".$df->month."<br>";            echo $dd->day."  ".$df->day."<hr>";
-
             //skip if EndDate < BeginDate
             if( $dd->year > $df->year ) continue;
             elseif( $dd->month > $df->month ) continue;
