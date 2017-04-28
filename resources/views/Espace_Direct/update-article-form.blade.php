@@ -195,18 +195,18 @@
                         <div class="col-lg-2">
                             {{-- Prix achat --}}
                             <div class="form-group">
-                                <label>Prix d'achat</label>
+                                <label>Prix d'achat (HT)</label>
                                 <input type="number" step="0.01" pattern=".##" min="0" class="form-control"
-                                       placeholder="Prix d'achat" name="prix" value="{{ $data->prix_achat }}">
+                                       placeholder="Prix d'achat" name="prix_achat" value="{{ $data->prix_achat }}">
                             </div>
                         </div>
 
                         <div class="col-lg-2">
                             {{-- Prix vente --}}
                             <div class="form-group">
-                                <label>Prix (HT)</label>
+                                <label>Prix de vente (HT)</label>
                                 <input type="number" step="0.01" pattern=".##" min="0" class="form-control"
-                                       placeholder="Prix de Vente" name="prix" value="{{ $data->prix_vente }}">
+                                       placeholder="Prix de Vente" name="prix_vente" value="{{ $data->prix_vente }}">
                             </div>
                         </div>
 
@@ -217,7 +217,7 @@
                     <div class="row" align="center">
                         {{-- Submit & Reset --}}
                         <button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-                        <button type="reset" class="btn btn-default">Reinitialiser</button>
+                        <button type="reset" class="btn btn-default">Réinitialiser </button>
 
                     </div>
                     <!-- end row 4 -->

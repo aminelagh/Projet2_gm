@@ -133,7 +133,8 @@ class UpdateController extends Controller
             'taille' => request()->get('taille'),
             'couleur' => request()->get('couleur'),
             'sexe' => request()->get('sexe'),
-            'prix' => request()->get('prix')
+            'prix_achat' => request()->get('prix_achat'),
+            'prix_vente' => request()->get('prix_vente')
         ]);
         return redirect()->route('direct.info', ['p_table' => 'articles', 'id' => request()->get('id_article')])->with('alert_success', 'Modification de l\'article reussi.');
     }

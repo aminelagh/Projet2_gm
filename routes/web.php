@@ -26,38 +26,43 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/a', function(){
+Route::get('/c1', function () {
+    //return view('charts');
+    return view('chart1')->with('data1', Article::all() )->with('data2', DB::select('select * from promotions'));
+});
 
-    $x = collect( DB::select("call getPromotions;") );
+Route::get('/a', function () {
+
+    $x = collect(DB::select("call getPromotions;"));
 
 
 });
 
-Route::get('/s', function(Request $req){
+Route::get('/s', function (Request $req) {
 
-    $req->session()->put('id_user',999);
-    $req->session()->put('id_user',999);
-    $req->session()->put('id_user',999);
-    $req->session()->put('session_name',"adazdlazhdazhdizeuhfzeu fierughieugh erugh eriu gherugh ");
+    $req->session()->put('id_user', 999);
+    $req->session()->put('id_user', 999);
+    $req->session()->put('id_user', 999);
+    $req->session()->put('session_name', "adazdlazhdazhdizeuhfzeu fierughieugh erugh eriu gherugh ");
 
-    echo $req->session()->get('id_user')."<br>";
-    echo $req->session()->get('session_name')."<hr>";
+    echo $req->session()->get('id_user') . "<br>";
+    echo $req->session()->get('session_name') . "<hr>";
 
     request()->session()->forget('session_name');
 
-    echo request()->session()->get('id_user')."<br>";
-    echo request()->session()->get('session_name')."<br>";
+    echo request()->session()->get('id_user') . "<br>";
+    echo request()->session()->get('session_name') . "<br>";
 
 
-      //$req->session()->put('id_user',999);
-      //$req->session()->put('session_name',"session de l'utilisateur numero 999 !!!");
+    //$req->session()->put('id_user',999);
+    //$req->session()->put('session_name',"session de l'utilisateur numero 999 !!!");
 
 
     //$req
     //dump( request() );
     //dump( $req );
-    dump( $req->session() );
-    dump( $req );
+    dump($req->session());
+    dump($req);
 
     //dump( request()->session()->get('name') );
 
@@ -103,82 +108,94 @@ Route::get('/t', function () {
 
 
 /***************************************
-Routes Excel:
-****************************************/
-Route::get('/export/{p_table}','ExcelController@export')->name('export');
-Route::get('/export/{p_table}','ExcelController@export')->name('export');
+ * Routes Excel:
+ ****************************************/
+Route::get('/export/{p_table}', 'ExcelController@export')->name('export');
+/*********************************************************************************/
 
 
 /**************************************
-Routes AddForm et SubmitAdd
-***************************************/
-Route::get('/admin/add/{p_table}','AddController@addForm')->name('admin.add');
-Route::post('/admin/submitAdd/{p_table}','AddController@submitAdd')->name('admin.submitAdd');
+ * Routes AddForm et SubmitAdd
+ ***************************************/
+Route::get('/admin/add/{p_table}', 'AddController@addForm')->name('admin.add');
+Route::post('/admin/submitAdd/{p_table}', 'AddController@submitAdd')->name('admin.submitAdd');
 
-Route::get('/direct/add/{p_table}','AddController@addForm')->name('direct.add');
-Route::post('/direct/submitAdd/{p_table}','AddController@submitAdd')->name('direct.submitAdd');
+Route::get('/direct/add/{p_table}', 'AddController@addForm')->name('direct.add');
+Route::post('/direct/submitAdd/{p_table}', 'AddController@submitAdd')->name('direct.submitAdd');
+
+Route::get('/magas/add/{p_table}', 'AddController@addForm')->name('magas.add');
+Route::post('/magas/submitAdd/{p_table}', 'AddController@submitAdd')->name('magas.submitAdd');
 /******************************************************************************/
 
 /**************************************
-Routes Update
-***************************************/
-Route::get('/admin/update/{p_table}/{p_id}','UpdateController@updateForm')->name('admin.update');
-Route::post('/admin/submitUpdate/{p_table}','UpdateController@submitUpdate')->name('admin.submitUpdate');
+ * Routes Update
+ ***************************************/
+Route::get('/admin/update/{p_table}/{p_id}', 'UpdateController@updateForm')->name('admin.update');
+Route::post('/admin/submitUpdate/{p_table}', 'UpdateController@submitUpdate')->name('admin.submitUpdate');
 
-Route::get('/direct/update/{p_table}/{p_id}','UpdateController@updateForm')->name('direct.update');
-Route::post('/direct/submitUpdate/{p_table}','UpdateController@submitUpdate')->name('direct.submitUpdate');
+Route::get('/direct/update/{p_table}/{p_id}', 'UpdateController@updateForm')->name('direct.update');
+Route::post('/direct/submitUpdate/{p_table}', 'UpdateController@submitUpdate')->name('direct.submitUpdate');
 
+Route::get('/magas/update/{p_table}/{p_id}', 'UpdateController@updateForm')->name('magas.update');
+Route::post('/magas/submitUpdate/{p_table}', 'UpdateController@submitUpdate')->name('magas.submitUpdate');
 /******************************************************************************/
 
 /**************************************
-Routes Delete
-***************************************/
-Route::get('/admin/delete/{p_table}/{p_id}','DeleteController@delete')->name('admin.delete');
-Route::get('/direct/delete/{p_table}/{p_id}','DeleteController@delete')->name('direct.delete');
+ * Routes Delete
+ ***************************************/
+Route::get('/admin/delete/{p_table}/{p_id}', 'DeleteController@delete')->name('admin.delete');
+Route::get('/direct/delete/{p_table}/{p_id}', 'DeleteController@delete')->name('direct.delete');
+Route::get('/magas/delete/{p_table}/{p_id}', 'DeleteController@delete')->name('magas.delete');
 /******************************************************************************/
 
 /*****************************************
-Routes Lister et infos
-*****************************************/
-Route::get('/direct/info/{p_table}/{p_id}','ShowController@info')->name('direct.info');
-Route::get('/admin/info/{p_table}/{p_id}','ShowController@info')->name('admin.info');
+ * Routes Lister et infos
+ *****************************************/
+Route::get('/direct/info/{p_table}/{p_id}', 'ShowController@info')->name('direct.info');
+Route::get('/admin/info/{p_table}/{p_id}', 'ShowController@info')->name('admin.info');
+Route::get('/magas/info/{p_table}/{p_id}', 'ShowController@info')->name('magas.info');
 
-Route::get('/admin/lister/{p_table}','ShowController@lister')->name('admin.lister');
-Route::get('/direct/lister/{p_table}','ShowController@lister')->name('direct.lister');
+Route::get('/admin/lister/{p_table}', 'ShowController@lister')->name('admin.lister');
+Route::get('/direct/lister/{p_table}', 'ShowController@lister')->name('direct.lister');
+Route::get('/magas/lister/{p_table}', 'ShowController@lister')->name('magas.lister');
 /*******************************************************************************/
 
 /****************************************
-Routes gestion des Stocks
-*****************************************/
-Route::get('/direct/addStock/{p_id_magasin}','StockController@addStock')->name('direct.addStock');
-Route::post('/direct/submitAddStock','StockController@submitAddStock')->name('direct.submitAddStock');
+ * Routes gestion des Stocks
+ *****************************************/
+Route::get('/direct/addStock/{p_id_magasin}', 'StockController@addStock')->name('direct.addStock');
+Route::post('/direct/submitAddStock', 'StockController@submitAddStock')->name('direct.submitAddStock');
 
-Route::get('/direct/supply/{p_id_magasin}','StockController@supplyStock')->name('direct.supplyStock');
-Route::post('/direct/submitSupply','StockController@submitSupplyStock')->name('direct.submitSupplyStock');
+Route::get('/direct/supply/{p_id_magasin}', 'StockController@supplyStock')->name('direct.supplyStock');
+Route::post('/direct/submitSupply', 'StockController@submitSupplyStock')->name('direct.submitSupplyStock');
+
+//magasinier
+Route::get('/magas/addStock/{p_id_magasin}', 'StockController@addStock')->name('magas.addStock');
+Route::post('/magas/submitAddStock', 'StockController@submitAddStock')->name('magas.submitAddStock');
+
+Route::get('/magas/supply/{p_id_magasin}', 'StockController@supplyStock')->name('magas.supplyStock');
+Route::post('/magas/submitSupply', 'StockController@submitSupplyStock')->name('magas.submitSupplyStock');
 /*******************************************************************************/
 
 
+Route::prefix('/admin')->group(function () {
+    //home --> Dashboard
+    Route::get('', 'AdminController@home')->name('admin.home');
+});
 
-Route::prefix('/admin')->group( function()
-{
-  //home --> Dashboard
-  Route::get('','AdminController@home')->name('admin.home');
+Route::prefix('/magas')->group(function () {
+    //home --> Dashboard
+    Route::get('', 'MagasController@home')->name('magas.home');
 });
 
 
-
-Route::prefix('/direct')->group( function()
-{
-  //home --> Dashboard
-  Route::get('/','DirectController@home')->name('direct.home');
-
-
-
-  //lister stocks
-  Route::get('/stocks/{p_id_magasin}','StockController@listerStocks')->name('direct.stocks');
-
-  Route::get('/update/{value}/{aa}','DirectController@routeError');
-  Route::get('/update','DirectController@routeError');
+Route::prefix('/direct')->group(function () {
+    //home --> Dashboard
+    Route::get('/', 'DirectController@home')->name('direct.home');
+    //lister stocks
+    Route::get('/stocks/{p_id_magasin}', 'StockController@listerStocks')->name('direct.stocks');
+    Route::get('/update/{value}/{aa}', 'DirectController@routeError');
+    Route::get('/update', 'DirectController@routeError');
 });
 
 

@@ -40,17 +40,16 @@
                 //"autoWidth": true,
                 "info": true,
                 stateSave: false,
-
                 "columnDefs": [
-                    {"width": "2%", "targets": 0},//#
-                    {"width": "5%", "targets": 1},//numero
-                    {"width": "7%", "targets": 2},//code
-                    {"width": "3%", "targets": 4},//taille
-                    {"width": "6%", "targets": 5},//couleur
-                    {"width": "6%", "targets": 6},//sexe
-                    {"width": "5%", "targets": 7},//pr
-                    {"width": "5%", "targets": 8},//pr
-                    {"width": "10%", "targets": 9}//autre
+                    {"width": "02%", "targets": 0,"type": "num",    "visible": true, "searchable": false},//#
+                    {"width": "05%", "targets": 1,"type": "string", "visible": false},//numero
+                    {"width": "07%", "targets": 2,"type": "string", "visible": true},//code
+                    {"width": "03%", "targets": 4,"type": "string", "visible": false},//taille
+                    {"width": "06%", "targets": 5,"type": "string", "visible": false},//couleur
+                    {"width": "06%", "targets": 6,"type": "string", "visible": true},//sexe
+                    {"width": "05%", "targets": 7,"type": "num-fmt","visible": true},//pr
+                    {"width": "05%", "targets": 8,"type": "num-fmt",    "visible": true},//pr
+                    {"width": "10%", "targets": 9,"type": "string", "visible": true, "searchable": false}//autre
                 ]
             });
 
@@ -129,7 +128,7 @@
             <!-- Table -->
                 <div class="table-responsive">
                     <div class="col-lg-12">
-                        <div>
+                        <div class="breadcrumb">
                             Afficher/Masquer: <a class="toggle-vis" data-column="1">Numero</a> -
                             <a class="toggle-vis" data-column="2">Code</a> -
                             <a class="toggle-vis" data-column="3">Designation</a> -
@@ -173,7 +172,7 @@
                             <tbody>
                             @if( $data->isEmpty() )
                                 <tr>
-                                    <td colspan="5" align="center">Aucun Article</td>
+                                    <td colspan="10" align="center">Aucun Article</td>
                                 </tr>
                             @else
                                 @foreach( $data as $item )

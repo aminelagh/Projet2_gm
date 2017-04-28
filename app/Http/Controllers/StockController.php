@@ -128,7 +128,7 @@ class StockController extends Controller
         $data = collect(DB::select("call getStockForSupply(" . $p_id_magasin . ");"));
         $magasin = Magasin::where('id_magasin', $p_id_magasin)->first();
 
-        if ($data == null)
+        if ($data->count()==0)
             return redirect()->back()->withInput()->with('alert_warning', 'Veuillez créer le stock avant de procéder à son alimentation');
 
         if ($magasin == null)

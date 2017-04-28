@@ -18,9 +18,9 @@ use \Exception;
 
 class DirectController extends Controller
 {
-  public function home()
-  {
-    return view('Espace_Direct.dashboard');
-  }
+    public function home()
+    {
+        return view('Espace_Direct.dashboard');
+    }
 
 }
