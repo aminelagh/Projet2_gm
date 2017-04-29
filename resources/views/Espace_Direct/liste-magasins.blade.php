@@ -41,7 +41,7 @@
                     {"width": "20%", "targets": 1},
                     {"width": "15%", "targets": 2},
                     {"width": "10%", "targets": 3},
-                    {"width": "05%", "targets": 5}
+                    {"width": "10%", "targets": 5}
 
                 ]
             });
@@ -149,7 +149,8 @@
                                         <td align="center">
                                             <a href="{{ Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                     {!! setPopOver("Detail","Afficher plus de detail sur la magasin") !!}><i class="glyphicon glyphicon-eye-open"></i></a>
-
+                                            <a href="{{ Route('direct.info',['p_table'=> 'dashboard-magasin', 'p_id' => $item->id_magasin ]) }}"
+                                               title="detail"><i class="glyphicon glyphicon-dashboard"></i></a>
                                             <a href="{{ Route('direct.update',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                     {!! setPopOver("","Modifier les informations ") !!}><i class="glyphicon glyphicon-pencil"></i></a>
                                             <!--a onclick="return confirm('Êtes-vous sure de vouloir effacer le

@@ -18,10 +18,6 @@
 <head>
     <title>column basic</title>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-    <style type="text/css">
-        ${demo.css}
-    </style>
 </head>
 <body>
 <script src="charts/highcharts.js"></script>
@@ -29,9 +25,7 @@
 
 <div id="container" style="min-width: 310px; width: 100%;height: 400px; margin: 0 auto"></div>
 
-
 <script type="text/javascript">
-
     Highcharts.chart('container', {
         chart: {type: 'column'},
         title: {text: 'Title'},

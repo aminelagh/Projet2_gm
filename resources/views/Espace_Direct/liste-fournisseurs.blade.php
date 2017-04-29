@@ -126,8 +126,8 @@
                                             <td align="center">
                                                 <a href="{{ Route('direct.info',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}"
                                                    title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
-                                                <a href="{{ Route('direct.info',['p_table'=> 'fournisseurs2', 'p_id' => $item->id_fournisseur ]) }}"
-                                                   title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                                <a href="{{ Route('direct.info',['p_table'=> 'dashboard-fourniseur', 'p_id' => $item->id_fournisseur ]) }}"
+                                                   title="detail"><i class="glyphicon glyphicon-dashboard"></i></a>
                                                 <a href="{{ Route('direct.update',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}"
                                                    title="modifier"><i class="glyphicon glyphicon-pencil"></i></a>
                                                 <a onclick="return confirm('Êtes-vous sure de vouloir effacer le Fournisseur: {{ $item->libelle }} ?')"

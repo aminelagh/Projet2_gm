@@ -12,9 +12,8 @@ use App\Models\Magasin;
 use App\Models\Categorie;
 use App\Models\Fournisseur;
 use App\Models\Article;
-use App\Models\Marque;
-use App\Models\Stock;
 use App\Models\Promotion;
+use App\Models\Stock;
 use \Exception;
 
 class ShowController extends Controller
@@ -43,6 +42,10 @@ class ShowController extends Controller
                 return ($item != null ? view('Espace_Direct.info-article')->with('data', $item) : back()->withInput()->with('alert_warning', 'L\'article choisi n\'existe pas.'));
                 break;
             case 'promotions':
+                $data = collect( DB::select("call getPromotion(".$p_id.");") )->first();
+                return ($data != null ? view('Espace_Direct.info-promotion')->with('data', $data) : back()->withInput()->with('alert_warning', "La promotion choisie n'existe pas."));
+                break;
+            case 'promotions2':
                 $item = Article::find($p_id);
                 return ($item != null ? view('Espace_Direct.info-article')->with('data', $item) : back()->withInput()->with('alert_warning', 'La promotion choisie n\'existe pas.'));
                 break;
@@ -50,12 +53,34 @@ class ShowController extends Controller
                 $item = Magasin::find($p_id);
                 return ($item != null ? view('Espace_Direct.info-magasin')->with(['data' => $item, 'stocks' => Stock::where('id_magasin', $p_id)->get()]) : back()->withInput()->with('alert_warning', 'Le magasin choisi n\'existe pas'));
                 break;
+            case 'dashboard-fourniseur':
+                $item = fournisseur::find($p_id);
+                $articles = Article::where('id_fournisseur',$p_id)->get();
+                return ($item != null ? view('Espace_Direct.dashboard-fourniseur')->with(
+                    [
+                        'data'=> $item,
+                        'articles'=> $articles
+                    ]
+
+                ) : back()->withInput()->with('alert_warning', "Le fournisseur choisi n'existe pas."));
+                break;
+            case 'dashboard-magasin':
+                $data = Magasin::find($p_id);
+                $articles = Article::all();//where('id_magasin',$p_id)->get();
+                //$ventes = collect(DB::select("call getVentes(".$p_id.");") );
+                return ($data != null ? view('Espace_Direct.dashboard-magasin')->with(
+                    [
+                        'data'=> $data,
+                        'articles'=> $articles
+                    ]
+
+                ) : back()->withInput()->with('alert_warning', "Le magasin choisi n'existe pas."));
+                break;
             default:
                 return back()->withInput()->with('alert_warning', 'Vous avez pris le mauvais chemin. ==> ShowController@info');
                 break;
         }
     }
-
 
     /****************************************
      * retourner la vue pour afficher les tables
@@ -91,6 +116,4 @@ class ShowController extends Controller
                 return back()->withInput()->with('alert_warning', 'Vous avez pris le mauvais chemin. ==> ShowController@lister');
         }
     }
-
-
 }
