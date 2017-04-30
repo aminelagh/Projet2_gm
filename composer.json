@@ -28,7 +28,8 @@
         "files": [
             "app/Helpers/HelperAdmin.php",
             "app/Helpers/HelperDirect.php",
-            "app/Helpers/HelperDate.php"
+            "app/Helpers/HelperDate.php",
+            "app/Helpers/HelperVend.php"
         ],
 
 

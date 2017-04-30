@@ -41,15 +41,15 @@
                 "info": true,
                 stateSave: false,
                 "columnDefs": [
-                    {"width": "02%", "targets": 0,"type": "num",    "visible": true, "searchable": false},//#
-                    {"width": "05%", "targets": 1,"type": "string", "visible": false},//numero
-                    {"width": "07%", "targets": 2,"type": "string", "visible": true},//code
-                    {"width": "03%", "targets": 4,"type": "string", "visible": false},//taille
-                    {"width": "06%", "targets": 5,"type": "string", "visible": false},//couleur
-                    {"width": "06%", "targets": 6,"type": "string", "visible": true},//sexe
-                    {"width": "05%", "targets": 7,"type": "num-fmt","visible": true},//pr
-                    {"width": "05%", "targets": 8,"type": "num-fmt",    "visible": true},//pr
-                    {"width": "10%", "targets": 9,"type": "string", "visible": true, "searchable": false}//autre
+                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},//#
+                    {"width": "05%", "targets": 1, "type": "string", "visible": false},//numero
+                    {"width": "07%", "targets": 2, "type": "string", "visible": true},//code
+                    {"width": "03%", "targets": 4, "type": "string", "visible": false},//taille
+                    {"width": "06%", "targets": 5, "type": "string", "visible": false},//couleur
+                    {"width": "06%", "targets": 6, "type": "string", "visible": true},//sexe
+                    {"width": "05%", "targets": 7, "type": "num-fmt", "visible": true},//pr
+                    {"width": "05%", "targets": 8, "type": "num-fmt", "visible": true},//pr
+                    {"width": "10%", "targets": 9, "type": "string", "visible": true, "searchable": false}//autre
                 ]
             });
 
@@ -69,7 +69,6 @@
             });
         });
     </script>
-
 @endsection
 
 @section('main_content')
@@ -143,14 +142,14 @@
                             <thead bgcolor="#DBDAD8">
                             <tr>
                                 <th> #</th>
-                                <th>numero</th>
-                                <th>Code</th>
-                                <th>Designation</th>
-                                <th>Taille</th>
-                                <th>Couleur</th>
-                                <th>Sexe</th>
-                                <th title="prix HT">Prix d'achat</th>
-                                <th>Prix de vente</th>
+                                <th><i class="fa fa-fw fa-sort"></i> numero</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Code</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Designation</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Taille</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Couleur</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Sexe</th>
+                                <th title="prix HT"><i class="fa fa-fw fa-sort"></i> Prix d'achat</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Prix de vente</th>
                                 <th>Autres</th>
                             </tr>
                             </thead>

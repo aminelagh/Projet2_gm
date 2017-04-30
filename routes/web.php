@@ -28,15 +28,14 @@ Route::get('/', function () {
 
 Route::get('/c1', function () {
     //return view('charts');
-    return view('chart1')->with('data1', Article::all() )->with('data2', DB::select('select * from promotions'));
+    return view('chart1')->with('data1', Article::all())->with('data2', DB::select('select * from promotions'));
 });
 
 Route::get('/a', function () {
-
     $x = collect(DB::select("call getPromotions;"));
-
-
+    dump($x);
 });
+
 
 Route::get('/s', function (Request $req) {
 
@@ -179,7 +178,6 @@ Route::post('/magas/submitSupply', 'StockController@submitSupplyStock')->name('m
 
 
 Route::prefix('/admin')->group(function () {
-    //home --> Dashboard
     Route::get('', 'AdminController@home')->name('admin.home');
 });
 
@@ -199,4 +197,30 @@ Route::prefix('/direct')->group(function () {
 });
 
 
-//Route::get('/{param}',function(){  return view('welcome'); });
+/*********************************************************************************************
+ * Routes de l'espace Vendeur
+ **********************************************************************************************/
+
+Route::prefix('/vend')->group(function () {
+
+    //home --> Dashboard
+    Route::get('/', 'VendeurController@home')->name('vend.home');
+
+    //Lister les ventes,les promotions et le stock d'un magasin
+    Route::get('/lister/{p_table}/{p_id}', 'VendeurController@lister')->name('vend.lister');
+
+
+
+    //Visualiser les details de la transaction
+    Route::get('/details/{p_id}', 'VendeurController@detailTrans')->name('vend.details');
+    //Route::get('/lister/{p_table}','VendeurController@lister')->name('vendeur.lister');
+
+    //Afficher le formulaire d'Ajout de vente
+    Route::get('/addFormVente/{p_id_mag}', 'AddController@addFormVente')->name('vend.addVente');
+
+    //Valider l'ajout de la vente
+    Route::post('/submitAddVente', 'AddController@submitAddVente')->name('vend.submitAddVente');
+    Route::get('/menu/{p_id_mag}', 'VendeurController@getMagasin')->name('vend.menu');
+
+});
+

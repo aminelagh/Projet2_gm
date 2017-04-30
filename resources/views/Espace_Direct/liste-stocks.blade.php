@@ -44,81 +44,78 @@
 
 @section('main_content')
     <div class="container-fluid">
-        <!-- main row -->
-        <div class="row">
-            <h1 class="page-header">Stock du magasin
-                <strong>{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</strong>
-                <small></small>
-            </h1>
-
-            {{-- **************Alerts**************  --}}
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-2"></div>
+                <h1 class="page-header">Stock du magasin
+                    <strong>{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</strong></h1>
 
-                <div class="col-lg-8">
-                    {{-- Debut Alerts --}}
-                    @if (session('alert_success'))
-                        <div class="alert alert-success alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_success') !!}
-                        </div>
-                    @endif
+                {{-- **************Alerts**************  --}}
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        {{-- Debut Alerts --}}
+                        @if (session('alert_success'))
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_success') !!}
+                            </div>
+                        @endif
 
-                    @if (session('alert_info'))
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_info') !!}
-                        </div>
-                    @endif
+                        @if (session('alert_info'))
+                            <div class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_info') !!}
+                            </div>
+                        @endif
 
-                    @if (session('alert_warning'))
-                        <div class="alert alert-warning alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_warning') !!}
-                        </div>
-                    @endif
+                        @if (session('alert_warning'))
+                            <div class="alert alert-warning alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_warning') !!}
+                            </div>
+                        @endif
 
-                    @if (session('alert_danger'))
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_danger') !!}
-                        </div>
-                    @endif
-                    {{-- Fin Alerts --}}
+                        @if (session('alert_danger'))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_danger') !!}
+                            </div>
+                        @endif
+                        {{-- Fin Alerts --}}
+                    </div>
+
+                    <div class="col-lg-2"></div>
                 </div>
+                {{-- **************endAlerts**************  --}}
 
-                <div class="col-lg-2"></div>
-            </div>
-            {{-- **************endAlerts**************  --}}
+                <div class="table-responsive">
+                    <table id="example" class="table table-striped table-bordered table-hover">
 
-            <div class="table-responsive">
-                <table id="example" class="table table-striped table-bordered table-hover">
+                        <thead bgcolor="#DBDAD8">
+                        <tr>
+                            <th width="2%"> #</th>
+                            <th>Article</th>
+                            <th width="15%">Quantite</th>
+                            <th width="30%">Etat</th>
+                            <th width="10%">Autres</th>
+                            </th>
+                        </thead>
+                        <tfoot bgcolor="#DBDAD8">
+                        <tr>
+                            <th width="2%"></th>
+                            <th>Article</th>
+                            <th>Quantite</th>
+                            <th></th>
+                            <th width="10%"></th>
+                        </tr>
+                        </tfoot>
 
-                    <thead bgcolor="#DBDAD8">
-                    <tr>
-                        <th width="2%"> #</th>
-                        <th>Article</th>
-                        <th width="15%">Quantite</th>
-                        <th width="30%">Etat</th>
-                        <th width="10%">Autres</th>
-                    </th>
-                    </thead>
-                    <tfoot bgcolor="#DBDAD8">
-                    <tr>
-                        <th width="2%"></th>
-                        <th>Article</th>
-                        <th>Quantite</th>
-                        <th></th>
-                        <th width="10%"></th>
-                    </tr>
-                    </tfoot>
-
-                    <tbody>
-                    {{--@if( $data->isEmpty() )
-                    <tr><td colspan="4">Aucun ar</td></tr>
-                    @else
-                        --}}
-                    @foreach( $data as $item )
+                        <tbody>
+                        {{--@if( $data->isEmpty() )
+                        <tr><td colspan="4">Aucun ar</td></tr>
+                        @else
+                            --}}
+                        @foreach( $data as $item )
 
                             {{-- Tests pour definir la couleur de la ligne --}}
                             @if( $item->quantite > $item->quantite_min )
@@ -129,31 +126,35 @@
                                 <tr class="warning">
                             @else
                                 <tr>
-                            @endif
-                            {{-- fin Tests pour definir la couleur de la ligne --}}
-
-                            <td>{{ $loop->index+1 }}</td>
-                            <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
-                            <td>{{ $item->quantite }} article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%</td>
-                            <td>
-                                <div class="progress">
-                                    @if( $item->quantite<$item->quantite_min )
-                                        <div class="progress-bar progress-bar-danger progress-bar-striped"
-                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                    @elseif( $item->quantite==$item->quantite_min )
-                                        <div class="progress-bar progress-bar-warning progress-bar-striped"
-                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                    @else
-                                        <div class="progress-bar progress-bar-success progress-bar-striped"
-                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
                                     @endif
-                                </div>
-                            </td>
-                            <td align="center">
-                                <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
-                                   title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal{{ $loop->index+1 }}">Detail</button>
-                            </td>
+                                    {{-- fin Tests pour definir la couleur de la ligne --}}
+
+                                    <td>{{ $loop->index+1 }}</td>
+                                    <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
+                                    <td>{{ $item->quantite }}
+                                        article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%
+                                    </td>
+                                    <td>
+                                        <div class="progress">
+                                            @if( $item->quantite<$item->quantite_min )
+                                                <div class="progress-bar progress-bar-danger progress-bar-striped"
+                                                     style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                            @elseif( $item->quantite==$item->quantite_min )
+                                                <div class="progress-bar progress-bar-warning progress-bar-striped"
+                                                     style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                            @else
+                                                <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                     style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                    <td align="center">
+                                        <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
+                                           title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
+                                        <button type="button" class="btn btn-info" data-toggle="modal"
+                                                data-target="#myModal{{ $loop->index+1 }}">Detail
+                                        </button>
+                                    </td>
 
                                     {{-- Modal (pour afficher les details de chaque article) --}}
                                     <div class="modal fade" id="myModal{{ $loop->index+1 }}"
@@ -209,26 +210,20 @@
                                         </div>
                                     </div>
                                     {{-- fin Modal (pour afficher les details de chaque article) --}}
-                        </tr>
-                    @endforeach
+                                </tr>
+                                @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
+                <br/>
+                <div class="row" align="center">
+                    <a href="{{ Route('direct.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
+                       type="button" class="btn btn-outline btn-default"> alimenter le Stock </a>
+                </div>
 
-                    </tbody>
-                </table>
             </div>
-
-
-            <br/>
-            <!-- row -->
-            <div class="row" align="center">
-                <a href="{{ Route('direct.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
-                   type="button" class="btn btn-outline btn-default"> alimenter le Stock </a>
-            </div>
-            <!-- row -->
-
         </div>
-        <!-- end main row -->
-
     </div>
 @endsection
 
