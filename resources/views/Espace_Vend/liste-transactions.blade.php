@@ -152,9 +152,9 @@
                                             <td align="right">
                                                 XX{{--App\Models\Trans_Article::where(['id_transaction'=> $item->id_transaction ])->count() --}}</td>
                                             <td>
-                                                paiement{{-- getChamp('mode_paiements','id_mode',getChamp('paiements', 'id_paiement', $item->id_paiement, 'id_mode') , 'libelle') --}}</td>
+                                                XX{{-- getChamp('mode_paiements','id_mode',getChamp('paiements', 'id_paiement', $item->id_paiement, 'id_mode') , 'libelle') --}}</td>
                                             <td align="center">
-                                                <a href="{{ Route('vend.details',['p_id' => $item->id_transaction  ]) }}"
+                                                <a href="{{ Route('vend.lister',[ 'p_id' => $item->id_transaction , '$p_table' => 'trans_articles' ]) }}"
                                                    title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
                                             </td>
                                         </tr>

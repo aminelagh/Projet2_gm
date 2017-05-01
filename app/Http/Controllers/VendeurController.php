@@ -37,8 +37,15 @@ class VendeurController extends Controller
 
         switch ($p_table) {
             case 'transactions':
-                $data = collect( DB::select("call getVentesUser(" . $id_user . ");") );
+                $data = collect(DB::select("call getVentesUser(" . $id_user . ");"));
                 return view('Espace_Vend.liste-transactions')->with('data', $data);
+                break;
+            case 'trans_articles':
+                $data = collect(DB::select("call getTrans_Articles(" . $p_id . ");"));
+                if ($data->isEmpty())
+                    return redirect()->back()->withInput()->with("alert_warning", "cette vente n'a pas de detail.");
+                else
+                    return view('Espace_Vend.liste-trans_articles')->with('data', $data);
                 break;
             case 'ventes':
                 $data = collect(DB::select("call getVentesMagasin(" . $p_id . ");"));
@@ -62,17 +69,18 @@ class VendeurController extends Controller
     //Afficher le detail de la transaction
     public function detailTrans($p_id)
     {
+        return "VendeurController@detailTrans";
+
         $data = Trans_Article::where('id_transaction', $p_id)->get();
         if ($data->isEmpty())
             return redirect()->back()->withInput()->with('alert_warning', 'Cette transaction ne contient aucun article.');
         else
-            return view('Espace_Vend.detail-transact')->with('data', $data);
+            return view('Espace_Vend.detail-transaction')->with('data', $data);
     }
 
 
     public function getMagasin($p_id_mag)
     {
-
         $data = collect(DB::select("call getArticlesForAjout(" . $p_id_mag . "); "));
         return view('Espace_Vend._nav_menu_2')->with(['data' => $data]);
     }

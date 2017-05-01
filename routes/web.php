@@ -212,7 +212,7 @@ Route::prefix('/vend')->group(function () {
 
 
     //Visualiser les details de la transaction
-    Route::get('/details/{p_id}', 'VendeurController@detailTrans')->name('vend.details');
+    //Route::get('/details/{p_id}', 'VendeurController@detailTrans')->name('vend.details');
     //Route::get('/lister/{p_table}','VendeurController@lister')->name('vendeur.lister');
 
     //Afficher le formulaire d'Ajout de vente
