@@ -70,6 +70,8 @@
                 {{-- **************endAlerts**************  --}}
 
                 <div class="row">
+
+                    <!-- ventes -->
                     <div class="col-lg-4">
                         <div class="panel panel-yellow">
                             <div class="panel-heading">
@@ -78,12 +80,12 @@
                                         <i class="fa fa-shopping-cart fa-5x"></i>
                                     </div>
                                     <div class="col-xs-9 text-right">
-                                        <div class="huge">{{ App\Models\Transaction::where(['id_type_transaction'=> 3,'id_user'=> 3 ])->count() }}</div>
+                                        <div class="huge">XX{{-- App\Models\Transaction::where(['id_type_transaction'=> 3,'id_user'=> 3 ])->count() --}}</div>
                                         <div>Ventes établies</div>
                                     </div>
                                 </div>
                             </div>
-                            <a href="{{Route('vend.lister',['param' => 'transact','p_id_user'=>3]) }}">
+                            <a href="{{Route('vend.lister',['p_table' => 'transactions','p_id'=>3]) }}">
                                 <div class="panel-footer">
                                     <span class="pull-left">Consulter</span>
                                     <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -93,6 +95,7 @@
                         </div>
                     </div>
 
+                    <!-- promotions -->
                     <div class="col-lg-4">
                         <div class="panel panel-green">
                             <div class="panel-heading">
@@ -116,6 +119,7 @@
                         </div>
                     </div>
 
+                    <!-- stock -->
                     <div class="col-lg-4">
                         <div class="panel panel-primary">
                             <div class="panel-heading">

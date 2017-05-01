@@ -33,11 +33,12 @@ class VendeurController extends Controller
     public function lister($p_table, $p_id)
     {
         $id_magasin = 1; //variable de session ici
+        $id_user = 1;//Variable de session ici
 
         switch ($p_table) {
-            case 'transact':
-                $data = collect( DB::select("call getTransactionsMagasin(" . $p_id . ");") );
-                return view('Espace_Vend.liste-transact')->with('data', $data);
+            case 'transactions':
+                $data = collect( DB::select("call getVentesUser(" . $id_user . ");") );
+                return view('Espace_Vend.liste-transactions')->with('data', $data);
                 break;
             case 'ventes':
                 $data = collect(DB::select("call getVentesMagasin(" . $p_id . ");"));
@@ -49,8 +50,7 @@ class VendeurController extends Controller
                 break;
             case 'stocks':
                 $data = collect(DB::select("call getStockOfMagasin(" . $id_magasin . "); "));
-                //$data = Stock::where('id_magasin',$p_id)->get();
-                //dump($data);
+                //$data = Stock::where('id_magasin',$p_id)->get();  dump($data);
                 return view('Espace_Vend.liste-stocks')->with('data', $data);
                 break;
             default:
