@@ -33,7 +33,6 @@
                 }
             });
 
-
             var table = $('#example').DataTable({
                 //"scrollY": "50px",
                 //"scrollX": true,
@@ -42,18 +41,19 @@
                 //"autoWidth": true,
                 "info": true,
                 stateSave: false,
-
-
                 "columnDefs": [
-                    {"width": "2%", "targets": 0},//#
-                    {"width": "5%", "targets": 1},//numero
-                    {"width": "7%", "targets": 2},//code
-                    {"width": "3%", "targets": 4},//taille
-                    {"width": "6%", "targets": 5},//couleur
-                    {"width": "6%", "targets": 6},//sexe
-                    {"width": "5%", "targets": 7},//pr
-                    {"width": "5%", "targets": 8},//pr
-                    {"width": "10%", "targets": 9}//autre
+                    {"width": "2%", "targets": 0},
+                    {"width": "5%", "targets": 1},
+                    {"width": "7%", "targets": 2},
+                    {"width": "7%", "targets": 3},
+                    {"width": "3%", "targets": 4},
+                    //{"width": "6%", "targets": 5},
+                    {"width": "6%", "targets": 6},
+                    {"width": "5%", "targets": 7},
+                    {"width": "3%", "targets": 8},
+                    {"width": "8%", "targets": 9},
+                    {"width": "8%", "targets": 10},
+                    {"width": "3%", "targets": 11}
                 ]
             });
 
@@ -78,175 +78,193 @@
             $('[data-toggle="popover"]').popover();
         });
     </script>
-
 @endsection
 
 @section('main_content')
     <div class="container-fluid">
-        <div class="row">
-            <h1 class="page-header">Création de promotions</h1>
-
-            {{-- **************Alerts************** --}}
+        <div class="col-lg-12">
             <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-8">
-                    {{-- Debut Alerts --}}
+                <h1 class="page-header">Création des promotions</h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Liste des promotions</li>
+                    <li class="breadcrumb-item">Creation des promotions</li>
+                </ol>
 
-                    @if (session('alert_success'))
-                        <div class="alert alert-success alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_success') !!}
-                        </div>
-                    @endif
-                    @if (session('alert_info'))
-                        <div class="alert alert-info alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_info') !!}
-                        </div>
-                    @endif
-                    @if (session('alert_warning'))
-                        <div class="alert alert-warning alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_warning') !!}
-                        </div>
-                    @endif
-                    @if (session('alert_danger'))
-                        <div class="alert alert-danger alert-dismissable">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                            </button> {!! session('alert_danger') !!}
-                        </div>
-                    @endif
-                    {{-- Fin Alerts --}}
+                {{-- *************** Alerts *************** --}}
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        @if (session('alert_success'))
+                            <div class="alert alert-success alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_success') !!}
+                            </div>
+                        @endif
+                        @if (session('alert_info'))
+                            <div class="alert alert-info alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_info') !!}
+                            </div>
+                        @endif
+                        @if (session('alert_warning'))
+                            <div class="alert alert-warning alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_warning') !!}
+                            </div>
+                        @endif
+                        @if (session('alert_danger'))
+                            <div class="alert alert-danger alert-dismissable">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
+                                </button> {!! session('alert_danger') !!}
+                            </div>
+                        @endif
+                    </div>
+                    <div class="col-lg-2"></div>
                 </div>
-                <div class="col-lg-2"></div>
-            </div>
-        {{-- **************endAlerts************** --}}
+                {{-- ************** /.Alerts ************** --}}
 
-        <!-- Row 1 -->
-            <div class="row">
-                <div class="table-responsive">
-                    <div class="col-lg-12">
-                        {{-- *************** form ***************** --}}
-                        <form role="form" method="post"
-                              action="{{ Route('direct.submitAdd',[ 'p_table' => 'promotions' ]) }}">
-                            {{ csrf_field() }}
-                            <table id="example" class="table table-striped table-bordered table-hover">
-                                <thead bgcolor="#DBDAD8">
-                                <tr>
-                                    <th width="1%">#</th>
-                                    <th>Categorie</th>
-                                    <th>Fournisseur</th>
-                                    <th>Article</th>
-                                    <th>Magasin</th>
-                                    <th width="5%">Prix de vente</th>
-                                    <th width="2%">Taux</th>
-                                    <th width="2%">Date debut</th>
-                                    <th width="2%">Date fin</th>
-                                    <th width="2%">Autres</th>
-                                </tr>
-                                </thead>
-                                <tfoot bgcolor="#DBDAD8">
-                                <tr>
-                                    <th></th>
-                                    <th>Categorie</th>
-                                    <th>Fournisseur</th>
-                                    <th>Article</th>
-                                    <th></th>
-                                    <th>Prix de vente</th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                                </tfoot>
-                                <tbody>
-                                @foreach( $articles as $item )
+                <div class="row">
+                    <div class="table-responsive">
+                        <div class="col-lg-12">
+                            <div class="breadcrumb">
+                                Afficher/Masquer:
+                                <a class="toggle-vis" data-column="1">Categorie</a> -
+                                <a class="toggle-vis" data-column="2">Fournisseur</a> -
+                                <a class="toggle-vis" data-column="3">Numero</a> -
+                                <a class="toggle-vis" data-column="4">Code</a> -
+                                <a class="toggle-vis" data-column="5">Designation</a> -
+                                <a class="toggle-vis" data-column="6">Prix de vente</a>
+                            </div>
+                            {{-- *************** form ***************** --}}
+                            <form role="form" method="post"
+                                  action="{{ Route('direct.submitAdd',[ 'p_table' => 'promotions' ]) }}">
+                                {{ csrf_field() }}
+                                <table id="example" class="table table-striped table-bordered table-hover">
+                                    <thead bgcolor="#DBDAD8">
                                     <tr>
-                                        <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
-                                               value="{{ $item->id_article }}">
-                                        <!--input type="hidden" name="designation_c[{{ $loop->index+1 }}]"
-                                               value="{{ $item->designation_c }}"/-->
+                                        <th>#</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Categorie</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Fournisseur</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Numero</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Code</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Article</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Prix de vente</th>
+                                        <th><i class="fa fa-fw fa-sort"></i> Magasin</th>
+                                        <th>Taux</th>
+                                        <th>Date debut</th>
+                                        <th>Date fin</th>
+                                        <th>Autres</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot bgcolor="#DBDAD8">
+                                    <tr>
+                                        <th></th>
+                                        <th>Categorie</th>
+                                        <th>Fournisseur</th>
+                                        <th>Numero</th>
+                                        <th>Code</th>
+                                        <th>Article</th>
+                                        <th>Prix de vente</th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    @foreach( $articles as $item )
+                                        <tr>
+                                            <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
+                                                   value="{{ $item->id_article }}">
 
-                                        <td>{{ $loop->index+1 }}</td>
-                                        <td>{{ $item->designation_c }}</td>
-                                        <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie, 'libelle') }}</td>
-                                        <td>{{ getChamp('fournisseurs', 'id_fournisseur', $item->id_fournisseur, 'libelle') }}</td>
-                                        <td>
-                                            <select class="form-control" name="id_magasin[{{ $loop->index+1 }}]">
-                                                <option value="0" selected>Aucun</option>
-                                                @if( !$magasins->isEmpty() )
-                                                    @foreach( $magasins as $magasin )
-                                                        <option value="{{ $magasin->id_magasin }}" >{{ $magasin->id_magasin }}-{{ $magasin->libelle }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                        </td>
-                                        <td>{{ $item->prix_vente }}</td>
-                                        <td><input type="number" min="0" patern=".##" placeholder="Taux"
-                                                   name="taux[{{ $loop->index+1 }}]"></td>
-                                        <td><input type="date" name="date_debut[{{ $loop->index+1 }}]"
-                                                   value="{{ 'old(date_debut[$loop->index+1])' }}"></td>
-                                        <td><input type="date" name="date_fin[{{ $loop->index+1 }}]"
-                                                   value="{{ old('date_fin[$loop->index+1]') }}"></td>
-                                        <td>
-                                            <button type="button" class="btn btn-info" data-toggle="modal"
-                                                    data-target="#modal{{ $loop->index+1 }}">Detail
-                                            </button>
-                                        </td>
+                                            <td>{{ $loop->index+1 }}</td>
+                                            <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie, 'libelle') }}</td>
+                                            <td>{{ getChamp('fournisseurs', 'id_fournisseur', $item->id_fournisseur, 'libelle') }}</td>
+                                            <td>{{ $item->num_article }}</td>
+                                            <td>{{ $item->code_barre }}</td>
+                                            <td>{{ $item->designation_c }}</td>
+                                            <td align="right">{{ getTTC($item->prix_vente,2) }}</td>
+                                            <td>
+                                                <select class="form-control" name="id_magasin[{{ $loop->index+1 }}]">
+                                                    <option value="0" selected>Aucun</option>
+                                                    @if( !$magasins->isEmpty() )
+                                                        @foreach( $magasins as $magasin )
+                                                            <option value="{{ $magasin->id_magasin }}">{{ $magasin->libelle }}</option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+                                            </td>
+                                            <td><input type="number" min="0" patern=".##" placeholder="Taux"
+                                                       name="taux[{{ $loop->index+1 }}]"></td>
+                                            <td><input type="date" name="date_debut[{{ $loop->index+1 }}]"
+                                                       value="{{ old('date_debut['.($loop->index+1).']') }}"></td>
+                                            <td><input type="date" name="date_fin[{{ $loop->index+1 }}]"
+                                                       value="{{ old('date_fin['.($loop->index+1).']') }}"></td>
+                                            <td>
+                                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                                        data-target="#modal{{ $loop->index+1 }}">Detail
+                                                </button>
+                                            </td>
 
-                                        {{-- Modal (pour afficher les details de chaque article) --}}
-                                        <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">
-                                            <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">
-                                                            &times;
-                                                        </button>
-                                                        <h4 class="modal-title">{{ $item->designation_c }}</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><b>numero</b> {{ $item->num_article }}</p>
-                                                        <p><b>code a barres</b> {{ $item->code_barre }}</p>
-                                                        <p><b>Taille</b> {{ $item->taille }}</p>
-                                                        <p><b>Couleur</b> {{ $item->couleur }}</p>
-                                                        <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
-                                                        <p><b>Prix d'achat</b> {{ $item->prix_achat }}</p>
-                                                        <p><b>Prix de vente</b> {{ $item->prix_vente }}</p>
-                                                        <p>{{ $item->designation_l }}</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">Fermer
-                                                        </button>
+                                            {{-- Modal (pour afficher les details de chaque article) --}}
+                                            <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">
+                                                                &times;
+                                                            </button>
+                                                            <h4 class="modal-title">{{ $item->designation_c }}</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><b>numero</b> {{ $item->num_article }}</p>
+                                                            <p><b>code a barres</b> {{ $item->code_barre }}</p>
+                                                            <p><b>Taille</b> {{ $item->taille }}</p>
+                                                            <p><b>Couleur</b> {{ $item->couleur }}</p>
+                                                            <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
+                                                            <p><b>Prix
+                                                                    d'achat</b> {{ number_format($item->prix_achat,2) }}
+                                                                Dhs HT,{{ getTTC($item->prix_achat) }} Dhs TTC</p>
+                                                            <p><b>Prix de
+                                                                    vente</b> {{ number_format($item->prix_vente,2) }}
+                                                                Dhs HT,{{ getTTC($item->prix_vente) }} Dhs TTC</p>
+                                                            <p>{{ $item->designation_l }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">Fermer
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        {{-- fin Modal (pour afficher les details de chaque article) --}}
+                                            {{-- fin Modal (pour afficher les details de chaque article) --}}
 
+                                        </tr>
+                                    @endforeach
+                                    </tbody>
+                                    <tr>
+                                        <td colspan="12" align="center">
+                                            <button formtarget="_blank" data-toggle="popover" data-placement="top"
+                                                    data-trigger="hover" title="Valider l'ajout"
+                                                    data-content="Cliquez ici pour valider la création des promotions sur l'ensemble des articles choisi"
+                                                    type="submit" name="submit" value="valider" class="btn btn-default">
+                                                Valider
+                                            </button>
+                                        </td>
                                     </tr>
-                                @endforeach
-                                </tbody>
-                                <tr>
-                                    <td colspan="10" align="center">
-                                        <button formtarget="_blank" data-toggle="popover" data-placement="top"
-                                                data-trigger="hover" title="Valider l'ajout"
-                                                data-content="Cliquez ici pour valider la création des promotions sur l'ensemble des articles choisi"
-                                                type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-                                    </td>
-                                </tr>
-                            </table>
-                        </form>
-                        {{-- *************** end form ***************** --}}
+                                </table>
+                            </form>
+                            {{-- *************** end form ***************** --}}
+                        </div>
                     </div>
                 </div>
+
             </div>
-            <!-- end row 1 -->
-
-
         </div>
     </div>
-    <!-- /.row -->
 @endsection
 
 @section('menu_1') @include('Espace_Direct._nav_menu_1') @endsection

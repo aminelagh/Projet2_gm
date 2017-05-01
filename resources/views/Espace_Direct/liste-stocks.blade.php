@@ -48,6 +48,10 @@
             <div class="row">
                 <h1 class="page-header">Stock du magasin
                     <strong>{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</strong></h1>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('vend.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active">Liste des promotions</li>
+                </ol>
 
                 {{-- **************Alerts**************  --}}
                 <div class="row">
@@ -88,138 +92,147 @@
                 </div>
                 {{-- **************endAlerts**************  --}}
 
-                <div class="table-responsive">
-                    <table id="example" class="table table-striped table-bordered table-hover">
+                <div class="row">
+                    <div class="table-responsive">
+                        <div class="col-lg-12">
+                            <table id="example" class="table table-striped table-bordered table-hover">
 
-                        <thead bgcolor="#DBDAD8">
-                        <tr>
-                            <th width="2%"> #</th>
-                            <th>Article</th>
-                            <th width="15%">Quantite</th>
-                            <th width="30%">Etat</th>
-                            <th width="10%">Autres</th>
-                            </th>
-                        </thead>
-                        <tfoot bgcolor="#DBDAD8">
-                        <tr>
-                            <th width="2%"></th>
-                            <th>Article</th>
-                            <th>Quantite</th>
-                            <th></th>
-                            <th width="10%"></th>
-                        </tr>
-                        </tfoot>
-
-                        <tbody>
-                        {{--@if( $data->isEmpty() )
-                        <tr><td colspan="4">Aucun ar</td></tr>
-                        @else
-                            --}}
-                        @foreach( $data as $item )
-
-                            {{-- Tests pour definir la couleur de la ligne --}}
-                            @if( $item->quantite > $item->quantite_min )
-                                <tr class="success">
-                            @elseif( $item->quantite < $item->quantite_min )
-                                <tr class="danger">
-                            @elseif( $item->quantite == $item->quantite_min )
-                                <tr class="warning">
-                            @else
+                                <thead bgcolor="#DBDAD8">
                                 <tr>
-                                    @endif
-                                    {{-- fin Tests pour definir la couleur de la ligne --}}
+                                    <th width="2%"> #</th>
+                                    <th>Article</th>
+                                    <th>Quantite</th>
+                                    <th>Etat</th>
+                                    <th>Autres</th>
+                                </tr>
+                                </thead>
+                                <tfoot bgcolor="#DBDAD8">
+                                <tr>
+                                    <th></th>
+                                    <th>Article</th>
+                                    <th>Quantite</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                                </tfoot>
 
-                                    <td>{{ $loop->index+1 }}</td>
-                                    <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
-                                    <td>{{ $item->quantite }}
-                                        article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%
-                                    </td>
-                                    <td>
-                                        <div class="progress">
-                                            @if( $item->quantite<$item->quantite_min )
-                                                <div class="progress-bar progress-bar-danger progress-bar-striped"
-                                                     style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                            @elseif( $item->quantite==$item->quantite_min )
-                                                <div class="progress-bar progress-bar-warning progress-bar-striped"
-                                                     style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
-                                            @else
-                                                <div class="progress-bar progress-bar-success progress-bar-striped"
-                                                     style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                <tbody>
+                                {{--@if( $data->isEmpty() )
+                                <tr><td colspan="4">Aucun ar</td></tr>
+                                @else
+                                    --}}
+                                @foreach( $data as $item )
+
+                                    {{-- Tests pour definir la couleur de la ligne --}}
+                                    @if( $item->quantite > $item->quantite_min )
+                                        <tr class="success">
+                                    @elseif( $item->quantite < $item->quantite_min )
+                                        <tr class="danger">
+                                    @elseif( $item->quantite == $item->quantite_min )
+                                        <tr class="warning">
+                                    @else
+                                        <tr>
                                             @endif
-                                        </div>
-                                    </td>
-                                    <td align="center">
-                                        <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
-                                           title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
-                                        <button type="button" class="btn btn-info" data-toggle="modal"
-                                                data-target="#myModal{{ $loop->index+1 }}">Detail
-                                        </button>
-                                    </td>
+                                            {{-- fin Tests pour definir la couleur de la ligne --}}
 
-                                    {{-- Modal (pour afficher les details de chaque article) --}}
-                                    <div class="modal fade" id="myModal{{ $loop->index+1 }}"
-                                         role="dialog">
-                                        <div class="modal-dialog modal-sm">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <button type="button" class="close"
-                                                            data-dismiss="modal">&times;
-                                                    </button>
-                                                    <h4 class="modal-title">{{ getChamp("articles", "id_article",  $item->id_article , "designation_c")  }}</h4>
+                                            <td>{{ $loop->index+1 }}</td>
+                                            <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
+                                            <td>{{ $item->quantite }}
+                                                article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%
+                                            </td>
+                                            <td>
+                                                <div class="progress">
+                                                    @if( $item->quantite<$item->quantite_min )
+                                                        <div class="progress-bar progress-bar-danger progress-bar-striped"
+                                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                                    @elseif( $item->quantite==$item->quantite_min )
+                                                        <div class="progress-bar progress-bar-warning progress-bar-striped"
+                                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                                    @else
+                                                        <div class="progress-bar progress-bar-success progress-bar-striped"
+                                                             style="width: {{ 100*($item->quantite/$item->quantite_max) }}%"></div>
+                                                    @endif
                                                 </div>
-                                                <div class="modal-body">
-                                                    <p><b>Quantité </b> {{ $item->quantite }}
-                                                    </p>
-                                                    <p><b>Quantité
-                                                            Min</b> {{ $item->quantite_min }}
-                                                    </p>
-                                                    <p><b>Quantité
-                                                            Max</b> {{ $item->quantite_max }}
-                                                    </p>
-                                                    <hr>
-                                                    <p>
-                                                        <b>numero</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}
-                                                    </p>
-                                                    <p><b>code a
-                                                            barres</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}
-                                                    </p>
-                                                    <p>
-                                                        <b>Taille</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}
-                                                    </p>
-                                                    <p>
-                                                        <b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
-                                                    </p>
-                                                    <p>
-                                                        <b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
-                                                    </p>
-                                                    <p><b>Prix
-                                                            d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}
-                                                    </p>
-                                                    <p><b>Prix de
-                                                            vente</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }}
-                                                    </p>
-                                                    <p>{{ getChamp("articles", "id_article",  $item->id_article , "designation_l")  }}</p>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button"
-                                                            class="btn btn-default"
-                                                            data-dismiss="modal">Fermer
-                                                    </button>
+                                            </td>
+                                            <td align="center">
+                                                <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
+                                                   title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
+                                                <button type="button" class="btn btn-info" data-toggle="modal"
+                                                        data-target="#myModal{{ $loop->index+1 }}">Detail
+                                                </button>
+                                            </td>
+
+                                            {{-- Modal (pour afficher les details de chaque article) --}}
+                                            <div class="modal fade" id="myModal{{ $loop->index+1 }}"
+                                                 role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;
+                                                            </button>
+                                                            <h4 class="modal-title">{{ getChamp("articles", "id_article",  $item->id_article , "designation_c")  }}</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><b>Quantité </b> {{ $item->quantite }}
+                                                            </p>
+                                                            <p><b>Quantité
+                                                                    Min</b> {{ $item->quantite_min }}
+                                                            </p>
+                                                            <p><b>Quantité
+                                                                    Max</b> {{ $item->quantite_max }}
+                                                            </p>
+                                                            <hr>
+                                                            <p>
+                                                                <b>numero</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}
+                                                            </p>
+                                                            <p><b>code a
+                                                                    barres</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}
+                                                            </p>
+                                                            <p>
+                                                                <b>Taille</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}
+                                                            </p>
+                                                            <p>
+                                                                <b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
+                                                            </p>
+                                                            <p>
+                                                                <b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
+                                                            </p>
+                                                            <p><b>Prix
+                                                                    d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}
+                                                            </p>
+                                                            <p><b>Prix de
+                                                                    vente</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }}
+                                                            </p>
+                                                            <p>{{ getChamp("articles", "id_article",  $item->id_article , "designation_l")  }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button"
+                                                                    class="btn btn-default"
+                                                                    data-dismiss="modal">Fermer
+                                                            </button>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    {{-- fin Modal (pour afficher les details de chaque article) --}}
-                                </tr>
-                                @endforeach
-                        </tbody>
-                    </table>
+                                            {{-- fin Modal (pour afficher les details de chaque article) --}}
+                                        </tr>
+                                        @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
 
                 <br/>
                 <div class="row" align="center">
+                    <a href="{{ Route('direct.addStock',['p_id_magasin' => $data->first()->id_magasin ]) }}"
+                       type="button"
+                       class="btn btn-outline btn-info" {!! setPopOver("","Ajouter des nouveaux articles au stock de ce magasin") !!}>Ajouter
+                        des articles</a>
                     <a href="{{ Route('direct.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
-                       type="button" class="btn btn-outline btn-default"> alimenter le Stock </a>
+                       type="button" class="btn btn-outline btn-default" {!! setPopOver("","Alimenter le stock ") !!}>
+                        alimenter le Stock </a>
                 </div>
 
             </div>

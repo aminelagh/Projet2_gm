@@ -25,14 +25,14 @@ if( !function_exists('getDateHelper') )
 
 		switch($date->dayOfWeek)
 		{
-		 case '1': $J = 'Lundi';	break;
-		 case '2': $J = 'Mardi';	break;
-		 case '3': $J = 'Mercredi';	break;
-		 case '4': $J = 'Jeudi';	break;
-		 case '5': $J = 'Vendredi';	break;
-		 case '6': $J = 'Samedi';	break;
-		 case '0': $J = 'Dimanche';	break;
-		 default:	 $J = 'Le';
+		 case '1':  $J = 'Lundi';	    break;
+		 case '2':  $J = 'Mardi';	    break;
+		 case '3':  $J = 'Mercredi';	break;
+		 case '4':  $J = 'Jeudi';	    break;
+		 case '5':  $J = 'Vendredi';	break;
+		 case '6':  $J = 'Samedi';      break;
+		 case '0':  $J = 'Dimanche';	break;
+		 default:   $J = 'Le';
 		}
 
 		switch($date->month)
@@ -49,7 +49,7 @@ if( !function_exists('getDateHelper') )
 		 case '10': $M = 'Octobre';		break;
 		 case '11': $M = 'Novembre';	break;
 		 case '12': $M = 'Décembre';	break;
-		 default:	 	$M = '/ '.$date->month.' /';
+		 default:   $M = '/ '.$date->month.' /';
 		}
 		return $J." ".$date->day." ".$M." ".$date->year;
 	}
