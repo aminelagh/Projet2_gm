@@ -8,10 +8,6 @@
     <li><a href="{{ Route('admin.lister',['p_table'=>'users']) }}"><i class="fa fa-fw fa-wrench"></i> Liste User <span class="badge">{{ App\Models\User::count() }} </span> </a></li>
 
 
-
-    <li class="active">
-      <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-    </li>
   </ul>
 </div>
 <!-- /.navbar-collapse -->

@@ -15,8 +15,9 @@
 
 @section('main_content')
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="col-lg-12">
+            <div class="row">
+
                 <h1 class="page-header">Ajouter une Categorie</h1>
 
                 <ol class="breadcrumb">
@@ -69,86 +70,91 @@
                 {{-- **************endAlerts**************  --}}
 
                 {{-- *************** formulaire ***************** --}}
-                <form role="form" method="post"
-                      action="{{ Route('direct.submitAdd',['p_table' => 'categories']) }}">
-                {{ csrf_field() }}
+
+                    <form role="form" method="post"
+                          action="{{ Route('direct.submitAdd',['p_table' => 'categories']) }}">
+                    {{ csrf_field() }}
 
 
-                <!-- Row 1 -->
-                    <div class="row">
-
-                        <div class="col-lg-6">
-                            {{-- Libelle --}}
-                            <div class="form-group">
-                                <label>Nom de la Categorie</label>
-                                <input type="text" class="form-control" placeholder="Libelle " name="libelle"
-                                       value="{{ old('libelle') }}" required autofocus>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            {{-- Description --}}
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea type="text" class="form-control" rows="3" placeholder="Description"
-                                          name="description">{{ old('description') }}</textarea>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- end row 1 -->
-
-
-                    <!-- row 4 -->
-                    <div class="row" align="center">
-                        {{-- Submit & Reset --}}
-                        <label title="Forcer l'ajout de la categorie">cochez pour forcer l'ajout de l'article</label>
-                        <input type="checkbox" name="force" value="true"><br>
-                        <button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-                        <button type="reset" class="btn btn-default">Effacer</button>
-                    </div>
-                    <!-- end row 4 -->
-
-                    {{-- verifier si data exist et non vide --}}
-                    @if( isset($data) && !$data->isEmpty())
-                        <hr>
-                        <!-- row 5 -->
+                    <!-- Row 1 -->
                         <div class="row">
-                            <div class="col-lg-3"></div>
-                            <div class="col-lg-6" align="center">
-                                <button type="button" class="btn btn-info" data-toggle="collapse"
-                                        data-target="#demo10"
-                                        title="Cliquez ici pour visualiser la liste des articles existants">Liste
-                                    des Categories
-                                </button>
-                                <div id="demo10" class="collapse" style="margin:25px 0;height:200px;border:none;width:100%;">
-                                    <br>
-                                    <div class="panel panel-primary">
-                                        <div class="panel-heading">
-                                            <h3 class="panel-title" align="center">Categories <span
-                                                        class="badge">{{ App\Models\Categorie::count() }}</span>
-                                            </h3>
-                                        </div>
-                                        <div class="panel-body">
-                                            <ul class="list-group" align="center">
-                                                @foreach($data as $item)
-                                                    <li class="list-group-item">
-                                                        <a title="detail sur la categorie"
-                                                           href="{{ route('direct.info',[ 'p_table' => 'categories' , 'p_id' => $item->id_categorie ]) }}"> {{ $item->libelle }}</a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
+
+                            <div class="col-lg-6">
+                                {{-- Libelle --}}
+                                <div class="form-group">
+                                    <label>Nom de la Categorie</label>
+                                    <input type="text" class="form-control" placeholder="Libelle " name="libelle"
+                                           value="{{ old('libelle') }}" required autofocus>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                {{-- Description --}}
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea type="text" class="form-control" rows="3" placeholder="Description"
+                                              name="description">{{ old('description') }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- end row 1 -->
+
+
+                        <!-- row 4 -->
+                        <div class="row" align="center">
+                            {{-- Submit & Reset --}}
+                            <label title="Forcer l'ajout de la categorie">cochez pour forcer l'ajout de
+                                l'article</label>
+                            <input type="checkbox" name="force" value="true"><br>
+                            <button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
+                            <button type="reset" class="btn btn-default">Effacer</button>
+                        </div>
+                        <!-- end row 4 -->
+
+                        {{-- verifier si data exist et non vide
+                        @if( isset($data) && !$data->isEmpty())
+                            <hr>
+                            <!-- row 5 -->
+                            <div class="row">
+                                <div class="col-lg-3"></div>
+                                <div class="col-lg-6" align="center">
+                                    <button type="button" class="btn btn-info" data-toggle="collapse"
+                                            data-target="#demo10"
+                                            title="Cliquez ici pour visualiser la liste des articles existants">Liste
+                                        des Categories
+                                    </button>
+                                    <div id="demo10" class="collapse"
+                                         style="margin:25px 0;height:200px;border:none;width:100%;">
+                                        <br>
+                                        <div class="panel panel-primary">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title" align="center">Categories <span
+                                                            class="badge">{{ App\Models\Categorie::count() }}</span>
+                                                </h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <ul class="list-group" align="center">
+                                                    @foreach($data as $item)
+                                                        <li class="list-group-item">
+                                                            <a title="detail sur la categorie"
+                                                               href="{{ route('direct.info',[ 'p_table' => 'categories' , 'p_id' => $item->id_categorie ]) }}"> {{ $item->libelle }}</a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-3"></div>
                             </div>
-                            <div class="col-lg-3"></div>
-                        </div>
-                        <!-- end row 5 -->
-                    @endif
-                    {{-- fin if --}}
+                            <!-- end row 5 -->
+                        @endif
+                        {{-- fin if --}}
 
-                </form>
+
+                    </form>
+
 
 
             </div>

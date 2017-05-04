@@ -67,7 +67,7 @@
     <div class="container-fluid">
         <div class="col-lg-12">
             <div class="row">
-                <h1 class="page-header">Detail de la vente</h1>
+                <h1 class="page-header">Detail de la vente </h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('vend.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des Articles</li>
@@ -120,7 +120,7 @@
                                     <th><i class="fa fa-fw fa-sort"></i> Article</th>
                                     <th><i class="fa fa-fw fa-sort"></i> Prix unitaire</th>
                                     <th><i class="fa fa-fw fa-sort"></i> Quantité</th>
-                                    <th><i class="fa fa-fw fa-sort"></i> Total HT</th>
+                                    <th><i class="fa fa-fw fa-sort"></i> PU x Qts</th>
                                     <th>Autre</th>
                                 </tr>
                                 </thead>
@@ -141,15 +141,15 @@
                                     </tr>
                                 @else
                                     @foreach( $data as $item )
-
+                                        <!-- probleme des remises et des promotions -->
                                         <tr>
                                             <td align="right" width=1%>{{ $loop->index+1 }}</td>
                                             <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
-                                            <td align="right">{{ number_format(getChamp('articles','id_article',$item->id_article, 'prix_vente'),2,',','') }}
+                                            <td align="right">{{ getTTC($item->prix_vente) }}
                                                 DH
                                             </td>
                                             <td align="right">{{ $item->quantite }}</td>
-                                            <td align="right">{{ number_format(80,2) }} DH</td>
+                                            <td align="right">{{ getTTC($item->prix_vente)*$item->quantite }} DH</td>
                                             <td align="center">
                                                 <a  data-toggle="modal" data-target="#modal{{ $loop->index+1 }}" title="Detail article">
                                                     <i class="glyphicon glyphicon-eye-open" {!! setPopOver("","Afficher plus de detail") !!}></i>
@@ -193,6 +193,7 @@
                                         </div>
                                         {{-- fin Modal (pour afficher les details de chaque article) --}}
                                     @endforeach
+                                <tfoot><tr><td colspan="4"><strong>Total</strong></td><td align="right">{{ $total }} DH TTC</td><td></td></tr></tfoot>
                                 @endif
                                 </tbody>
                             </table>

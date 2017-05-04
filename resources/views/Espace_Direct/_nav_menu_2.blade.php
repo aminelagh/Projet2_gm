@@ -14,7 +14,6 @@
     <li><a href="javascript:;" data-toggle="collapse" data-target="#demo1"><i class="glyphicon glyphicon-cube-black"></i> Gestion Stocks <i class="fa fa-fw fa-caret-down"></i></a>
       <ul id="demo1" class="collapse">
         <li><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">  Magasins    <span class="badge">{{ App\Models\Magasin::count() }}</span></a></li>
-        <li><a href="{{ Route('direct.lister',['p_table' => 'stocks' ]) }}">    Stocks      <span class="badge">{{-- count(App\Models\Stock::all()->groupby('id_magasin')->get()) --}}</span></a></li>
       </ul>
     </li>
 
@@ -24,9 +23,6 @@
       </ul>
     </li>
 
-    <li class="active">
-      <a href="blank-page.html"><i class="fa fa-fw fa-file"></i> Blank Page</a>
-    </li>
   </ul>
 </div>
 <!-- /.navbar-collapse -->

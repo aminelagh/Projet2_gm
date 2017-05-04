@@ -41,10 +41,11 @@
                 "info": true,
                 stateSave: false,
                 "columnDefs": [
-                    {"width": "02%", "targets": 0, "type": "string", "visible": true, "searchable": false},//#
-                    {"width": "05%", "targets": 1, "type": "string", "visible": true},//numero
-                    {"width": "07%", "targets": 2, "type": "string", "visible": true},//code
-                    {"width": "03%", "targets": 4, "type": "string", "visible": true},//code
+                    {"width": "02%", "targets": 0, "type": "num",       "visible": true, "searchable": false},//#
+                    {"width": "05%", "targets": 1, "type": "string",    "visible": true},
+                    {"width": "07%", "targets": 2, "type": "num",       "visible": true},
+                    {                "targets": 3, "type": "string",    "visible": true},
+                    {"width": "03%", "targets": 4, "type": "string",    "visible": true},
                 ]
             });
 

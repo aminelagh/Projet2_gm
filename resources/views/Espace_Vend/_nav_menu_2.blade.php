@@ -2,7 +2,7 @@
   <ul class="nav navbar-nav side-nav">
 
     <li><a href="{{ Route('vend.home') }}"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="{{ Route('vend.addVente',[ 'p_id' =>2]) }}" > <i class="fa fa-fw fa-plus"></i> Ajouter une vente </a></li>
+    <li><a href="{{ Route('vend.addVente') }}" > <i class="fa fa-fw fa-plus"></i> Ajouter une vente </a></li>
 
     <li><a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="glyphicon glyphicon-shopping-cart"></i> Gestion des Ventes <i class="fa fa-fw fa-caret-down"></i></a>
       <ul id="demo" class="collapse">
