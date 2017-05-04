@@ -29,7 +29,8 @@
             "app/Helpers/HelperAdmin.php",
             "app/Helpers/HelperDirect.php",
             "app/Helpers/HelperDate.php",
-            "app/Helpers/HelperNumber.php"
+            "app/Helpers/HelperNumber.php",
+            "app/Helpers/HelperVendeur.php"
         ],
 
 

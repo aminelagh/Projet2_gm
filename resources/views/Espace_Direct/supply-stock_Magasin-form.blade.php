@@ -192,7 +192,6 @@
                                         <tr>
                                             <input type="hidden" name="id_stock[{{ $loop->index+1 }}]"
                                                    value="{{ $item->id_stock }}">
-
                                             <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
                                                    value="{{ $item->id_article }}">
                                             {{-- <input type="hidden" name="designation_c[{{ $loop->index+1 }}]" value="{{ $item->designation_c }}">--}}
@@ -213,7 +212,7 @@
                                             </td>
                                             <td><input type="number" min="0" placeholder="Quantite"
                                                        name="quantite[{{ $loop->index+1 }}]"
-                                                       value="{{ old('quantite[$loop->index+1]') }}"></td>
+                                                       value="{{ old('quantite['.($loop->index+1).']') }}"></td>
                                             <td>
                                                 <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#myModal{{ $loop->index+1 }}">Detail Article

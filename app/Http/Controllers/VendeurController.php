@@ -19,6 +19,7 @@ use App\Models\Promotion;
 use App\Models\Mode_paiement;
 use App\Models\Paiement;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use \Exception;
 
 class VendeurController extends Controller
@@ -27,6 +28,9 @@ class VendeurController extends Controller
 {
     public function home()
     {
+        Session::put('id_magasin', 1);
+        Session::put('id_user', 1);
+
         return view('Espace_Vend.dashboard');
     }
 
@@ -95,91 +99,180 @@ class VendeurController extends Controller
     // afficher le formulaire de creation de vente
     public function addFormVente()
     {
-        $p_id_magasin = 1;//from variable de session
-        $now = new Carbon();
+        $p_id_magasin = Session::get('id_magasin');
 
-        $data = collect( DB::select("call getStockOfMagasin(" . $p_id_magasin . "); ") );
+        $data = collect(DB::select("call getStockOfMagasin(" . $p_id_magasin . "); "));
         $modes_paiement = Mode_paiement::all();
 
-        //dump($data);
-        //array_add(['name' => 'Desk'], 'price', 100);
-
-        //dump($data);
-
-
-        foreach ($data as $item)
-        {
-            /*$x = array($item);
-            $a = array_add($x, "hasPromotion",10);
-
-            dump($x);
-            dump($a);
-            echo "<hr>";*/
-
-            dump($item);
-            $data->put('price', 100)->;
-        }
-
-
-
-        //$p = Promotion::where('id_magasin',$p_id_magasin)->where('active',true)->get();
-        /*$p = Promotion::all();
-
-        foreach ($p as $item )
-        {
-            echo $item->id_promotion;
-            $d = Carbon::parse($item->date_debut );
-            $f = Carbon::parse($item->date_fin );
-
-            if( $now->greaterThanOrEqualTo($d) && $now->lessThanOrEqualTo($f) )
-                echo " in";
-            else echo " out";
-
-            echo "<hr>";
-        }
-*/
-
-
-
-
-
-
-        //dump($data);dump($modes_paiement);return 'a';
-
-        /*if ($data == null)
+        if ($data == null)
             return redirect()->back()->withInput()->with("alert_warning", "Le stock de votre magasin est vide, veuillez faire une demande d'alimentation du stock pour procéder avec les ventes.");
 
         else
-            return view('Espace_Vend.add-vente-form')->with( ['data' => $data ,'promotions' => $promotions, 'modes_paiement' => $modes_paiement] );
-        */
+            return view('Espace_Vend.add-vente-form')->with(['data' => $data, 'modes_paiement' => $modes_paiement]);
     }
 
 
     // Valider l'ajout des ventes
     public function submitAddVente()
     {
+        $id_magasin = Session::get('id_magasin');
 
+        //array des element du formulaire ******************
+        $id_stock = request()->get('id_stock');
+        $quantite = request()->get('quantite');
+        $id_article = request()->get('id_article');
+        //**************************************************
+
+        //not array ******************************
+        $id_mode_paiement = request()->get('id_mode_paiement');
+        $ref = request()->get('ref');
+        $taux_remise = request()->get('taux_remise');
+        $raison = request()->get('raison');
+        //****************************************
+
+        //variables ***************************
+        $alert1 = "";
+        $alert2 = "";
+        $error1 = false;
+        $error2 = false;
+        $nbre_articles = 0;
+        //***********************************
+        echo "id_article";
+        dump($id_article);
+        echo "id_stock";
+        dump($id_stock);
+        echo "quantite";
+        dump($quantite);
+
+        echo "id_mode_paiement";
+        dump($id_mode_paiement);
+        echo "ref";
+        dump($ref);
+        echo "taux_remise";
+        dump($taux_remise);
+        echo "raison";
+        dump($raison);
+
+        return 'a';
+
+        //*********************************
+        //verifier que l utilisateur a saisi 1..* quantites, sinn redirect back
+        $hasItems = false;
+        for ($i = 1; $i <= count($id_stock); $i++) {
+            if ($quantite[$i]!=null) {
+                $hasItems = true;
+                break;
+            }
+        }
+        if (!$hasItems)
+            return redirect()->back()->withInput()->with('alert_info', "Vous devez saisir les quantités à alimenter.");
+        //**********************************
+
+        //****************************************
+        //recuperer la derniere transaction pour en retirer son id
+        $lastTransaction = DB::table('transactions')->orderBy('id_transaction', 'desc')->first();
+
+        if ($lastTransaction == null)
+            $id = 1;
+        else
+            $id = $lastTransaction->id_transaction + 1;
+        //****************************************
+
+        //**************************************
+        //creation de la transation & chercher l id_type_transaction pour l alimentation du stock
+        $id_type_transaction_ajouter = Type_transaction::where('libelle', 'ajouter')->get()->first()->id_type_transaction;
+
+        $transaction = new Transaction();
+        $transaction->id_transaction = $id;
+        $transaction->id_user = 3;    //from variable de session
+        $transaction->id_magasin = $id_magasin;
+        $transaction->id_type_transaction = $id_type_transaction_ajouter;
+        $transaction->id_paiement = null;
+        try {
+            $transaction->save();
+        } catch (Exception $e) {
+            return redirect()->back()->withInput()->with("alert_danger", "Erreur de la création de la transacation dans la base de données, veuillez reassayer ultérieurement.<br>Message d'erreur: <b>" . $e->getMessage() . "</b>.");
+        }
+        //**************************************
+
+        //**************************************
+        //Boucle pour traiter chaque article
+        for ($i = 1; $i <= count($id_stock); $i++) {
+
+            //verifier si l utilisateur n a pas saisi les quantites
+            if ($quantite[$i] == null) continue;
+
+            try {
+                //Creation et insertion de trans_article
+                $trans_article = new Trans_article();
+                $trans_article->id_transaction = $id;
+                $trans_article->id_article = $id_article[$i];
+                $trans_article->quantite = $quantite[$i];
+                $trans_article->save();
+                $nbre_articles++;
+
+                //Executer la procedure de modification de stock
+                DB::select("call incrementStock(" . $id_stock[$i] . "," . $quantite[$i] . ");");
+
+            } catch (Exception $e) {
+                $alert2 = $alert1 . "<li>Erreur,  article: " . getChamp("articles", "id_article", $id_article[$i], "designation_c") . ". Message d'erreur: <b>" . $e->getMessage() . "</b>.";
+                $error2 = true;
+            }
+        }
+        //**************************************
+
+        //@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+        //imprimer un document d ajout au stock
+
+        if ($error1)
+            back()->withInput()->with('alert_warning', $alert1);
+        if ($error2)
+            back()->withInput()->with('alert_danger', $alert2);
+
+        if ($nbre_articles > 1)
+            return redirect()->back()->with('alert_success', 'Alimentation de ' . $nbre_articles . ' aticle.');
+        else
+            return redirect()->back()->with('alert_success', 'Alimentation de ' . $nbre_articles . ' articles.');
+
+    }
+
+    public function submitAddVente2()
+    {
         //Alertes et messages d'erreur
         $alert1 = "";
         $alert2 = "";
         $error1 = false;
         $error2 = false;
         $nbre_articles = 0;
+        //********************************
 
         //array des element du formulaire
+        $id_stock = request()->get('id_stock');
         $id_article = request()->get('id_article');
-        $designation_c = request()->get('designation_c');
-        $quantiteV = request()->get('quantiteV');
-        $prix_vente = request()->get('prix_vente');
         $quantite = request()->get('quantite');
+        //**************************************************
 
-        $id_magasin = request()->get('id_magasin');
-        $id_user = request()->get('id_user');
-        $id_typeTrans = request()->get('id_typeTrans');
-        //$id_paiement    =  collect(DB::select("call getPaiementID(); "));
-        $id_mode = request()->get('mode');
+        //not array ******************************
+        $id_mode_paiement = request()->get('id_mode_paiement');
+        $ref = request()->get('ref');
+        $taux_remise = request()->get('taux_remise');
+        $raison = request()->get('raison');
+        //****************************************
 
-        return 'a';
+        //verifier que l utilisateur a saisi 1..* quantites, sinn redirect back
+        $hasItems = false;
+        for ($i = 1; $i <= count($id_stock); $i++) {
+            if ($quantite[$i] > 0) {
+                $hasItems = true;
+                break;
+            }
+        }
+        if (!$hasItems)
+            return "not items";//redirect()->back()->withInput()->with('alert_info', "Vous devez saisir les quantités à alimenter.");
+        //**********************************
+
+
+
 
 
         //test pour recuperer la derniere ligne de transaction et lui ajouter 1 si elle n'était pas nulle
@@ -251,6 +344,110 @@ class VendeurController extends Controller
         }
 
         return redirect()->back()->with('alert_success', 'L\'ajout de la vente s\'est effectué avec succès. Le nombre d\'articles est : ' . $nbre_articles);
+    }
+
+
+    public function addFormVente1()
+    {
+        $p_id_magasin = Session::get('id_magasin');
+        $now = new Carbon();
+
+        $data = collect(DB::select("call getStockOfMagasin(" . $p_id_magasin . "); "));
+        $modes_paiement = Mode_paiement::all();
+
+        $p = Promotion::where('id_magasin', $p_id_magasin)->where('active', true)->get();
+        $elements = null;
+        $i = 0;
+
+
+        //dump($data);
+        foreach ($data as $item) {
+            $i = $i + 1;
+
+            if ($elements == null) {
+                $elements = array($item);
+            } else {
+                array_push($elements, $item);
+            }
+
+
+            $promo = collect(Promotion::where('id_article', $item->id_article)->where('id_magasin', $p_id_magasin)->where('active', true)->get());
+            if (!$promo->isEmpty()) {
+                $d = Carbon::parse($promo->first()->date_debut);
+                $f = Carbon::parse($promo->first()->date_fin);
+                if ($now->greaterThanOrEqualTo($d) && $now->lessThanOrEqualTo($f)) {
+                    $x = array_merge((array)$item, (array)$promo);
+                }
+            } else {
+                $x = array_merge((array)$item, (array)$promo->first());
+            }
+
+            dump($x);
+
+
+        }
+
+        dump($elements);
+
+
+        /*foreach ($data as $item) {
+
+            $elements = collect($item);
+
+            //dump(collect($item));
+            $promo = collect(Promotion::where('id_article', $item->id_article)->where('id_magasin', $p_id_magasin)->where('active', true)->get());
+
+            if (!$promo->isEmpty()) {
+                $d = Carbon::parse($promo->first()->date_debut);
+                $f = Carbon::parse($promo->first()->date_fin);
+                if ($now->greaterThanOrEqualTo($d) && $now->lessThanOrEqualTo($f)) {
+                    //$elements = collect(null)->push($item);$elements->union("hasPromotion", true);$elements->union("tauxPromotion", $promo->first()->taux);
+                    $elements = $elements->union(collect($promo));
+                }
+            } else {
+                //$elements->union("hasPromotion", false);$elements->union("tauxPromotion", null);
+                $elements = $elements->union($elements);
+            }
+        }*/
+        //dump($elements);
+
+        /*dump( $elements) ;
+        foreach ($elements as $item)
+        {
+            dump($item);
+        }*/
+
+
+//$x = collect($item)->put('hasPromotion', true)->put('taux_promotion', true);
+        //dump($x);
+        //dump($elements);
+        //echo "<hr>";
+        //$p = Promotion::where('id_magasin',$p_id_magasin)->where('active',true)->get();
+        /*$p = Promotion::all();
+
+        foreach ($p as $item )
+        {
+            echo $item->id_promotion;
+            $d = Carbon::parse($item->date_debut );
+            $f = Carbon::parse($item->date_fin );
+
+            if( $now->greaterThanOrEqualTo($d) && $now->lessThanOrEqualTo($f) )
+                echo " in";
+            else echo " out";
+
+            echo "<hr>";
+        }
+*/
+
+
+        //dump($data);dump($modes_paiement);return 'a';
+
+        /*if ($data == null)
+            return redirect()->back()->withInput()->with("alert_warning", "Le stock de votre magasin est vide, veuillez faire une demande d'alimentation du stock pour procéder avec les ventes.");
+
+        else
+            return view('Espace_Vend.add-vente-form')->with( ['data' => $data ,'promotions' => $promotions, 'modes_paiement' => $modes_paiement] );
+        */
     }
 
 

@@ -6,6 +6,9 @@
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
     <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
     <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+    .tab {
+    text-indent: 20px;
+    }
 @endsection
 
 @section('scripts')
@@ -185,76 +188,97 @@
 
                                     <tbody>
 
-                                    @if( $data->isEmpty() )
-                                        <tr>
-                                            <td colspan="13" align="center"><i>Aucun Article</i></td>
-                                        </tr>
-                                    @else
-                                        @foreach( $data as $item )
+                                    @foreach( $data as $item )
 
-                                            <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
-                                                   value="{{ $item->id_article }}">
+                                        @if(hasPromotion($item->id_article))
+                                            <tr class="success">
+                                        @else
+                                            <tr>
+                                        @endif
+
                                             <input type="hidden" name="id_stock[{{ $loop->index+1 }}]"
                                                    value="{{ $item->id_stock }}">
+                                            <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
+                                                   value="{{ $item->id_article }}">
 
-                                            <tr>
-                                                <td align="right">{{ $loop->index+1 }}</td>
-                                                <td>{{ $item->num_article }}</td>
-                                                <td>{{ $item->code_barre }}</td>
-                                                <td>{{ $item->designation_c }}</td>
-                                                <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie , 'libelle') }}</td>
-                                                <td>{{ getChamp('fournisseurs', 'id_fournisseur', $item->id_fournisseur , 'libelle') }}</td>
-                                                <td>{{ $item->taille }}</td>
-                                                <td>{{ $item->couleur }}</td>
-                                                <td>{{ $item->sexe }}</td>
-                                                <td align="right">{{ getTTC( $item->prix_vente) }} DH</td>
+                                            <td align="right">{{ $loop->index+1 }}</td>
+                                            <td>{{ $item->num_article }}</td>
+                                            <td>{{ $item->code_barre }}</td>
+                                            <td>{{ $item->designation_c }}</td>
+                                            <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie , 'libelle') }}</td>
+                                            <td>{{ getChamp('fournisseurs', 'id_fournisseur', $item->id_fournisseur , 'libelle') }}</td>
+                                            <td>{{ $item->taille }}</td>
+                                            <td>{{ $item->couleur }}</td>
+                                            <td>{{ $item->sexe }}</td>
 
-                                                <td align="right">{{ $item->quantite }}</td>
-                                                <td align="right"><input type="number" min="0" max="{{ $item->quantite }}"
-                                                           placeholder="Qts" size="10"
-                                                           name="quantite[{{ $loop->index+1 }}]"></td>
-
-                                                <td>
-                                                    <button type="button" class="btn btn-info btn-xs"
-                                                            data-toggle="modal"
-                                                            data-target="#myModal{{ $loop->index+1 }}">
-                                                        Detail Article
-                                                    </button>
+                                            @if(hasPromotion($item->id_article))
+                                                <td align="right">{{ getPrixTaux($item->prix_vente, getTauxPromo($item->id_article) ) }}
+                                                    DH
                                                 </td>
+                                            @else
+                                                <td align="right">{{ getTTC($item->prix_vente) }} DH</td>
+                                            @endif
 
-                                                {{-- Modal (pour afficher les details de chaque article) --}}
-                                                <div class="modal fade" id="myModal{{ $loop->index+1 }}"
-                                                     role="dialog">
-                                                    <div class="modal-dialog modal-sm">
-                                                        <div class="modal-content">
-                                                            <div class="modal-header">
-                                                                <button type="button" class="close"
-                                                                        data-dismiss="modal">&times;
-                                                                </button>
-                                                                <h4 class="modal-title">{{ $item->designation_c }}</h4>
-                                                            </div>
-                                                            <div class="modal-body">
-                                                                <p><b>numero</b> {{ $item->num_article }}</p>
-                                                                <p><b>code a barres</b> {{ $item->code_barre }}</p>
-                                                                <p><b>Taille</b> {{ $item->taille }}</p>
-                                                                <p><b>Couleur</b> {{ $item->couleur }}</p>
-                                                                <p><b>sexe</b> {{ $item->sexe }}</p>
-                                                                <p><b>Prix</b> {{ getTTC($item->prix_vente) }} Dhs
+                                            <td align="right">{{ $item->quantite }}</td>
+                                            <td align="right">
+                                                <input type="number" min="0"
+                                                       max="{{ $item->quantite }}"
+                                                       placeholder="Qts"
+                                                       value="{{ old('quantite['.($loop->index+1).']') }}"
+                                                       name="quantite[{{ $loop->index+1 }}]" {{-- $item->quantite==0 ? "disabled" : '' --}} />
+                                            </td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-info btn-xs"
+                                                        data-toggle="modal"
+                                                        data-target="#myModal{{ $loop->index+1 }}">
+                                                    Detail Article
+                                                </button>
+                                            </td>
+
+                                            {{-- Modal (pour afficher les details de chaque article) --}}
+                                            <div class="modal fade" id="myModal{{ $loop->index+1 }}"
+                                                 role="dialog">
+                                                <div class="modal-dialog modal-sm">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close"
+                                                                    data-dismiss="modal">&times;
+                                                            </button>
+                                                            <h4 class="modal-title">{{ $item->designation_c }} @if(hasPromotion($item->id_article))
+                                                                    (en promotion) @endif </h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><b>numero:</b> {{ $item->num_article }}</p>
+                                                            <p><b>code a barres:</b> {{ $item->code_barre }}</p>
+                                                            <p><b>Taille:</b> {{ $item->taille }}</p>
+                                                            <p><b>Couleur:</b> {{ $item->couleur }}</p>
+                                                            <p><b>sexe:</b> {{ $item->sexe }}</p>
+
+                                                            @if(hasPromotion($item->id_article))
+                                                                <font color="#006400"><p><b>Prix:</b> <span
+                                                                                class="tab">{{ getPrixTaux($item->prix_vente, getTauxPromo($item->id_article) ) }}</span>
+                                                                    </p></font>
+
+                                                            @else
+                                                                <p><b>Prix:</b> {{ getTTC($item->prix_vente) }}
+                                                                    Dhs
                                                                     TTC</p>
-                                                                <p>{{ $item->designation_l }}</p>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button type="button" class="btn btn-default"
-                                                                        data-dismiss="modal">Fermer
-                                                                </button>
-                                                            </div>
+                                                            @endif
+                                                            <p>{{ $item->designation_l }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">Fermer
+                                                            </button>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                {{-- fin Modal (pour afficher les details de chaque article) --}}
-                                            </tr>
-                                        @endforeach
-                                    @endif
+                                            </div>
+                                            {{-- fin Modal (pour afficher les details de chaque article) --}}
+                                        </tr>
+                                    @endforeach
+
                                     </tbody>
 
 
@@ -267,9 +291,9 @@
                                         <div class="form-group">
                                             <label {!! setPopOver("Obligatoire","Sélectionnez le mode de paiement") !!}>Mode
                                                 de Paiement *</label>
-                                            <select class="form-control" name="mode">
+                                            <select class="form-control" name="id_mode_paiement">
                                                 @foreach( $modes_paiement as $mode )
-                                                    <option value="{{$mode->id_mode }}" {{$mode->id_mode=="2" ? 'selected' : '' }}>{{$mode->libelle }}</option>
+                                                    <option value="{{$mode->id_mode_paiement }}" {{$mode->id_mode=="2" ? 'selected' : '' }}>{{$mode->libelle }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -286,7 +310,7 @@
                                         <label>Taux de Remise</label>
                                         <input class="form-control" type="number" min="0"
                                                placeholder="Taux"
-                                               name="taux" {!! setPopOver("","Taux de la remise, si vous voullez (exemple: 15%)") !!}>
+                                               name="taux_remise" {!! setPopOver("","Taux de la remise, si vous voullez (exemple: 15%)") !!}>
                                     </div>
 
 
