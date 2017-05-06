@@ -18,12 +18,15 @@ class Article extends Model
 
     public static function getPrixPromo($p_id_article, $p_id_magasin)
     {
+        $prixHT = Article::where('id_article', $p_id_article)->first()->prix_vente;
+        $prixTTC = $prixHT * 1.2;
+
         if (Promotion::hasPromotion($p_id_article, $p_id_magasin)) {
             $taux = Promotion::getTauxPromo($p_id_article, $p_id_magasin);
-            $prixHT = Article::where('id_article', $p_id_article)->first()->prix_vente;
-            $prixTTC = $prixHT * 1.2;
-            $prix = $prixTTC * (1-$taux/100);
+            $prix = $prixTTC * (1 - $taux / 100);
             return $prix;
+        } else {
+            return $prixTTC;
         }
 
     }
