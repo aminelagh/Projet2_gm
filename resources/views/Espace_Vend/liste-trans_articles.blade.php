@@ -17,13 +17,13 @@
                 var title = $(this).text();
                 if (title == "Article") {
                     $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }else if (title == "Prix unitaire") {
+                } else if (title == "Prix unitaire") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }else if (title == "Quantité") {
+                } else if (title == "Quantité") {
                     $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }else if (title == "Total") {
+                } else if (title == "Total") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }else if (title == "") {
+                } else if (title == "") {
                     //$(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
 
@@ -145,13 +145,13 @@
                                         <tr>
                                             <td align="right" width=1%>{{ $loop->index+1 }}</td>
                                             <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
-                                            <td align="right">{{ getTTC($item->prix_vente) }}
-                                                DH
+                                            <td align="right">{{ number_format($item->prix,2) }} DH
                                             </td>
                                             <td align="right">{{ $item->quantite }}</td>
-                                            <td align="right">{{ getTTC($item->prix_vente)*$item->quantite }} DH</td>
+                                            <td align="right">{{ number_format(($item->prix * $item->quantite),2) }} DH</td>
                                             <td align="center">
-                                                <a  data-toggle="modal" data-target="#modal{{ $loop->index+1 }}" title="Detail article">
+                                                <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"
+                                                   title="Detail article">
                                                     <i class="glyphicon glyphicon-eye-open" {!! setPopOver("","Afficher plus de detail") !!}></i>
                                                 </a>
                                             </td>
@@ -191,9 +191,15 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        {{-- fin Modal (pour afficher les details de chaque article) --}}
-                                    @endforeach
-                                <tfoot><tr><td colspan="4"><strong>Total</strong></td><td align="right">{{ $total }} DH TTC</td><td></td></tr></tfoot>
+                                {{-- fin Modal (pour afficher les details de chaque article) --}}
+                                @endforeach
+                                <tfoot>
+                                <tr>
+                                    <td colspan="4"><strong>Total</strong></td>
+                                    <td align="right">{{ $total }} DH TTC</td>
+                                    <td></td>
+                                </tr>
+                                </tfoot>
                                 @endif
                                 </tbody>
                             </table>

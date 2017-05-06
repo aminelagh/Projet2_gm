@@ -11,6 +11,6 @@ class Trans_article extends Model
 
     protected $fillable = [
       'id_tras_article', 'id_transaction','id_article' ,
-      'quantite',
+      'quantite', 'prix'
     ];
 }

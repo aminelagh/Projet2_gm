@@ -40,3 +40,23 @@ if (!function_exists('getPromo')) {
 
     }
 }
+
+if(!function_exists('getNextID'))
+{
+    function getNextID($p_table)
+    {
+        switch($p_table)
+        {
+            case 'remises':         $lastRecord = DB::table('remises')->orderBy('id_remise', 'desc')->first();              $result = ( $lastRecord==null ? 1 : $lastRecord->id_remise + 1 ); break;
+            case 'transactions':    $lastRecord = DB::table('transactions')->orderBy('id_transaction', 'desc')->first();    $result = ( $lastRecord==null ? 1 : $lastRecord->id_transaction + 1 ); break;
+            case 'paiements':       $lastRecord = DB::table('paiements')->orderBy('id_paiement', 'desc')->first();          $result = ( $lastRecord==null ? 1 : $lastRecord->id_paiement + 1 ); break;
+            default: return "erreur";
+        }
+        //$lastRecord = DB::table($table)->orderBy('id_remise', 'desc')->first(); $result = ( $lastRecord==null ? 1 : $lastRecord->id_remise + 1 );
+        //if ($lastRecord == null) return 1; else return $lastRecord->id_remise + 1;
+
+        return $result;
+
+        //****************************************
+    }
+}

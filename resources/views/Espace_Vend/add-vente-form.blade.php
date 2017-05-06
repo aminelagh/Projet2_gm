@@ -224,7 +224,7 @@
                                                 <input type="number" min="0"
                                                        max="{{ $item->quantite }}"
                                                        placeholder="Qts"
-                                                       value="{{ old('quantite['.($loop->index+1).']') }}"
+                                                       value="{{ old('quantite.'.($loop->index+1).'') }}"
                                                        name="quantite[{{ $loop->index+1 }}]" {{-- $item->quantite==0 ? "disabled" : '' --}} />
                                             </td>
 
@@ -301,7 +301,7 @@
 
                                     <div class="col-lg-3">
                                         <label>Reference chequier</label>
-                                        <input class="form-control" type="text" placeholder="ref" name="ref">
+                                        <input class="form-control" type="text" placeholder="ref" name="ref" value="{{ old('ref') }}">
                                     </div>
 
                                     <div class="col-lg-2"></div>
@@ -309,15 +309,16 @@
                                     <div class="col-lg-2">
                                         <label>Taux de Remise</label>
                                         <input class="form-control" type="number" min="0"
-                                               placeholder="Taux"
+                                               placeholder="Taux" value="{{ old('taux_remise') }}"
                                                name="taux_remise" {!! setPopOver("","Taux de la remise, si vous voullez (exemple: 15%)") !!}>
                                     </div>
+
 
 
                                     <div class="col-lg-3">
                                         <label>Raison de la remise</label>
                                         <input class="form-control" type="text"
-                                               placeholder="Raison" name="raison">
+                                               placeholder="Raison" name="raison"  value="{{ old('raison') }}">
                                     </div>
                                 </div>
                                 <div class="row" align="center">

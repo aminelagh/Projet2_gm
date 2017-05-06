@@ -15,8 +15,8 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Type_transaction;
 use App\Models\Transaction;
-use App\Models\Magasin;
-use App\Models\Stock;
+use App\Models\Promotion;
+use App\Models\Remise;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -26,9 +26,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/c1', function () {
-    //return view('charts');
-    return view('chart1')->with('data1', Article::all())->with('data2', DB::select('select * from promotions'));
+Route::get('/r', function () {
+    for($i=0;$i<100;$i++)
+    {
+        echo Session::get('id_magasin');
+        $id = $i;
+        if(Promotion::hasPromotion($id,1))
+            echo '<li>$i true';
+        else echo '<li>$i false';
+    }
+
 });
 
 Route::get('/a', function () {
