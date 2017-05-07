@@ -14,13 +14,19 @@
 @endsection
 
 @section('main_content')
-<div class="row">
-	<div class="col-lg-12">
+<div class="container-fluid">
+		<div class="col-lg-12">
+				<div class="row">
 		<h1 class="page-header">Ajouter un Article <small> </small></h1>
-
+		<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+				    <li class="breadcrumb-item active">Gestion des Articles</li>
+				<li class="breadcrumb-item"><a href="{{ Route('direct.lister',['p_table' => 'articles' ]) }}">Liste des articles</a></li>
+				<li class="breadcrumb-item active">Création d'un Article</li>
+		</ol>
 		<div id="page-wrapper">
 
-			<div class="container-fluid">
+
 
 				{{-- *************** Alerts ***************** --}}
 				<div class="row">
@@ -229,6 +235,7 @@
 		</div>
 	</div>
 </div>
+
 	<!-- /.row -->
 @endsection
 

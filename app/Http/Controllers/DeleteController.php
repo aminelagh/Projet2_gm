@@ -25,10 +25,6 @@ class DeleteController extends Controller
      *******************************************/
     public function delete($p_table, $p_id)
     {
-        $x = Article::find($p_id);
-        dump($x);
-        //return 'a';
-
         try {
             switch ($p_table) {
                 case 'categories':
@@ -52,7 +48,7 @@ class DeleteController extends Controller
                     }
                     else
                     {
-                        return back()->withInput()->with('alert-warning', 'L\'utilisateur choisi n\'existe pas.');
+                        return back()->withInput()->with('alert-warning', "L'utilisateur choisi n'existe pas.");
                     }
                     break;
                 case 'fournisseurs':
@@ -60,11 +56,11 @@ class DeleteController extends Controller
                     if( $item != null)
                     {
                         $item->delete();
-                        return back()->withInput()->with('alert_success', 'Le fournisseur a été effacé avec succès');
+                        return back()->withInput()->with('alert_success', "Le fournisseur a été effacé avec succès");
                     }
                     else
                     {
-                        return back()->withInput()->with('alert-warning', 'Le fournisseur choisi n\'existe pas.');
+                        return back()->withInput()->with('alert-warning', "Le fournisseur choisi n'existe pas.");
                     }
                     break;
                 case 'articles':
@@ -72,7 +68,7 @@ class DeleteController extends Controller
                     if( $item != null)
                     {
                         $item->delete();
-                        return back()->withInput()->with('alert_success', 'L\article a été effacé avec succès');
+                        return back()->withInput()->with('alert_success', "L'article a été effacé avec succès");
                     }
                     else
                     {

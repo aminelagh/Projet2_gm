@@ -24,7 +24,7 @@ use Illuminate\Support\Facades\Input;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/r', function () {
     for($i=0;$i<100;$i++)
@@ -111,6 +111,12 @@ Route::get('/t', function () {
 
 //Route pour generer des PDF
 //Route::get('print/{param}','PDFController@imprimer')->name('print');
+
+
+/***************************************
+ * Routes bloquees
+********************************************/
+//Route::get('/direct/info/dashboard-fournisseur',function (){return view('erreur');});
 
 
 /***************************************

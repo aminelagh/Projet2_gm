@@ -17,9 +17,10 @@
     <!-- container-fluid -->
     <div class="container-fluid">
         <!-- Page Heading -->
+        <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Fournisseur</h1>
+
+                <h1 class="page-header">Info Fournisseur</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des Articles</li>

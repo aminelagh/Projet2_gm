@@ -14,13 +14,14 @@
 @endsection
 
 @section('main_content')
+<div class="container-fluid">
 <div class="row">
 	<div class="col-lg-12">
 		<h1 class="page-header">Ajouter au Stock <small> </small></h1>
 
 		<div id="page-wrapper">
 
-			<div class="container-fluid">
+
 
 				<div class="row">
 					<div class="col-lg-2"></div>

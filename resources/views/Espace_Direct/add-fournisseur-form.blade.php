@@ -22,7 +22,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des Articles</li>
-                    <li class="breadcrumb-item">Liste des fournisseur</li>
+                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'fournisseurs' ]) }}"> Liste des fournisseurs<</a></li>
                     <li class="breadcrumb-item active">Creation d'un fournisseur</li>
                 </ol>
 

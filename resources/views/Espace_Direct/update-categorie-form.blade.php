@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Modifier Categorie @endsection
+@section('title') Modifier Categorie : {{ $data->libelle }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -16,13 +16,14 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
+          <div class="row">
             <h1 class="page-header">Modifier une Categorie</h1>
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                 <li class="breadcrumb-item">Gestion des Articles</li>
-                <li class="breadcrumb-item">Liste des categories</li>
-                <li class="breadcrumb-item active ">{{ $data->libelle  }}</li>
+                <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste des categories</a></li>
+                <li class="breadcrumb-item active ">Modifier Categorie : {{ $data->libelle  }}</li>
             </ol>
 
             <div id="page-wrapper">
@@ -111,6 +112,7 @@
 
             </div>
         </div>
+      </div>
     </div>
     <!-- /.row -->
 @endsection

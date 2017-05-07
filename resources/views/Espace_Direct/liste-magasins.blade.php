@@ -143,9 +143,9 @@
                                         <td>{{ $item->libelle }}</td>
                                         <td>{{ $item->ville }}</td>
                                         <td align="right">{{ $item->telephone }}</td>
-                                        <td>Etat du <a
+                                        <td> <a
                                                     href="{{ route('direct.stocks', [ 'p_id_magasin' => $item->id_magasin ] ) }}"
-                                                    {!! setPopOver("Stock","Afficher le stock du magasin") !!}>Stock</a></td>
+                                                    {!! setPopOver("Stock","Afficher le stock du magasin") !!}>Afficher Stock</a></td>
                                         <td align="center">
                                             <a href="{{ Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                     {!! setPopOver("Detail","Afficher plus de detail sur la magasin") !!}><i class="glyphicon glyphicon-eye-open"></i></a>
@@ -173,7 +173,7 @@
 
             <div class="row" align="center">
                 <a href="{{ Route('direct.add',[ 'p_table' => 'magasins' ]) }}" type="button"
-                   class="btn btn-outline btn-default"> Ajouter un Magasin </a>
+                   class="btn btn-outline btn-default"> <i class="glyphicon glyphicon-plus "></i> Ajouter un Magasin </a>
             </div>
         </div>
 

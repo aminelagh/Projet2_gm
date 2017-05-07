@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Ajout Magasin @endsection
+@section('title') Modifier Magasin :  {{ $data->libelle }}@endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -16,13 +16,14 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
-            <h1 class="page-header">Ajouter un Magasin</h1>
+          <div class="row">
+            <h1 class="page-header">Modifier un Magasin</h1>
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                 <li class="breadcrumb-item ">Gestion des magasins</li>
-                <li class="breadcrumb-item ">Liste des magasins</li>
-                <li class="breadcrumb-item active">{{ $data->libelle }}</li>
+                <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a></li>
+                <li class="breadcrumb-item active">Modifier magasin : {{ $data->libelle }}</li>
             </ol>
 
 
@@ -175,6 +176,7 @@
 
 
         </div>
+      </div>
     </div>
     <!-- /.row -->
 @endsection

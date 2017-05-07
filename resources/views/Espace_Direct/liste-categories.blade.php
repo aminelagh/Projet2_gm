@@ -176,7 +176,7 @@
                     </div>
                     <a href="{{ Route('direct.add',[ 'p_table' => 'categories' ]) }}" type="button"
                        class="btn btn-outline btn-default" {!! setPopOver("","Ajouter une nouvelle categorie") !!}>
-                        Ajouter une Categorie</a>
+                        <i class="glyphicon glyphicon-plus "></i>Ajouter une Categorie</a>
                 </div>
                 <!-- row -->
             </div>

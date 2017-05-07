@@ -48,12 +48,12 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
-            <h1 class="page-header">Magasin</h1>
+            <h1 class="page-header"> Info Magasin</h1>
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                 <li class="breadcrumb-item ">Gestion des Magasins</li>
-                <li class="breadcrumb-item">Liste des magasins</li>
+                <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a></li>
                 <li class="breadcrumb-item active">{{ $data->libelle  }}</li>
             </ol>
 

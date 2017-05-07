@@ -15,7 +15,19 @@
             // Setup - add a text input to each footer cell
             $('#example tfoot th').each(function () {
                 var title = $(this).text();
-                if (title != "") {
+                if (title == "Agent") {
+                    $(this).html('<input type="text" size="10" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                else if (title == "Telephone") {
+                    $(this).html('<input type="text" size="10" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                else if (title == "Email") {
+                    $(this).html('<input type="text" size="14" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                else if (title == "Fournisseur") {
+                    $(this).html('<input type="text" size="10" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                else if (title != "") {
                     $(this).html('<input type="text" size="17" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
             });
@@ -91,7 +103,7 @@
                             <thead bgcolor="#DBDAD8">
                             <tr>
                                 <th>#</th>
-                                <th><i class="fa fa-fw fa-sort"></i> Nom du Fournisseur</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Fournisseur</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Agent</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Telephone</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Email</th>
@@ -101,7 +113,7 @@
                             <tfoot bgcolor="#DBDAD8">
                             <tr>
                                 <th></th>
-                                <th> Nom du Fournisseur</th>
+                                <th>Fournisseur</th>
                                 <th>Agent</th>
                                 <th>Telephone</th>
                                 <th>Email</th>
@@ -175,7 +187,7 @@
 
                 <!-- row Buttons -->
                 <div class="row" align="center">
-                    <a href="{{ Route('direct.add',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default"> Ajouter un Fournisseur </a>
+                    <a href="{{ Route('direct.add',[ 'p_table' => 'fournisseurs' ]) }}" type="button" class="btn btn-outline btn-default"> <i class="glyphicon glyphicon-plus "></i>Ajouter un Fournisseur </a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Exporter<span class="caret"></span></button>
                         <ul class="dropdown-menu">

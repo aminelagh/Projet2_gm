@@ -74,8 +74,9 @@
 @section('main_content')
     <div class="container-fluid">
         <!-- main row -->
-        <div class="row">
-            <div class="col-lg-12">
+        <div class="col-lg-12">
+            <div class="row">
+
                 <h1 class="page-header">Liste des Articles</h1>
 
                 <ol class="breadcrumb">
@@ -183,20 +184,21 @@
                                         <td>{{ $item->taille }}</td>
                                         <td>{{ $item->couleur }}</td>
                                         <td>{{ getSexeName($item->sexe) }}</td>
-                                        <td align="right">{{ $item->prix_achat }}</td>
-                                        <td align="right">{{ $item->prix_vente }}</td>
+                                        <td align="right">{{ $item->prix_achat }} DH</td>
+                                        <td align="right">{{ $item->prix_vente }} DH</td>
                                         <td align="center">
                                             <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
-                                               title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
+                                                    {!! setPopOver("","Afficher plus de detail") !!}><i
+                                                        class="glyphicon glyphicon-eye-open"></i></a>
                                             <a href="{{ Route('direct.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}"
-                                               title="Modifier"><i class="glyphicon glyphicon-pencil"></i></a>
+                                                    {!! setPopOver("","Modifier") !!}><i
+                                                        class="glyphicon glyphicon-pencil"></i></a>
                                             <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')"
                                                href="{{ Route('direct.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}"
-                                               title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
-                                            <button type="button" class="btn btn-info" data-toggle="modal"
-                                                    data-target="#modal{{ $loop->index+1 }}" title="Detail article">
-                                                Detail
-                                            </button>
+                                                    {!! setPopOver("","Effacer l'article") !!}><i
+                                                        class="glyphicon glyphicon-trash"></i></a>
+                                            <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"><i
+                                                        class="glyphicon glyphicon-info-sign" aria-hidden="false"></i></a>
                                         </td>
 
                                         {{-- Modal (pour afficher les details de chaque article) --}}
@@ -216,13 +218,13 @@
                                                         <p><b>Couleur</b> {{ $item->couleur }}</p>
                                                         <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
                                                         <p><b>Prix d'achat</b></p>
-                                                        <p>{{ number_format($item->prix_achat, 2) }} Dhs
+                                                        <p>{{ number_format($item->prix_achat, 2) }} DH
                                                             HT, {{ number_format($item->prix_achat+$item->prix_achat*0.2, 2) }}
                                                             Dhs TTC </p>
                                                         <p><b>Prix de vente</b></p>
-                                                        <p>{{ number_format($item->prix_vente, 2) }} Dhs
+                                                        <p>{{ number_format($item->prix_vente, 2) }} DH
                                                             HT, {{ number_format($item->prix_vente+$item->prix_vente*0.2, 2) }}
-                                                            Dhs TTC </p>
+                                                            DH TTC </p>
                                                         <p>{{ $item->designation_l }}</p>
                                                     </div>
                                                     <div class="modal-footer">
@@ -249,7 +251,8 @@
                     <a type="button" class="btn btn-outline btn-default" disabled=""><i class="fa fa-file-pdf-o"
                                                                                         aria-hidden="true">Imprimer </i></a>
                     <a href="{{ Route('direct.add',[ 'p_table' => 'articles' ]) }}" type="button"
-                       class="btn btn-outline btn-default" {!! setPopOver("","Ajouter un nouvel article") !!}> Ajouter
+                       class="btn btn-outline btn-default" {!! setPopOver("","Ajouter un nouvel article") !!}> <i
+                                class="glyphicon glyphicon-plus "></i>Ajouter
                         un Article</a>
 
                 </div>

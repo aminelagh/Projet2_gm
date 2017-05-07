@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Promotion: {{ $data->designation_c }} @endsection
+@section('title') Promotion de : {{ $data->designation_c }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -48,12 +48,13 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
-            <h1 class="page-header">Promotion</h1>
+          <div class="row">
+            <h1 class="page-header">Promotion sur {{ $data->designation_c }}</h1>
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                 <li class="breadcrumb-item ">Gestion des Promotions</li>
-                <li class="breadcrumb-item">Liste des promotions</li>
+                <li class="breadcrumb-item"><a href="{{ Route('direct.lister',['p_table' => 'promotions' ]) }}">Liste des promotions</a></li>
                 <li class="breadcrumb-item active">{{ $data->designation_c }}</li>
             </ol>
 
@@ -99,11 +100,10 @@
                     {{-- debut panel magasin --}}
                     <div class="panel panel-default">
                         <div class="panel-heading" align="center">
-                            <h2>{{ $data->designation_c }}
-                                <small>{{ $data->libelle }}</small>
+                            <h2>Période de Promotion :
                             </h2>
-                            <h4>{{ getDateHelper( $data->date_debut)  }} - {{ getDateHelper( $data->date_fin)  }}</h4>
-                            <h5>Taux de reduction: {!! $data->taux !!}%</h5>
+                            <h3>{{ getDateHelper( $data->date_debut)  }} - {{ getDateHelper( $data->date_fin)  }}</h3>
+                            <h2>Taux de Promotion:</h2> <h3> {!! $data->taux !!}%</h3>
                         </div>
 
                         <!-- debut panel body -->
@@ -112,7 +112,7 @@
                                 <div class="col-lg-6">
                                     <div class="well">
                                         <table class="table table-hover" border="0" cellspacing="0" cellpadding="5">
-                                            <th><b>Article</b></th>
+                                            <th><b> Info Article en promotion</b></th>
                                             <tr>
                                                 <td>Designation</td>
                                                 <th>{!! $data->designation_c  or '<i>pas  défini</i>' !!}</th>
@@ -165,7 +165,7 @@
                                 <div class="col-lg-6">
                                     <div class="well">
                                         <table class="table table-hover" border="0" cellspacing="0" cellpadding="5">
-                                            <th>Magasin</th>
+                                            <th>Info Magasin </th>
                                             <tr>
                                                 <td>Nom du magasin</td>
                                                 <th>{!! $data->libelle  or '<i>pas  défini</i>' !!}</th>
@@ -201,6 +201,7 @@
                             </div>
                         </div>
                     </div>
+                  </div>
                     {{-- fin panel magasin --}}
 
                 </div>

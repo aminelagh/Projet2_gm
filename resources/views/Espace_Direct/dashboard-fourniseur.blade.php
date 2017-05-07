@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Fournisseur: {{ $data->libelle }} @endsection
+@section('title') Details Fournisseur: {{ $data->libelle }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -17,16 +17,16 @@
     <!-- container-fluid -->
     <div class="container-fluid">
         <!-- Page Heading -->
+        <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-12">
+
                 <h1 class="page-header">{{ $data->libelle }}
                     <small>Fournisseur</small>
                 </h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des Articles</li>
-                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',[ 'p_table' => 'fournisseurs' ]) }}">Liste
-                            des fournisseurs</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',[ 'p_table' => 'fournisseurs' ]) }}">Liste des fournisseurs</a></li>
                     <li class="breadcrumb-item active">{{ $data->libelle }}</li>
                 </ol>
 

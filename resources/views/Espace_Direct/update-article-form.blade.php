@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Modification Article @endsection
+@section('title') Modifier Article : {{ $data->designation_c }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -15,15 +15,16 @@
 
 @section('main_content')
     <div class="container-fluid">
+      <div class="col-lg-12">
         <div class="row">
-            <div class="col-lg-12">
+
                 <h1 class="page-header">Modifier un Article</h1>
 
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item ">Gestion des Articles</li>
-                    <li class="breadcrumb-item">Liste des articles</li>
-                    <li class="breadcrumb-item active">{{ $data->designation_c }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste des articles</a></li>
+                    <li class="breadcrumb-item active"> Modifier Article : {{ $data->designation_c }}</li>
                 </ol>
 
                 <!-- alerts -->

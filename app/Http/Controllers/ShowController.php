@@ -56,6 +56,7 @@ class ShowController extends Controller
             case 'dashboard-fourniseur':
                 $item = fournisseur::find($p_id);
                 $articles = Article::where('id_fournisseur',$p_id)->get();
+                //$count = collect(DB::select("select f.id_fournisseur,count(a.id_article) from fournisseurs f JOIN articles a on f.id_fournisseur=a.id_fournisseur GROUP By id_fournisseur"));
                 return ($item != null ? view('Espace_Direct.dashboard-fourniseur')->with(
                     [
                         'data'=> $item,

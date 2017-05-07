@@ -76,10 +76,16 @@
 @section('main_content')
     <!-- Container -->
     <div class="container-fluid">
+      <div class="col-lg-12">
         <!-- main row -->
         <div class="row">
             <h1 class="page-header">Liste des Promotions</h1>
 
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                <li class="breadcrumb-item ">Gestion des Promotions</li>
+                <li class="breadcrumb-item active">Liste des Promotions</li>
+            </ol>
             <!-- row 1  row des alerts-->
             <div class="row">
                 {{-- **************Alerts************** --}}
@@ -237,10 +243,10 @@
 
         <div class="row" align="center">
             <a href="{{ Route('direct.add',[ 'p_table' => 'promotions' ]) }}" type="button" class="btn btn-outline btn-default"
-                    {!!  setPopOver("","creer de nouvelles promotions") !!}> Creer des promotions </a>
+                    {!!  setPopOver("","creer de nouvelles promotions") !!}><i class="glyphicon glyphicon-plus "></i> Ajouter des promotions </a>
         </div>
 
-
+</div>
     </div>
     <!-- end Container-->
 @endsection

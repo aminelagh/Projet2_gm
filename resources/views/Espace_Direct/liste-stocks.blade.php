@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Stock du magasin  @endsection
+@section('title') Stock du {{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}  @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -19,15 +19,29 @@
             $('#example tfoot th').each(function () {
                 var title = $(this).text();
                 if (title == "Article" || title == "code") {
-                    $(this).html('<input type="text" size="10" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                    $(this).html('<input type="text" size="14" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
                 }
-                if (title != "") {
+                else if (title != "") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
                 }
 
             });
             // DataTable
-            var table = $('#example').DataTable();
+            var table = $('#example').DataTable({
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+                "columnDefs": [
+                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},
+                    {"width": "25%", "targets": 1, "type": "string", "visible": true},
+                    {"width": "15%", "targets": 2, "type": "string", "visible": true},
+                    {"width": "02%", "targets": 4, "type": "string", "visible": true}
+                ]
+            });
             // Apply the search
             table.columns().every(function () {
                 var that = this;
@@ -46,11 +60,13 @@
     <div class="container-fluid">
         <div class="col-lg-12">
             <div class="row">
-                <h1 class="page-header">Stock du magasin
+                <h1 class="page-header">Stock du
                     <strong>{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</strong></h1>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('vend.home') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Liste des promotions</li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a> </li>
+                    <li class="breadcrumb-item">{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</li>
+                    <li class="breadcrumb-item active">Stock du magasin</li>
                 </ol>
 
                 {{-- **************Alerts**************  --}}
@@ -87,7 +103,6 @@
                         @endif
                         {{-- Fin Alerts --}}
                     </div>
-
                     <div class="col-lg-2"></div>
                 </div>
                 {{-- **************endAlerts**************  --}}
@@ -99,7 +114,7 @@
 
                                 <thead bgcolor="#DBDAD8">
                                 <tr>
-                                    <th width="2%"> #</th>
+                                    <th>#</th>
                                     <th>Article</th>
                                     <th>Quantite</th>
                                     <th>Etat</th>
@@ -117,10 +132,6 @@
                                 </tfoot>
 
                                 <tbody>
-                                {{--@if( $data->isEmpty() )
-                                <tr><td colspan="4">Aucun ar</td></tr>
-                                @else
-                                    --}}
                                 @foreach( $data as $item )
 
                                     {{-- Tests pour definir la couleur de la ligne --}}
@@ -157,9 +168,8 @@
                                             <td align="center">
                                                 <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                    title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
-                                                <button type="button" class="btn btn-info" data-toggle="modal"
-                                                        data-target="#myModal{{ $loop->index+1 }}">Detail
-                                                </button>
+                                                <a data-toggle="modal" data-target="#myModal{{ $loop->index+1 }}"><i
+                                                            class="glyphicon glyphicon-info-sign" aria-hidden="false"></i></a>
                                             </td>
 
                                             {{-- Modal (pour afficher les details de chaque article) --}}
@@ -174,37 +184,37 @@
                                                             <h4 class="modal-title">{{ getChamp("articles", "id_article",  $item->id_article , "designation_c")  }}</h4>
                                                         </div>
                                                         <div class="modal-body">
-                                                            <p><b>Quantité </b> {{ $item->quantite }}
+                                                            <p><b>Quantité : </b> {{ $item->quantite }}
                                                             </p>
                                                             <p><b>Quantité
-                                                                    Min</b> {{ $item->quantite_min }}
+                                                                    Min :</b> {{ $item->quantite_min }}
                                                             </p>
                                                             <p><b>Quantité
-                                                                    Max</b> {{ $item->quantite_max }}
+                                                                    Max :</b> {{ $item->quantite_max }}
                                                             </p>
                                                             <hr>
                                                             <p>
-                                                                <b>numero</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}
+                                                                <b>numero :</b> {{ getChamp("articles", "id_article",  $item->id_article , "num_article")  }}
                                                             </p>
                                                             <p><b>code a
-                                                                    barres</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}
+                                                                    barres :</b> {{ getChamp("articles", "id_article",  $item->id_article , "code_barre")  }}
                                                             </p>
                                                             <p>
-                                                                <b>Taille</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}
+                                                                <b>Taille :</b> {{ getChamp("articles", "id_article",  $item->id_article , "taille")  }}
                                                             </p>
                                                             <p>
-                                                                <b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
+                                                                <b>Couleur :</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
                                                             </p>
                                                             <p>
-                                                                <b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
+                                                                <b>sexe :</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
                                                             </p>
                                                             <p><b>Prix
-                                                                    d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}
+                                                                    d'achat :</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }} DH
                                                             </p>
                                                             <p><b>Prix de
-                                                                    vente</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }}
+                                                                    vente :</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_vente")  }} DH
                                                             </p>
-                                                            <p>{{ getChamp("articles", "id_article",  $item->id_article , "designation_l")  }}</p>
+                                                            <p><b>Description :</b> {{ getChamp("articles", "id_article",  $item->id_article , "designation_l")  }}</p>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button"
@@ -228,11 +238,11 @@
                 <div class="row" align="center">
                     <a href="{{ Route('direct.addStock',['p_id_magasin' => $data->first()->id_magasin ]) }}"
                        type="button"
-                       class="btn btn-outline btn-info" {!! setPopOver("","Ajouter des nouveaux articles au stock de ce magasin") !!}>Ajouter
-                        des articles</a>
+                       class="btn btn-outline btn-info" {!! setPopOver("","Ajouter des nouveaux articles au stock de ce magasin") !!}>
+                      <i class="glyphicon glyphicon-plus "></i>  Ajouter des articles</a>
                     <a href="{{ Route('direct.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
                        type="button" class="btn btn-outline btn-default" {!! setPopOver("","Alimenter le stock ") !!}>
-                        alimenter le Stock </a>
+                      <i class="glyphicon glyphicon-plus "></i>   Alimenter le Stock </a>
                 </div>
 
             </div>

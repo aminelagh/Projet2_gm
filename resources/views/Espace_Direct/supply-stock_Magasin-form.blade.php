@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') {{ $magasin->libelle }} @endsection
+@section('title') Alimenter stock du magasin {{ $magasin->libelle }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -86,9 +86,10 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des magasins</li>
-                    <li class="breadcrumb-item">Liste des magasins</li>
+                    <li class="breadcrumb-item"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a></li>
                     <li class="breadcrumb-item">{{ $magasin->libelle }}</li>
-                    <li class="breadcrumb-item active">Alimentation</li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.stocks', [ 'p_id_magasin' => $magasin->id_magasin ] ) }}">Stock du magasin</a></li>
+                    <li class="breadcrumb-item active">Alimentation du stock</li>
                 </ol>
 
 
@@ -192,6 +193,7 @@
                                         <tr>
                                             <input type="hidden" name="id_stock[{{ $loop->index+1 }}]"
                                                    value="{{ $item->id_stock }}">
+
                                             <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
                                                    value="{{ $item->id_article }}">
                                             {{-- <input type="hidden" name="designation_c[{{ $loop->index+1 }}]" value="{{ $item->designation_c }}">--}}
@@ -205,14 +207,14 @@
                                             <td>{{ $item->taille }}</td>
                                             <td>{{ $item->couleur }}</td>
                                             <td>{{ getSexeName($item->sexe) }}</td>
-                                            <td align="right">{{ $item->prix_achat }}</td>
-                                            <td align="right">{{ $item->prix_vente }}</td>
+                                            <td align="right">{{ $item->prix_achat }} DH</td>
+                                            <td align="right">{{ $item->prix_vente }} DH</td>
                                             <td>{{ $item->quantite }}
                                                 article(s), {{ ($item->quantite/$item->quantite_max)*100 }}%
                                             </td>
                                             <td><input type="number" min="0" placeholder="Quantite"
                                                        name="quantite[{{ $loop->index+1 }}]"
-                                                       value="{{ old('quantite.'.($loop->index+1).'') }}"></td>
+                                                       value="{{ old('quantite[$loop->index+1]') }}"></td>
                                             <td>
                                                 <button type="button" class="btn btn-info" data-toggle="modal"
                                                         data-target="#myModal{{ $loop->index+1 }}">Detail Article
@@ -240,9 +242,9 @@
                                                             <p><b>Taille</b> {{ $item->taille }}</p>
                                                             <p><b>Couleur</b> {{ $item->couleur }}</p>
                                                             <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
-                                                            <p><b>Prix d'achat</b> {{ $item->prix_achat }}</p>
-                                                            <p><b>Prix de vente</b> {{ $item->prix_vente }}</p>
-                                                            <p>{{ $item->designation_l }}</p>
+                                                            <p><b>Prix d'achat</b> {{ $item->prix_achat }} DH</p>
+                                                            <p><b>Prix de vente</b> {{ $item->prix_vente }} DH</p>
+                                                            <p><b>Description : </b>{{ $item->designation_l }}</p>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button type="button" class="btn btn-default"

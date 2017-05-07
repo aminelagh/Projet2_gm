@@ -22,8 +22,8 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des magasins</li>
-                    <li class="breadcrumb-item">Liste des magasin</li>
-                    <li class="breadcrumb-item active">creation d'un nouveau magasin</li>
+                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}"> Liste des magasins<</a></li>
+                    <li class="breadcrumb-item active">Creation d'un nouveau magasin</li>
                 </ol>
 
                 <!-- alerts -->

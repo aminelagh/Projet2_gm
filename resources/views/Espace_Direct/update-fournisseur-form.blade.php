@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Modifier Fournisseur @endsection
+@section('title') Modifier Fournisseur : {{ $data->libelle }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -30,7 +30,7 @@
                     <li class="breadcrumb-item">Gestion des Articles</li>
                     <li class="breadcrumb-item"><a href="{{ route('direct.lister',[ 'p_table' => 'fournisseurs' ]) }}">Liste
                             des fournisseurs</a></li>
-                    <li class="breadcrumb-item active">{{ $data->libelle }}</li>
+                    <li class="breadcrumb-item active">Modifier fournisseur : {{ $data->libelle }}</li>
                 </ol>
 
                 <div id="page-wrapper">

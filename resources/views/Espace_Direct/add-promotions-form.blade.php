@@ -87,7 +87,7 @@
                 <h1 class="page-header">Création des promotions</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active">Liste des promotions</li>
+                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'promotions' ]) }}"> Liste des promotions<</a></li>
                     <li class="breadcrumb-item">Creation des promotions</li>
                 </ol>
 
