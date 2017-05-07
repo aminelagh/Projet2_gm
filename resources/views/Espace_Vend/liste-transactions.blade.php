@@ -18,16 +18,16 @@
                 if (title == "numero" || title == "code") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title == "Designation") {
+                else if (title == "Date de la vente") {
                     $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title == "Taille") {
+                else if (title == "Nombre d'articles") {
                     $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title == "Couleur") {
+                else if (title == "Couleur") {
                     $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';"/>');
                 }
-                if (title != "") {
+                else if (title != "") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
             });
@@ -41,11 +41,11 @@
                 "info": true,
                 stateSave: false,
                 "columnDefs": [
-                    {"width": "02%", "targets": 0, "type": "num",       "visible": true, "searchable": false},//#
-                    {"width": "05%", "targets": 1, "type": "string",    "visible": true},
-                    {"width": "07%", "targets": 2, "type": "num",       "visible": true},
-                    {                "targets": 3, "type": "string",    "visible": true},
-                    {"width": "03%", "targets": 4, "type": "string",    "visible": true},
+                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},//#
+                    {"width": "05%", "targets": 1, "type": "string", "visible": true},
+                    {"width": "07%", "targets": 2, "type": "num", "visible": true},
+                    {"targets": 3, "type": "string", "visible": true},
+                    {"width": "03%", "targets": 4, "type": "string", "visible": true},
                 ]
             });
 
@@ -123,9 +123,10 @@
                                 <thead bgcolor="#DBDAD8">
                                 <tr>
                                     <th>#</th>
-                                    <th>Date de vente</th>
-                                    <th>Total Articles vendus</th>
+                                    <th>Date de la vente</th>
+                                    <th>Nombre d'articles</th>
                                     <th>Mode de paiement</th>
+                                    <th>Total</th>
                                     <th>Autres</th>
                                 </tr>
                                 </thead>
@@ -133,9 +134,10 @@
                                 <tfoot bgcolor="#DBDAD8">
                                 <tr>
                                     <th></th>
-                                    <th>Date de vente</th>
-                                    <th>Total Articles vendus</th>
+                                    <th>Date de la vente</th>
+                                    <th>Nombre d'articles</th>
                                     <th>Mode de paiement</th>
+                                    <th>Total</th>
                                     <th></th>
                                 </tr>
                                 </tfoot>
@@ -150,10 +152,14 @@
                                         <tr>
                                             <td align="right">{{ $loop->index+1 }}</td>
                                             <td>{{ getDateHelper($item->created_at) }} </td>
-                                            <td align="right">
-                                                XX{{--App\Models\Trans_Article::where(['id_transaction'=> $item->id_transaction ])->count() --}}</td>
-                                            <td>
-                                                XX{{-- getChamp('mode_paiements','id_mode',getChamp('paiements', 'id_paiement', $item->id_paiement, 'id_mode') , 'libelle') --}}</td>
+                                            <td align="right">{{ $item->nbre_articles }}</td>
+                                            <td>{{ getChamp('mode_paiements','id_mode_paiement',getChamp('paiements','id_paiement',$item->id_paiement,'id_mode_paiement'),'libelle') }}
+                                            @if( getChamp('paiements','id_paiement',$item->id_paiement,'ref')!=null )
+                                                <i> ref.: {{ getChamp('paiements','id_paiement',$item->id_paiement,'ref') }}</i>
+                                            @endif
+                                            </td>
+
+                                            <td align="right">{{ number_format($item->total,2) }} Dhs</td>
                                             <td align="center">
                                                 <a href="{{ Route('vend.lister',[ 'p_id' => $item->id_transaction , '$p_table' => 'trans_articles' ]) }}"
                                                    title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>

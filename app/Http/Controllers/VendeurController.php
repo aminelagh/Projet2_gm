@@ -204,8 +204,8 @@ class VendeurController extends Controller
 
             } catch (Exception $e) {
                 return redirect()->back()->withInput()->with('alert_danger',"Erreur de creation du $i eme article.<br> Message d'erreur: ".$e->getMessage());
-                $alert2 = $alert1 . "<li>Erreur,  article: " . getChamp("articles", "id_article", $id_article[$i], "designation_c") . ". Message d'erreur: <b>" . $e->getMessage() . "</b>.";
-                $error2 = true;
+                //$alert2 = $alert1 . "<li>Erreur,  article: " . getChamp("articles", "id_article", $id_article[$i], "designation_c") . ". Message d'erreur: <b>" . $e->getMessage() . "</b>.";
+                //$error2 = true;
             }
         }
         //**************************************

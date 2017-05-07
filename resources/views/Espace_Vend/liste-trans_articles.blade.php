@@ -135,62 +135,54 @@
                                 </tr>
                                 </tfoot>
                                 <tbody>
-                                @if( $data->isEmpty() )
-                                    <tr>
-                                        <td colspan="5" align="center"><i>Aucune vente</i></td>
-                                    </tr>
-                                @else
-                                    @foreach( $data as $item )
-                                        <!-- probleme des remises et des promotions -->
-                                        <tr>
-                                            <td align="right" width=1%>{{ $loop->index+1 }}</td>
-                                            <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
-                                            <td align="right">{{ number_format($item->prix,2) }} DH
-                                            </td>
-                                            <td align="right">{{ $item->quantite }}</td>
-                                            <td align="right">{{ number_format(($item->prix * $item->quantite),2) }} DH</td>
-                                            <td align="center">
-                                                <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"
-                                                   title="Detail article">
-                                                    <i class="glyphicon glyphicon-eye-open" {!! setPopOver("","Afficher plus de detail") !!}></i>
-                                                </a>
-                                            </td>
-                                        </tr>
 
-                                        {{-- Modal (pour afficher les details de chaque article) --}}
-                                        <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">
-                                            <div class="modal-dialog modal-sm">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <button type="button" class="close" data-dismiss="modal">
-                                                            &times;
-                                                        </button>
-                                                        <h4 class="modal-title">{{ $item->designation_c }}</h4>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p><b>numero</b> {{ $item->num_article }}</p>
-                                                        <p><b>code a barres</b> {{ $item->code_barre }}</p>
-                                                        <p><b>Taille</b> {{ $item->taille }}</p>
-                                                        <p><b>Couleur</b> {{ $item->couleur }}</p>
-                                                        <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
-                                                        <p><b>Prix d'achat</b></p>
-                                                        <p>{{ number_format($item->prix_achat, 2) }} Dhs
-                                                            HT, {{ number_format($item->prix_achat+$item->prix_achat*0.2, 2) }}
-                                                            Dhs TTC </p>
-                                                        <p><b>Prix de vente</b></p>
-                                                        <p>{{ number_format($item->prix_vente, 2) }} Dhs
-                                                            HT, {{ number_format($item->prix_vente+$item->prix_vente*0.2, 2) }}
-                                                            Dhs TTC </p>
-                                                        <p>{{ $item->designation_l }}</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-default"
-                                                                data-dismiss="modal">Fermer
-                                                        </button>
-                                                    </div>
+                                @foreach( $data as $item )
+                                    <!-- probleme des remises et des promotions -->
+                                    <tr>
+                                        <td align="right" width=1%>{{ $loop->index+1 }}</td>
+                                        <td>{{ getChamp('articles','id_article',$item->id_article, 'designation_c') }}</td>
+                                        <td align="right">{{ number_format($item->prix,2) }} DH
+                                        </td>
+                                        <td align="right">{{ $item->quantite }}</td>
+                                        <td align="right">{{ number_format(($item->prix * $item->quantite),2) }} DH</td>
+                                        <td align="center">
+                                            <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"
+                                               title="Detail article">
+                                                <i class="glyphicon glyphicon-eye-open" {!! setPopOver("","Afficher plus de detail") !!}></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+
+                                    {{-- Modal (pour afficher les details de chaque article) --}}
+                                    <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">
+                                        <div class="modal-dialog modal-sm">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">
+                                                        &times;
+                                                    </button>
+                                                    <h4 class="modal-title">{{ $item->designation_c }}</h4>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><b>numero</b> {{ $item->num_article }}</p>
+                                                    <p><b>code a barres</b> {{ $item->code_barre }}</p>
+                                                    <p><b>Taille</b> {{ $item->taille }}</p>
+                                                    <p><b>Couleur</b> {{ $item->couleur }}</p>
+                                                    <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
+                                                    <p><b>Prix de vente</b></p>
+                                                    <p>{{ number_format($item->prix_vente, 2) }} Dhs
+                                                        HT, {{ number_format($item->prix_vente+$item->prix_vente*0.2, 2) }}
+                                                        Dhs TTC </p>
+                                                    <p>{{ $item->designation_l }}</p>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default"
+                                                            data-dismiss="modal">Fermer
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 {{-- fin Modal (pour afficher les details de chaque article) --}}
                                 @endforeach
                                 <tfoot>
@@ -200,7 +192,7 @@
                                     <td></td>
                                 </tr>
                                 </tfoot>
-                                @endif
+                                
                                 </tbody>
                             </table>
                         </div>
