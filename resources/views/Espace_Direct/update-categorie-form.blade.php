@@ -16,103 +16,63 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
-          <div class="row">
-            <h1 class="page-header">Modifier une Categorie</h1>
+            <div class="row">
+                <h1 class="page-header">Modifier une Categorie</h1>
 
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
-                <li class="breadcrumb-item">Gestion des Articles</li>
-                <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste des categories</a></li>
-                <li class="breadcrumb-item active ">Modifier Categorie : {{ $data->libelle  }}</li>
-            </ol>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item">Gestion des Articles</li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste
+                            des categories</a></li>
+                    <li class="breadcrumb-item active ">Modifier Categorie : {{ $data->libelle  }}</li>
+                </ol>
 
-            <div id="page-wrapper">
+                <div id="page-wrapper">
 
-                {{-- **************Alerts**************  --}}
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- Debut Alerts --}}
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_success') !!}
+                    @include('layouts.alerts')
+
+                    {{-- *************** formulaire ***************** --}}
+                    <form role="form" method="post"
+                          action="{{ Route('direct.submitUpdate',['p_table' => 'categories']) }}">
+                        {{ csrf_field() }}
+
+                        <input type="hidden" class="form-control" name="id_categorie" value="{{ $data->id_categorie }}">
+
+                        <!-- Row 1 -->
+                        <div class="row">
+                            <div class="col-lg-6">
+                                {{-- Libelle --}}
+                                <div class="form-group">
+                                    <label>Nom de la Categorie</label>
+                                    <input type="text" class="form-control" placeholder="Libelle " name="libelle"
+                                           value="{{ $data->libelle }}" required autofocus>
+                                </div>
                             </div>
-                        @endif
-
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_info') !!}
+                            <div class="col-lg-6">
+                                {{-- Description --}}
+                                <div class="form-group">
+                                    <label>Description</label>
+                                    <textarea type="text" class="form-control" rows="3" placeholder="Description"
+                                              name="description">{{ $data->description }}</textarea>
+                                </div>
                             </div>
-                        @endif
+                        </div>
+                        <!-- end row 1 -->
 
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
 
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                        {{-- Fin Alerts --}}
-                    </div>
+                        <!-- row 2 -->
+                        <div class="row" align="center">
+                            {{-- Submit & Reset --}}
+                            <button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
+                            <button type="reset" class="btn btn-default">Réinitialiser</button>
+                        </div>
+                        <!-- end row 2 -->
 
-                    <div class="col-lg-2"></div>
+                    </form>
+
                 </div>
-                {{-- **************endAlerts**************  --}}
-
-                {{-- *************** formulaire ***************** --}}
-                <form role="form" method="post"
-                      action="{{ Route('direct.submitUpdate',['p_table' => 'categories']) }}">
-                    {{ csrf_field() }}
-
-                    <input type="hidden" class="form-control" name="id_categorie" value="{{ $data->id_categorie }}">
-
-                    <!-- Row 1 -->
-                    <div class="row">
-                        <div class="col-lg-6">
-                            {{-- Libelle --}}
-                            <div class="form-group">
-                                <label>Nom de la Categorie</label>
-                                <input type="text" class="form-control" placeholder="Libelle " name="libelle"
-                                       value="{{ $data->libelle }}" required autofocus>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            {{-- Description --}}
-                            <div class="form-group">
-                                <label>Description</label>
-                                <textarea type="text" class="form-control" rows="3" placeholder="Description"
-                                          name="description">{{ $data->description }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- end row 1 -->
-
-
-                    <!-- row 2 -->
-                    <div class="row" align="center">
-                        {{-- Submit & Reset --}}
-                        <button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-                        <button type="reset" class="btn btn-default">Réinitialiser</button>
-                    </div>
-                    <!-- end row 2 -->
-
-                </form>
-
             </div>
         </div>
-      </div>
     </div>
     <!-- /.row -->
 @endsection

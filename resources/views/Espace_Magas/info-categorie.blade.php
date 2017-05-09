@@ -17,12 +17,13 @@
 
     <div class="container-fluid">
         <div class="col-lg-12">
+          <div class="row">
             <h1 class="page-header">Categorie</h1>
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                 <li class="breadcrumb-item ">Gestion des Articles</li>
-                <li class="breadcrumb-item">Liste des categories</li>
+                <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'categories' ]) }}">Liste des categories</a></li>
                 <li class="breadcrumb-item active">{{ $data->libelle  }}</li>
             </ol>
 
@@ -130,13 +131,14 @@
         </div>
 
     </div>
+  </div>
 
 @endsection
 
 @section('menu_1')
-    @include('Espace_Direct._nav_menu_1')
+    @include('Espace_Magas._nav_menu_1')
 @endsection
 
 @section('menu_2')
-    @include('Espace_Direct._nav_menu_2')
+    @include('Espace_Magas._nav_menu_2')
 @endsection

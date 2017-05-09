@@ -41,7 +41,7 @@
                     {"width": "20%", "targets": 1},
                     {"width": "15%", "targets": 2},
                     {"width": "10%", "targets": 3},
-                    {"width": "05%", "targets": 5}
+                    {"width": "10%", "targets": 5}
 
                 ]
             });
@@ -102,14 +102,14 @@
                     </div>
                     <div class="col-lg-2"></div>
                 </div>
-                {{-- **************endAlerts************** --}}
+            {{-- **************endAlerts************** --}}
 
 
 
             <!-- row table -->
                 <div class="table-responsive">
                     <div class="col-lg-12">
-                        <table id="example" class="table table-striped table-bordered table-hover" >
+                        <table id="example" class="table table-striped table-bordered table-hover">
                             <thead bgcolor="#DBDAD8">
                             <tr>
                                 <th>#</th>
@@ -143,19 +143,23 @@
                                         <td>{{ $item->libelle }}</td>
                                         <td>{{ $item->ville }}</td>
                                         <td align="right">{{ $item->telephone }}</td>
-                                        <td>Etat du <a
+                                        <td><a
                                                     href="{{ route('direct.stocks', [ 'p_id_magasin' => $item->id_magasin ] ) }}"
-                                                    {!! setPopOver("Stock","Afficher le stock du magasin") !!}>Stock</a></td>
+                                                    {!! setPopOver("Stock","Afficher le stock du magasin") !!}>Afficher
+                                                Stock</a></td>
                                         <td align="center">
                                             <a href="{{ Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
-                                                    {!! setPopOver("Detail","Afficher plus de detail sur la magasin") !!}><i class="glyphicon glyphicon-eye-open"></i></a>
-
+                                                    {!! setPopOver("Detail","Afficher plus de detail sur la magasin") !!}><i
+                                                        class="glyphicon glyphicon-eye-open"></i></a>
+                                            <a href="{{ Route('direct.info',['p_table'=> 'dashboard-magasin', 'p_id' => $item->id_magasin ]) }}"
+                                               title="detail"><i class="glyphicon glyphicon-dashboard"></i></a>
                                             <a href="{{ Route('direct.update',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
-                                                    {!! setPopOver("","Modifier les informations ") !!}><i class="glyphicon glyphicon-pencil"></i></a>
-                                            <!--a onclick="return confirm('Êtes-vous sure de vouloir effacer le
+                                                    {!! setPopOver("","Modifier les informations ") !!}><i
+                                                        class="glyphicon glyphicon-pencil"></i></a>
+                                        <!--a onclick="return confirm('Êtes-vous sure de vouloir effacer le
                                             magasin: {{ $item->libelle }} ?')"
                                             href="{{ Route('direct.delete',['p_table' => 'magasins' , 'p_id' => $item->id_magasin ]) }}
-                                            " title="supprimer"><i class="glyphicon glyphicon-trash"></i></a-->
+                                                " title="supprimer"><i class="glyphicon glyphicon-trash"></i></a-->
 
                                         </td>
                                     </tr>
@@ -172,11 +176,17 @@
 
             <div class="row" align="center">
                 <a href="{{ Route('direct.add',[ 'p_table' => 'magasins' ]) }}" type="button"
-                   class="btn btn-outline btn-default"> Ajouter un Magasin </a>
+                   class="btn btn-outline btn-default"> <i class="glyphicon glyphicon-plus "></i> Ajouter un Magasin
+                </a>
             </div>
         </div>
 
 
     </div>
     <!-- end Container-->
-@endsection @section('menu_1') @include('Espace_Direct._nav_menu_1') @endsection @section('menu_2') @include('Espace_Direct._nav_menu_2') @endsection
+@endsection @section('menu_1')
+    @include('Espace_Magas._nav_menu_1')
+@endsection
+@section('menu_2')
+    @include('Espace_Magas._nav_menu_2')
+@endsection

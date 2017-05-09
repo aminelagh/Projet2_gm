@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Ajout Categorie @endsection
+@section('title') Ajout agent @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -15,63 +15,26 @@
 
 @section('main_content')
     <div class="container-fluid">
-      <div class="col-lg-12">
-        <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
 
                 <h1 class="page-header">Ajouter une Categorie</h1>
 
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item ">Gestion des Articles</li>
-                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'categories' ]) }}"> Liste des categories<</a></li>
+                    <li class="breadcrumb-item active"><a
+                                href="{{ Route('direct.lister',['p_table' => 'categories' ]) }}"> Liste des
+                            categories<</a></li>
                     <li class="breadcrumb-item active">Création d'une categorie</li>
                 </ol>
 
 
-                {{-- **************Alerts**************  --}}
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- Debut Alerts --}}
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                        {{-- Fin Alerts --}}
-                    </div>
-
-                    <div class="col-lg-2"></div>
-                </div>
-                {{-- **************endAlerts**************  --}}
+                @include('layouts.alerts')
 
                 {{-- *************** formulaire ***************** --}}
                 <form role="form" method="post"
-                      action="{{ Route('direct.submitAdd',['p_table' => 'categories']) }}">
+                      action="{{ Route('direct.submitAdd',['p_table' => 'agents']) }}">
                 {{ csrf_field() }}
 
 
@@ -122,7 +85,8 @@
                                         title="Cliquez ici pour visualiser la liste des articles existants">Liste
                                     des Categories
                                 </button>
-                                <div id="demo10" class="collapse" style="margin:25px 0;height:200px;border:none;width:100%;">
+                                <div id="demo10" class="collapse"
+                                     style="margin:25px 0;height:200px;border:none;width:100%;">
                                     <br>
                                     <div class="panel panel-primary">
                                         <div class="panel-heading">

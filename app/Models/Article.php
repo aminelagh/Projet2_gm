@@ -14,6 +14,7 @@ class Article extends Model
         'designation_c', 'designation_l',
         'code_barre', 'num_article',
         'couleur', 'taille', 'sexe', 'prix_achat', 'prix_vente',
+        'deleted',
     ];
 
     public static function getPrixPromo($p_id_article, $p_id_magasin)

@@ -1,6 +1,6 @@
 @extends('layouts.main_master')
 
-@section('title') Ajout Stock du magasin {{ $magasin->libelle }} @endsection
+@section('title') Ajouter le  Stock du magasin {{ $magasin->libelle }} @endsection
 
 @section('styles')
     <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
@@ -79,10 +79,18 @@
 
 @section('main_content')
     <div class="container-fluid">
+      <div class="col-lg-12">
         <div class="row">
-            <h1 class="page-header">Ajouter au Stock du magasin {{ $magasin->libelle }}
-                <small></small>
-            </h1>
+            <h1 class="page-header">Ajouter au Stock du magasin {{ $magasin->libelle }}</h1>
+
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                <li class="breadcrumb-item">Gestion des magasins</li>
+                <li class="breadcrumb-item"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a></li>
+                <li class="breadcrumb-item">{{ $magasin->libelle }}</li>
+                      <li class="breadcrumb-item"><a href="{{ route('direct.stocks', [ 'p_id_magasin' => $magasin->id_magasin ] ) }}">Stock du magasin</a></li>
+                <li class="breadcrumb-item active">Ajout des Articles au stock </li>
+            </ol>
 
             {{-- **************Alerts************** --}}
             <div class="row">
@@ -118,8 +126,8 @@
             {{-- **************endAlerts************** --}}
 
             <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-10">
+              
+                <div class="col-lg-12">
                     Afficher/Masquer:
                     <a class="toggle-vis" data-column="1">Categorie</a> -
                     <a class="toggle-vis" data-column="2">Fournisseur</a> -
@@ -198,8 +206,8 @@
                                             <td>{{ $item->taille }}</td>
                                             <td>{{ $item->couleur }}</td>
                                             <td>{{ getSexeName($item->couleur) }}</td>
-                                            <td align="right">{{ $item->prix_achat }}</td>
-                                            <td align="right">{{ $item->prix_vente }}</td>
+                                            <td align="right">{{ $item->prix_achat }} DH</td>
+                                            <td align="right">{{ $item->prix_vente }} DH</td>
                                             <td><input type="number" min="0" placeholder="Quantite Min"
                                                        name="quantite_min[{{ $loop->index+1 }}]"
                                                        value="{{ old('quantite_min[$loop->index+1]') }}"></td>
@@ -208,7 +216,7 @@
                                                        value="{{ old('quantite_max[$loop->index+1]') }}"></td>
                                             <td>
                                                 <button type="button" class="btn btn-info" data-toggle="modal"
-                                                        data-target="#myModal{{ $loop->index+1 }}">Detail Article
+                                                        data-target="#myModal{{ $loop->index+1 }}">Detail Article au stock
                                                 </button>
                                             </td>
 
@@ -263,8 +271,14 @@
             </div>
             <!-- end row 1 -->
 
-
+</div>
         </div>
     </div>
     <!-- /.row -->
-@endsection @section('menu_1') @include('Espace_Direct._nav_menu_1') @endsection @section('menu_2') @include('Espace_Direct._nav_menu_2') @endsection
+@endsection
+@section('menu_1')
+@include('Espace_Magas._nav_menu_1')
+@endsection
+@section('menu_2')
+@include('Espace_Magas._nav_menu_2')
+ @endsection

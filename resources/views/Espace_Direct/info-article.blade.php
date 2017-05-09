@@ -23,63 +23,14 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item ">Gestion des Articles</li>
-                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste des articles</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste
+                            des articles</a></li>
                     <li class="breadcrumb-item active">{{ $data->designation_c }}</li>
                 </ol>
 
-                <!-- alerts -->
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- **************Alerts**************  --}}
-                        <div class="row">
-                            <div class="col-lg-2"></div>
+            @include('layouts.alerts')
 
-                            <div class="col-lg-8">
-                                {{-- Debut Alerts --}}
-                                @if (session('alert_success'))
-                                    <div class="alert alert-success alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button> {!! session('alert_success') !!}
-                                    </div>
-                                @endif
-
-                                @if (session('alert_info'))
-                                    <div class="alert alert-info alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button> {!! session('alert_info') !!}
-                                    </div>
-                                @endif
-
-                                @if (session('alert_warning'))
-                                    <div class="alert alert-warning alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button> {!! session('alert_warning') !!}
-                                    </div>
-                                @endif
-
-                                @if (session('alert_danger'))
-                                    <div class="alert alert-danger alert-dismissable">
-                                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                            &times;
-                                        </button> {!! session('alert_danger') !!}
-                                    </div>
-                                @endif
-                                {{-- Fin Alerts --}}
-                            </div>
-
-                            <div class="col-lg-2"></div>
-                        </div>
-                        {{-- **************endAlerts**************  --}}
-                    </div>
-                    <div class="col-lg-2"></div>
-                </div>
-                <!-- /.alerts -->
-
-                <!-- row info -->
+            <!-- row info -->
                 <div class="row">
                     <div class="col-lg-1"></div>
                     <div class="col-lg-10">
@@ -126,11 +77,13 @@
                                     </tr>
                                     <tr>
                                         <td>Date de creation</td>
-                                        <th>{{ getDateHelper($data->created_at) }} a {{ getTimeHelper($data->created_at) }}    </th>
+                                        <th>{{ getDateHelper($data->created_at) }}
+                                            a {{ getTimeHelper($data->created_at) }}    </th>
                                     </tr>
                                     <tr>
                                         <td>Date de derniere modification</td>
-                                        <th>{{ getDateHelper($data->updated_at) }} a {{ getTimeHelper($data->updated_at) }}     </th>
+                                        <th>{{ getDateHelper($data->updated_at) }}
+                                            a {{ getTimeHelper($data->updated_at) }}     </th>
                                     </tr>
                                 </table>
 

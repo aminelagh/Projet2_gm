@@ -48,12 +48,12 @@
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
-            <h1 class="page-header">Magasin</h1>
+            <h1 class="page-header"> Info Magasin</h1>
 
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                 <li class="breadcrumb-item ">Gestion des Magasins</li>
-                <li class="breadcrumb-item">Liste des magasins</li>
+                <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a></li>
                 <li class="breadcrumb-item active">{{ $data->libelle  }}</li>
             </ol>
 
@@ -91,9 +91,9 @@
                 </div>
                 <div class="col-lg-2"></div>
             </div>
-            {{-- /.Alerts --}}
+        {{-- /.Alerts --}}
 
-            <!-- info magasin -->
+        <!-- info magasin -->
             <div class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10">
@@ -336,9 +336,9 @@
 @endsection
 
 @section('menu_1')
-    @include('Espace_Direct._nav_menu_1')
+    @include('Espace_Magas._nav_menu_1')
 @endsection
 
 @section('menu_2')
-    @include('Espace_Direct._nav_menu_2')
+    @include('Espace_Magas._nav_menu_2')
 @endsection

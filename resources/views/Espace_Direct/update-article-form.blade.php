@@ -15,56 +15,20 @@
 
 @section('main_content')
     <div class="container-fluid">
-      <div class="col-lg-12">
-        <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
 
                 <h1 class="page-header">Modifier un Article</h1>
 
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item ">Gestion des Articles</li>
-                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste des articles</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('direct.lister',['p_table' => 'articles' ]) }}">Liste
+                            des articles</a></li>
                     <li class="breadcrumb-item active"> Modifier Article : {{ $data->designation_c }}</li>
                 </ol>
 
-                <!-- alerts -->
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- Debut Alerts --}}
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                        {{-- Fin Alerts --}}
-                    </div>
-                    <div class="col-lg-2"></div>
-                </div>
-                <!-- /.alerts -->
+                @include('layouts.alerts')
 
                 {{-- *************** formulaire ***************** --}}
                 <form role="form" method="post"
@@ -218,7 +182,7 @@
                     <div class="row" align="center">
                         {{-- Submit & Reset --}}
                         <button type="submit" name="submit" value="valider" class="btn btn-default">Valider</button>
-                        <button type="reset" class="btn btn-default">Réinitialiser </button>
+                        <button type="reset" class="btn btn-default">Réinitialiser</button>
 
                     </div>
                     <!-- end row 4 -->

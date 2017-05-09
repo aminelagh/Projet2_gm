@@ -10,8 +10,9 @@ class Magasin extends Model
     protected $primaryKey = 'id_magasin';
 
     protected $fillable = [
-        'id_magasin','libelle' ,'description',
-        'ville','agent' ,'telephone',
-        'email','adresse'
+        'id_magasin', 'libelle', 'description',
+        'ville', 'agent', 'telephone',
+        'email', 'adresse',
+        'deleted',
     ];
 }

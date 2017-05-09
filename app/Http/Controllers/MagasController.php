@@ -10,4 +10,10 @@ class MagasController extends Controller
     {
         return view('Espace_Magas.dashboard');
     }
+
+    /***************************************************
+     *************** Gestion des Articles **************
+     ***************************************************/
+
+
 }

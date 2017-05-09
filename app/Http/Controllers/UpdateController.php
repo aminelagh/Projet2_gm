@@ -7,6 +7,8 @@ use Auth;
 use DB;
 use Hash;
 use App\Models\User;
+use App\Models\Agent;
+use App\Models\Marque;
 use App\Models\Role;
 use App\Models\Magasin;
 use App\Models\Article;
@@ -34,16 +36,22 @@ class UpdateController extends Controller
                 return view('Espace_Admin.updatePassword-user-form')->with(['data' => User::find($p_id), 'magasins' => $magasins, 'roles' => $roles]);
                 break;
             case 'categories':
-                return view('Espace_Direct.update-categorie-form')->withData(Categorie::find($p_id));
+                return view('Espace_Magas.update-categorie-form')->withData(Categorie::find($p_id));
                 break;
             case 'fournisseurs':
-                return view('Espace_Direct.update-fournisseur-form')->withData(Fournisseur::find($p_id));
+                return view('Espace_Magas.update-fournisseur-form')->withData(Fournisseur::find($p_id));
+                break;
+            case 'agents':
+                return view('Espace_Magas.update-agent-form')->withData(Agent::find($p_id));
+                break;
+            case 'marques':
+                return view('Espace_Magas.update-marque-form')->withData(Marque::find($p_id));
                 break;
             case 'magasins':
-                return view('Espace_Direct.update-magasin-form')->withData(Magasin::find($p_id));
+                return view('Espace_Magas.update-magasin-form')->withData(Magasin::find($p_id));
                 break;
             case 'articles':
-                return view('Espace_Direct.update-article-form')->with(['data' => Article::find($p_id), 'fournisseurs' => $fournisseurs, 'categories' => $categories]);
+                return view('Espace_Magas.update-article-form')->with(['data' => Article::find($p_id), 'fournisseurs' => $fournisseurs, 'categories' => $categories]);
                 break;
             default:
                 return back()->withInput()->with('alert_warning', 'Erreur de redirection: UpdateController@updateForm($p_table, $p_id).');
@@ -67,6 +75,9 @@ class UpdateController extends Controller
                 break;
             case 'marques':
                 return $this->submitUpdateMarque();
+                break;
+            case 'agents':
+                return $this->submitUpdateAgent();
                 break;
             case 'fournisseurs':
                 return $this->submitUpdateFournisseur();
@@ -126,6 +137,7 @@ class UpdateController extends Controller
         $item->update([
             'id_categorie' => request()->get('id_categorie'),
             'id_fournisseur' => request()->get('id_fournisseur'),
+            'id_marque' => request()->get('id_marque'),
             'num_article' => request()->get('num_article'),
             'code_barre' => request()->get('code_barre'),
             'designation_c' => request()->get('designation_c'),
@@ -136,7 +148,7 @@ class UpdateController extends Controller
             'prix_achat' => request()->get('prix_achat'),
             'prix_vente' => request()->get('prix_vente')
         ]);
-        return redirect()->route('direct.info', ['p_table' => 'articles', 'id' => request()->get('id_article')])->with('alert_success', 'Modification de l\'article reussi.');
+        return redirect()->route('magas.info', ['p_table' => 'articles', 'id' => request()->get('id_article')])->with('alert_success', "Modification de l'article reussi.");
     }
 
     //Valider la modification d un Categorie
@@ -147,7 +159,18 @@ class UpdateController extends Controller
             'libelle' => request()->get('libelle'),
             'description' => request()->get('description')
         ]);
-        return redirect()->route('direct.info', ['p_table' => 'categories', 'id' => request()->get('id_categorie')])->with('alert_success', 'Modification du fournisseur reussi.');
+        return redirect()->route('magas.info', ['p_table' => 'categories', 'id' => request()->get('id_categorie')])->with('alert_success', 'Modification du fournisseur reussi.');
+    }
+
+    //Valider la modification d un marque
+    public function submitUpdateMarque()
+    {
+        $item = Marque::find(request()->get('id_marque'));
+        $item->update([
+            'libelle' => request()->get('libelle'),
+            'description' => request()->get('description')
+        ]);
+        return redirect()->route('magas.info', ['p_table' => 'marques', 'p_id' => request()->get('id_marque')])->with('alert_success', "Modification de la marque <b>".request()->get('libelle')."</b> reussi.");
     }
 
     //Valider la modification d un fournisseur
@@ -157,13 +180,9 @@ class UpdateController extends Controller
         $item->update([
             'code' => request()->get('code'),
             'libelle' => request()->get('libelle'),
-            'agent' => request()->get('agent'),
-            'email' => request()->get('email'),
-            'telephone' => request()->get('telephone'),
-            'fax' => request()->get('fax'),
             'description' => request()->get('description')
         ]);
-        return redirect()->route('direct.info', ['p_table' => 'fournisseurs', 'id' => request()->get('id_fournisseur')])->with('alert_success', 'Modification du fournisseur reussi.');
+        return redirect()->route('magas.info', ['p_table' => 'fournisseurs', 'id' => request()->get('id_fournisseur')])->with('alert_success', 'Modification du fournisseur reussi.');
     }
 
     //Valider la modification d un Magasin

@@ -7,12 +7,12 @@ use Auth;
 use DB;
 use Hash;
 use App\Models\User;
-use App\Models\Role;
+use App\Models\Agent;
 use App\Models\Magasin;
 use App\Models\Categorie;
 use App\Models\Fournisseur;
 use App\Models\Article;
-use App\Models\Promotion;
+use App\Models\Marque;
 use App\Models\Stock;
 use \Exception;
 
@@ -27,19 +27,24 @@ class ShowController extends Controller
         switch ($p_table) {
             case 'users':
                 $item = User::find($p_id);
-                return ($item != null ? view('Espace_Admin.info-user')->with('data', $item) : back()->withInput()->with('alert_warning', 'L\'utilisateur choisi n\'existe pas.'));
+                return ($item != null ? view('Espace_Admin.info-user')->with('data', $item) : back()->withInput()->with('alert_warning', "L'utilisateur choisi n'existe pas."));
                 break;
             case 'categories':
                 $item = Categorie::find($p_id);
-                return ($item != null ? view('Espace_Direct.info-categorie')->with('data', $item) : back()->withInput()->with('alert_warning', 'La catégorie choisie n\'existe pas.'));
+                return ($item != null ? view('Espace_Magas.info-categorie')->with('data', $item) : back()->withInput()->with('alert_warning', "La catégorie choisie n'existe pas."));
+                break;
+            case 'marques':
+                $item = Marque::find($p_id);
+                return ($item != null ? view('Espace_Magas.info-marque')->with('data', $item) : back()->withInput()->with('alert_warning', "La marque choisie n'existe pas."));
                 break;
             case 'fournisseurs':
                 $item = fournisseur::find($p_id);
-                return ($item != null ? view('Espace_Direct.info-fournisseur')->with('data', $item) : back()->withInput()->with('alert_warning', 'Le fournisseur choisi n\'existe pas.'));
+                $agents = Agent::getAgents($p_id);
+                return ($item != null ? view('Espace_Magas.info-fournisseur')->with(['data'=>$item,'agents'=>$agents]) : back()->withInput()->with('alert_warning', "Le fournisseur choisi n'existe pas."));
                 break;
             case 'articles':
                 $item = Article::find($p_id);
-                return ($item != null ? view('Espace_Direct.info-article')->with('data', $item) : back()->withInput()->with('alert_warning', 'L\'article choisi n\'existe pas.'));
+                return ($item != null ? view('Espace_Magas.info-article')->with('data', $item) : back()->withInput()->with('alert_warning', "L'article choisi n'existe pas."));
                 break;
             case 'promotions':
                 $data = collect( DB::select("call getPromotion(".$p_id.");") )->first();
@@ -47,11 +52,11 @@ class ShowController extends Controller
                 break;
             case 'promotions2':
                 $item = Article::find($p_id);
-                return ($item != null ? view('Espace_Direct.info-article')->with('data', $item) : back()->withInput()->with('alert_warning', 'La promotion choisie n\'existe pas.'));
+                return ($item != null ? view('Espace_Direct.info-article')->with('data', $item) : back()->withInput()->with('alert_warning', "La promotion choisie n'existe pas."));
                 break;
             case 'magasins':
                 $item = Magasin::find($p_id);
-                return ($item != null ? view('Espace_Direct.info-magasin')->with(['data' => $item, 'stocks' => Stock::where('id_magasin', $p_id)->get()]) : back()->withInput()->with('alert_warning', 'Le magasin choisi n\'existe pas'));
+                return ($item != null ? view('Espace_Magas.info-magasin')->with(['data' => $item, 'stocks' => Stock::where('id_magasin', $p_id)->get()]) : back()->withInput()->with('alert_warning', 'Le magasin choisi n\'existe pas'));
                 break;
             case 'dashboard-fourniseur':
                 $item = fournisseur::find($p_id);
@@ -90,24 +95,32 @@ class ShowController extends Controller
     {
         switch ($p_table) {
             case 'users':
-                $data = User::all();
+                $data = User::whereDeleted(false)->orWhere('deleted',null)->get();
                 return view('Espace_Admin.liste-users')->with('data', $data);
                 break;
+            case 'agents':
+                $data = Agent::whereDeleted(false)->orWhere('deleted',null)->get();
+                return view('Espace_Magas.liste-agents')->with('data', $data);
+                break;
             case 'categories':
-                $data = Categorie::all();
-                return view('Espace_Direct.liste-categories')->with('data', $data);
+                $data = Categorie::whereDeleted(false)->orWhere('deleted',null)->get();
+                return view('Espace_Magas.liste-categories')->with('data', $data);
+                break;
+            case 'marques':
+                $data = Marque::whereDeleted(false)->orWhere('deleted',null)->get();
+                return view('Espace_Magas.liste-marques')->with('data', $data);
                 break;
             case 'fournisseurs':
-                $data = Fournisseur::all();
-                return view('Espace_Direct.liste-fournisseurs')->with('data', $data);
+                $data = Fournisseur::whereDeleted(false)->orWhere('deleted',null)->get();
+                return view('Espace_Magas.liste-fournisseurs')->with('data', $data);
                 break;
             case 'articles':
-                $data = Article::all();
-                return view('Espace_Direct.liste-articles')->with('data', $data);
+                $data = Article::whereDeleted(false)->orWhere('deleted',null)->get();
+                return view('Espace_Magas.liste-articles')->with('data', $data);
                 break;
             case 'magasins':
-                $data = Magasin::all();
-                return view('Espace_Direct.liste-magasins')->with('data', $data);
+                $data = Magasin::whereDeleted(false)->orWhere('deleted',null)->get();
+                return view('Espace_Magas.liste-magasins')->with('data', $data);
                 break;
             case 'promotions':
                 $data = collect( DB::select("call getPromotions;") ); //$data = Promotion::all();

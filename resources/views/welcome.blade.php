@@ -57,7 +57,7 @@
 
         .links > a {
             color: black;
-            hover:green;
+            hover: green;
             padding: 0 20px;
             font-size: 25px;
             font-weight: 600;
@@ -65,6 +65,7 @@
             text-decoration: none;
             text-transform: uppercase;
         }
+
         .links > a:hover {
             background-color: #7FFF00;
         }
@@ -92,12 +93,10 @@
         <img src="images/logo.png" alt="Golf Maroc"></img>
 
 
-
-
         <div class="links">
             <a href="{{ Route('admin.home') }}">Administrateur</a>
             <a href="{{ Route('direct.home') }}">Directeur</a>
-            <a href="">Magasinier</a>
+            <a href="{{ Route('magas.home') }}">Magasinier</a>
             <a href="{{ Route('vend.home') }}">Vendeur</a>
         </div>
     </div>

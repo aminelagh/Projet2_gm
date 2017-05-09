@@ -15,8 +15,8 @@ use App\Models\User;
 use App\Models\Article;
 use App\Models\Type_transaction;
 use App\Models\Transaction;
-use App\Models\Promotion;
-use App\Models\Remise;
+use App\Models\Fournisseur;
+use App\Models\Agent;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Input;
@@ -26,21 +26,18 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/r', function () {
-    for($i=0;$i<100;$i++)
-    {
-        echo Session::get('id_magasin');
-        $id = $i;
-        if(Promotion::hasPromotion($id,1))
-            echo '<li>$i true';
-        else echo '<li>$i false';
-    }
+Route::get('/xx', function () {
+
+    dump( Agent::where('id_fournisseur',1)->where('deleted',false)->get() );
 
 });
 
 Route::get('/a', function () {
-    $x = collect(DB::select("call getPromotions;"));
-    dump($x);
+
+    return Fournisseur::where('id_fournisseur',2)->get()->first()->libelle;
+
+
+
 });
 
 
@@ -196,7 +193,7 @@ Route::prefix('/admin')->group(function () {
 
 Route::prefix('/magas')->group(function () {
     //home --> Dashboard
-    Route::get('', 'MagasController@home')->name('magas.home');
+    Route::get('/', 'MagasController@home')->name('magas.home');
 });
 
 
@@ -221,11 +218,6 @@ Route::prefix('/vend')->group(function () {
 
     //Lister les ventes,les promotions et le stock d'un magasin
     Route::get('/lister/{p_table}/{p_id}', 'VendeurController@lister')->name('vend.lister');
-
-
-    //Visualiser les details de la transaction
-    //Route::get('/details/{p_id}', 'VendeurController@detailTrans')->name('vend.details');
-    //Route::get('/lister/{p_table}','VendeurController@lister')->name('vendeur.lister');
 
     //Ajouter une vente
     Route::get('/addVente', 'VendeurController@addFormVente')->name('vend.addVente');
