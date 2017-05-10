@@ -2,17 +2,6 @@
 
 @section('title') Ajout Article @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('js/jquery.js') }}"></script>
-    <script src="{{  asset('js/bootstrap.js') }}"></script>
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
@@ -234,11 +223,16 @@
     <!-- /.row -->
 @endsection
 
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
 
-@section('menu_1')
-    @include('Espace_Magas._nav_menu_1')
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
-@section('menu_2')
-    @include('Espace_Magas._nav_menu_2')
+@section('scripts')
+    <script src="{{  asset('js/jquery.js') }}"></script>
+    <script src="{{  asset('js/bootstrap.js') }}"></script>
 @endsection

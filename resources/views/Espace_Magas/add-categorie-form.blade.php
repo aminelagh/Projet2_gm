@@ -18,7 +18,6 @@
                     <li class="breadcrumb-item active">Création d'une categorie</li>
                 </ol>
 
-
                 @include('layouts.alerts')
 
                 {{-- *************** formulaire ***************** --}}

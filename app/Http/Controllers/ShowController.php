@@ -29,6 +29,10 @@ class ShowController extends Controller
                 $item = User::find($p_id);
                 return ($item != null ? view('Espace_Admin.info-user')->with('data', $item) : back()->withInput()->with('alert_warning', "L'utilisateur choisi n'existe pas."));
                 break;
+            case 'agents':
+                $item = Agent::find($p_id);
+                return ($item != null ? view('Espace_Magas.info-agent')->with('data', $item) : back()->withInput()->with('alert_warning', "L'agent choisi n'existe pas."));
+                break;
             case 'categories':
                 $item = Categorie::find($p_id);
                 return ($item != null ? view('Espace_Magas.info-categorie')->with('data', $item) : back()->withInput()->with('alert_warning', "La catégorie choisie n'existe pas."));

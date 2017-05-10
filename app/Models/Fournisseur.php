@@ -30,7 +30,9 @@ class Fournisseur extends Model
 
     public static function getLibelle($p_id_fournisseur)
     {
-        return Fournisseur::where('id_fournisseur', $p_id_fournisseur)->get()->first()->libelle;
+        $data = Fournisseur::where('id_fournisseur', $p_id_fournisseur)->get();
+        if( $data != null)
+            return Fournisseur::where('id_fournisseur', $p_id_fournisseur)->get()->first()->libelle;
+        else return "<i>aucun fournisseur</i>";
     }
-
 }

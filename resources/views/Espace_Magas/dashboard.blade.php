@@ -14,12 +14,10 @@
 @endsection
 
 @section('main_content')
-    <!-- container-fluid -->
     <div class="container-fluid">
-        <!-- Page Heading -->
         <div class="col-lg-12">
             <div class="row">
-
+                
                 <h1 class="page-header">Bienvenue dans votre Espace Direction</h1>
                 <!--<ol class="breadcrumb">
                     <li><i class="fa fa-dashboard"></i> <a href="index.html">Dashboard</a></li>
@@ -100,7 +98,6 @@
                         </div>
                     </div>
 
-
                     <!-- Gestion stock -->
                     <div class="col-lg-3">
                         <div class="panel panel-yellow">
@@ -152,21 +149,10 @@
                     </div>
                 </div>
             </div>
-
-            <!--<img width="100%" height="100%" src="images/golf.jpg"/>-->
         </div>
-        <!-- /.row -->
     </div>
-
-
-    <!-- /.container-fluid -->
 @endsection
 
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
 
-@section('menu_1')
-    @include('Espace_Magas._nav_menu_1')
-@endsection
-
-@section('menu_2')
-    @include('Espace_Magas._nav_menu_2')
-@endsection

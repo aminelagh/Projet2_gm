@@ -2,49 +2,6 @@
 
 @section('title') Promotion de : {{ $data->designation_c }} @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('js/jquery.js') }}"></script>
-    <script src="{{  asset('js/bootstrap.js') }}"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            // DataTable
-            var table = $('#example').DataTable({
-                //"scrollY": "50px",
-                //"scrollX": true,
-                "searching": true,
-                "paging": true,
-                //"autoWidth": true,
-                "info": true,
-                stateSave: false,
-                "columnDefs": [
-                    {"width": "02%", "targets": 0},
-                    {"width": "20%", "targets": 1},
-                    {"width": "15%", "targets": 2},
-                    //{"width": "10%", "targets": 3},
-                    {"width": "05%", "targets": 4}
-
-                ]
-            });
-            // Apply the search
-            table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-    </script>
-
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
@@ -212,10 +169,48 @@
     </div>
 @endsection
 
-@section('menu_1')
-    @include('Espace_Direct._nav_menu_1')
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
+
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
-@section('menu_2')
-    @include('Espace_Direct._nav_menu_2')
+@section('scripts')
+    <script src="{{  asset('js/jquery.js') }}"></script>
+    <script src="{{  asset('js/bootstrap.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            // DataTable
+            var table = $('#example').DataTable({
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+                "columnDefs": [
+                    {"width": "02%", "targets": 0},
+                    {"width": "20%", "targets": 1},
+                    {"width": "15%", "targets": 2},
+                    //{"width": "10%", "targets": 3},
+                    {"width": "05%", "targets": 4}
+
+                ]
+            });
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+    </script>
+
 @endsection

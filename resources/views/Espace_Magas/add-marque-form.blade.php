@@ -2,31 +2,19 @@
 
 @section('title') Ajout Marque @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('js/jquery.js') }}"></script>
-    <script src="{{  asset('js/bootstrap.js') }}"></script>
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
-      <div class="col-lg-12">
-        <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
 
                 <h1 class="page-header">Ajouter une marque</h1>
-
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ route('magas.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item ">Gestion des Articles</li>
-                    <li class="breadcrumb-item active"><a href="{{ Route('magas.lister',['p_table' => 'marques' ]) }}"> Liste des marques</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ Route('magas.lister',['p_table' => 'marques' ]) }}">
+                            Liste des marques</a></li>
                     <li class="breadcrumb-item active">Création d'une marque</li>
                 </ol>
-
 
                 @include('layouts.alerts')
 
@@ -116,11 +104,16 @@
     </div>
 @endsection
 
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
 
-@section('menu_1')
-    @include('Espace_Magas._nav_menu_1')
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
-@section('menu_2')
-    @include('Espace_Magas._nav_menu_2')
+@section('scripts')
+    <script src="{{  asset('js/jquery.js') }}"></script>
+    <script src="{{  asset('js/bootstrap.js') }}"></script>
 @endsection

@@ -203,6 +203,7 @@ class AddController extends Controller
         $item = new Marque;
         $item->libelle = request()->get('libelle');
         $item->description = request()->get('description');
+        $item->deleted = false;
         try {
             $item->save();
         } catch (Exception $ex) {

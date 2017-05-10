@@ -2,17 +2,6 @@
 
 @section('title') Ajout Fournisseur @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('js/jquery.js') }}"></script>
-    <script src="{{  asset('js/bootstrap.js') }}"></script>
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
@@ -91,9 +80,6 @@
 
                     <!-- row 4 -->
                     <div class="row" align="center">
-                    {{-- Submit & Reset --}}
-                    <!--label title="aa">cochez pour forcer l'ajout de l'article</label>
-                        <input type="checkbox" name="force" value="true"><br-->
                         <button type="submit" name="submit" value="valider" class="btn btn-default">Valider
                         </button>
                         <button type="reset" class="btn btn-default">Effacer</button>
@@ -147,11 +133,16 @@
     </div>
 @endsection
 
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
 
-@section('menu_1')
-    @include('Espace_Magas._nav_menu_1')
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
-@section('menu_2')
-    @include('Espace_Magas._nav_menu_2')
+@section('scripts')
+    <script src="{{  asset('js/jquery.js') }}"></script>
+    <script src="{{  asset('js/bootstrap.js') }}"></script>
 @endsection

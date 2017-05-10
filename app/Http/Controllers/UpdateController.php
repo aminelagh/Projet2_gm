@@ -42,7 +42,7 @@ class UpdateController extends Controller
                 return view('Espace_Magas.update-fournisseur-form')->withData(Fournisseur::find($p_id));
                 break;
             case 'agents':
-                return view('Espace_Magas.update-agent-form')->withData(Agent::find($p_id));
+                return view('Espace_Magas.update-agent-form')->withData(Agent::find($p_id))->with('fournisseurs', Fournisseur::all());
                 break;
             case 'marques':
                 return view('Espace_Magas.update-marque-form')->withData(Marque::find($p_id));
@@ -159,7 +159,22 @@ class UpdateController extends Controller
             'libelle' => request()->get('libelle'),
             'description' => request()->get('description')
         ]);
-        return redirect()->route('magas.info', ['p_table' => 'categories', 'id' => request()->get('id_categorie')])->with('alert_success', 'Modification du fournisseur reussi.');
+        return redirect()->route('magas.info', ['p_table' => 'categories', 'p_id' => request()->get('id_categorie')])->with('alert_success', 'Modification du fournisseur reussi.');
+    }
+
+    //Valider la modification d un agent
+    public function submitUpdateAgent()
+    {
+        $item = Agent::find(request()->get('id_agent'));
+        $item->update([
+            'id_fournisseur' => request()->get('id_fournisseur'),
+            'nom' => request()->get('nom'),
+            'prenom' => request()->get('prenom'),
+            'email' => request()->get('email'),
+            'role' => request()->get('role'),
+            'telephone' => request()->get('telephone')
+        ]);
+        return redirect()->route('magas.info', ['p_table' => 'agents', 'p_id' => request()->get('id_agent')])->with('alert_success', "Modification de l'agent reussi.");
     }
 
     //Valider la modification d un marque
