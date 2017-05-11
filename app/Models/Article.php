@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Article extends Model
 {
@@ -14,7 +15,7 @@ class Article extends Model
         'designation_c', 'designation_l',
         'code_barre', 'num_article',
         'couleur', 'taille', 'sexe', 'prix_achat', 'prix_vente',
-        'deleted',
+        'deleted','image',
     ];
 
     public static function getPrixPromo($p_id_article, $p_id_magasin)
@@ -30,5 +31,25 @@ class Article extends Model
             return $prixTTC;
         }
 
+    }
+
+    public static function getNextID()
+    {
+        $lastRecord = DB::table('articles')->orderBy('id_article', 'desc')->first();
+        $result = ($lastRecord == null ? 1 : $lastRecord->id_article + 1);
+        return $result;
+    }
+
+    public static function Exists($field, $value)
+    {
+        $data = Article::where($field, $value)->get()->first();
+        if ($data == null) return false;
+        else {
+            foreach ($data as $item) {
+                if ($item == $value)
+                    return true;
+            }
+            return false;
+        }
     }
 }

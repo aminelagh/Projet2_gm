@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use Auth;
 use DB;
 use Hash;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Input;
 use App\Models\User;
 use App\Models\Role;
 use App\Models\Magasin;
@@ -82,7 +86,7 @@ class AddController extends Controller
                 return $this->submitAddArticle();
                 break;
             case 'stocks':
-                return $this->submitAddStock();
+                return "AddController@submitAdd";//$this->submitAddStock();
                 break;
             case 'users':
                 return $this->submitAddUser();
@@ -176,8 +180,8 @@ class AddController extends Controller
         if (request()->get('libelle') == null)
             return redirect()->back()->withInput()->with('alert_danger', "Veuillez remplir le champ <b>Categorie</b>");
 
-        if (Categorie::Exists('libelle',request()->get('libelle')))
-            return redirect()->back()->withInput()->with('alert_danger', "La categorie <b>".request()->get('libelle')."</b> existe déjà.");
+        if (Categorie::Exists('libelle', request()->get('libelle')))
+            return redirect()->back()->withInput()->with('alert_danger', "La categorie <b>" . request()->get('libelle') . "</b> existe déjà.");
 
         $item = new Categorie;
         $item->libelle = request()->get('libelle');
@@ -198,7 +202,7 @@ class AddController extends Controller
             return redirect()->back()->withInput()->with('alert_danger', "veuillez remplir le champ libelle");
 
         if (Marque::Exists('libelle', request()->get('libelle')))
-            return redirect()->back()->withInput()->with('alert_warning', "La marque <b>".request()->get('libelle')."</b> existe déjà.");
+            return redirect()->back()->withInput()->with('alert_warning', "La marque <b>" . request()->get('libelle') . "</b> existe déjà.");
 
         $item = new Marque;
         $item->libelle = request()->get('libelle');
@@ -250,11 +254,17 @@ class AddController extends Controller
         $error1 = false;
         $error2 = false;
 
+        if (Article::Exists('num_article', request()->get('num_article'))) {
+            return redirect()->back()->withInput()->with('alert_warning', "le numero " . request()->get('num_article') . " est deja utilisé pour un autre article");
+        }
+
+        $id_article = Article::getNextID();
+
         $item = new Article;
+        $item->id_article = $id_article;
         $item->id_categorie = request()->get('id_categorie');
         $item->id_fournisseur = request()->get('id_fournisseur');
-        $item->id_fournisseur = request()->get('id_marque');
-
+        $item->id_marque = request()->get('id_marque');
         $item->num_article = request()->get('num_article');
         $item->code_barre = request()->get('code_barre');
         $item->designation_c = request()->get('designation_c');
@@ -264,6 +274,17 @@ class AddController extends Controller
         $item->couleur = request()->get('couleur');
         $item->prix_achat = request()->get('prix_achat');
         $item->prix_vente = request()->get('prix_vente');
+        $item->deleted = false;
+
+        if (request()->hasFile('image')) {
+            $file_extension = request()->file('image')->extension();
+            //$file_size = request()->file('image')->getSize();
+            $file_name = "img".$id_article.".".$file_extension;
+            request()->file('image')->move("uploads/articles", $file_name);
+            $item->image = $file_name;
+        } else {
+            $item->image = false;
+        }
 
         /*if (request()->has('force') && request()->get('force') == "true") {
             if (Exists('articles', 'designation_c', request()->get('designation_c'))) {
@@ -284,10 +305,9 @@ class AddController extends Controller
                 redirect()->back()->with('alert-info', $alerts1);
 
             return redirect()->back()->with('alert_success', 'L\'article <strong>' . request()->get('designation_c') . '</strong> a bien été ajouté.');
-        } */
-        //else
-
-        /*if (Exists('articles', 'designation_c', request()->get('designation_c'))) {
+        }
+        else
+        if (Exists('articles', 'designation_c', request()->get('designation_c'))) {
             $alerts1 = $alerts1 . "<li>L'article <i>" . request()->get('designation_c') . "</i> existe déjà.";
             $error1 = true;
         }
@@ -326,10 +346,10 @@ class AddController extends Controller
         try {
             $item->save();
         } catch (Exception $ex) {
-            return redirect()->back()->withInput()->with('alert_danger', "<strong>Erreur! </strong> une erreur s'est produite lors de l'ajout de l'article.<br>Message d'erreur: " . $ex->getMessage());
+            return redirect()->back()->withInput()->with('alert_danger', "Une erreur s'est produite lors de l'ajout de l'article.<br>Message d'erreur: " . $ex->getMessage());
         }
 
-        return redirect()->back()->with('alert_success', 'L\'article <strong>' . request()->get('designation_c') . '</strong> a bien été ajouté.');
+        return redirect()->back()->with('alert_success', "L'article <b>" . request()->get('designation_c') . "</b> a bien été ajouté.");
 
     }
 

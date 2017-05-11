@@ -42,14 +42,14 @@
                 stateSave: false,
                 "columnDefs": [
                     {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},//#
-                    {"width": "05%", "targets": 1, "type": "string", "visible": false},//numero
-                    {"width": "07%", "targets": 2, "type": "string", "visible": true},//code
-                    {"width": "03%", "targets": 4, "type": "string", "visible": false},//taille
-                    {"width": "06%", "targets": 5, "type": "string", "visible": false},//couleur
-                    {"width": "06%", "targets": 6, "type": "string", "visible": true},//sexe
-                    {"width": "05%", "targets": 7, "type": "num-fmt", "visible": true},//pr
-                    {"width": "05%", "targets": 8, "type": "num-fmt", "visible": true},//pr
-                    {"width": "10%", "targets": 9, "type": "string", "visible": true, "searchable": false}//autre
+                    {"width": "05%", "targets": 1, "type": "string", "visible": false},
+                    {"width": "07%", "targets": 2, "type": "string", "visible": true},
+                    {"width": "03%", "targets": 4, "type": "string", "visible": false},
+                    {"width": "06%", "targets": 5, "type": "string", "visible": false},
+                    {"width": "06%", "targets": 6, "type": "string", "visible": true},
+                    {"width": "05%", "targets": 7, "type": "num-fmt", "visible": true},
+                    {"width": "05%", "targets": 8, "type": "num-fmt", "visible": true},
+                    {"width": "10%", "targets": 9, "type": "string", "visible": true, "searchable": false}
                 ]
             });
 
@@ -80,50 +80,12 @@
                 <h1 class="page-header">Liste des Articles</h1>
 
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('magas.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item ">Gestion des Articles</li>
                     <li class="breadcrumb-item active">Liste des articles</li>
                 </ol>
 
-
-                {{-- **************Alerts**************  --}}
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- Debut Alerts --}}
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                        {{-- Fin Alerts --}}
-                    </div>
-
-                    <div class="col-lg-2"></div>
-                </div>
-            {{-- **************endAlerts**************  --}}
+            @include('layouts.alerts')
 
             <!-- Table -->
                 <div class="table-responsive">
@@ -149,8 +111,8 @@
                                 <th><i class="fa fa-fw fa-sort"></i> Taille</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Couleur</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Sexe</th>
-                                <th title="prix HT"><i class="fa fa-fw fa-sort"></i> Prix d'achat</th>
-                                <th><i class="fa fa-fw fa-sort"></i> Prix de vente</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Prix d'achat (HT)</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Prix de vente (TTC)</th>
                                 <th>Autres</th>
                             </tr>
                             </thead>
@@ -172,7 +134,16 @@
                             <tbody>
                             @if( $data->isEmpty() )
                                 <tr>
-                                    <td colspan="10" align="center">Aucun Article</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td align="center">Aucun Article</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             @else
                                 @foreach( $data as $item )
@@ -180,25 +151,28 @@
                                         <td>{{ $loop->index+1 }}</td>
                                         <td>{{ $item->num_article }}</td>
                                         <td>{{ $item->code_barre }}</td>
-                                        <td>{{ $item->designation_c }}</td>
+                                        <td>@if( $item->image != null) <img src="/uploads/articles/{{ $item->image }}"
+                                                                            width="50px">@endif {{ $item->designation_c }}
+                                        </td>
                                         <td>{{ $item->taille }}</td>
                                         <td>{{ $item->couleur }}</td>
                                         <td>{{ getSexeName($item->sexe) }}</td>
                                         <td align="right">{{ $item->prix_achat }} DH</td>
                                         <td align="right">{{ $item->prix_vente }} DH</td>
                                         <td align="center">
-                                            <a href="{{ Route('direct.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
+                                            <a href="{{ Route('magas.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
                                                     {!! setPopOver("","Afficher plus de detail") !!}><i
                                                         class="glyphicon glyphicon-eye-open"></i></a>
-                                            <a href="{{ Route('direct.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}"
+                                            <a href="{{ Route('magas.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}"
                                                     {!! setPopOver("","Modifier") !!}><i
                                                         class="glyphicon glyphicon-pencil"></i></a>
                                             <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')"
-                                               href="{{ Route('direct.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}"
+                                               href="{{ Route('magas.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}"
                                                     {!! setPopOver("","Effacer l'article") !!}><i
                                                         class="glyphicon glyphicon-trash"></i></a>
                                             <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"><i
-                                                        class="glyphicon glyphicon-info-sign" aria-hidden="false"></i></a>
+                                                        class="glyphicon glyphicon-info-sign"
+                                                        aria-hidden="false"></i></a>
                                         </td>
 
                                         {{-- Modal (pour afficher les details de chaque article) --}}
@@ -226,6 +200,10 @@
                                                             HT, {{ number_format($item->prix_vente+$item->prix_vente*0.2, 2) }}
                                                             DH TTC </p>
                                                         <p>{{ $item->designation_l }}</p>
+
+                                                        @if( $item->image != null) <img
+                                                                src="/uploads/articles/{{ $item->image }}"
+                                                                width="150px">@endif
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default"
@@ -248,28 +226,15 @@
 
                 <!-- row -->
                 <div class="row" align="center">
-                    <a type="button" class="btn btn-outline btn-default" disabled=""><i class="fa fa-file-pdf-o"
-                                                                                        aria-hidden="true">Imprimer </i></a>
-                    <a href="{{ Route('direct.add',[ 'p_table' => 'articles' ]) }}" type="button"
+                    <a href="{{ Route('magas.add',[ 'p_table' => 'articles' ]) }}" type="button"
                        class="btn btn-outline btn-default" {!! setPopOver("","Ajouter un nouvel article") !!}> <i
-                                class="glyphicon glyphicon-plus "></i>Ajouter
-                        un Article</a>
+                                class="glyphicon glyphicon-plus "></i> Ajouter un Article</a>
 
                 </div>
-                <!-- row -->
             </div>
-
         </div>
-        <!-- end main row -->
-
     </div>
 @endsection
 
-
-@section('menu_1')
-    @include('Espace_Magas._nav_menu_1')
-@endsection
-
-@section('menu_2')
-    @include('Espace_Magas._nav_menu_2')
-@endsection
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection

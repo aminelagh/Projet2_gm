@@ -90,8 +90,7 @@
 
     <div class="content">
 
-        <img src="images/logo.png" alt="Golf Maroc"></img>
-
+        <img src="images/logo.png" alt="Golf Maroc">
 
         <div class="links">
             <a href="{{ Route('admin.home') }}">Administrateur</a>

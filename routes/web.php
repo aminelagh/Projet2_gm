@@ -27,17 +27,11 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/xx', function () {
-
     dump( Agent::where('id_fournisseur',1)->where('deleted',false)->get() );
-
 });
 
 Route::get('/a', function () {
-
     return Fournisseur::where('id_fournisseur',2)->get()->first()->libelle;
-
-
-
 });
 
 
