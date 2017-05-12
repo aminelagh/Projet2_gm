@@ -2,75 +2,6 @@
 
 @section('title') Articles @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('table2/datatables.min.js') }}"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            $('#example tfoot th').each(function () {
-                var title = $(this).text();
-                if (title == "numero" || title == "code") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title == "Designation") {
-                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title == "Taille") {
-                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title == "Couleur") {
-                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';"/>');
-                }
-                if (title != "") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-            });
-
-            var table = $('#example').DataTable({
-                //"scrollY": "50px",
-                //"scrollX": true,
-                "searching": true,
-                "paging": true,
-                //"autoWidth": true,
-                "info": true,
-                stateSave: false,
-                "columnDefs": [
-                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},//#
-                    {"width": "05%", "targets": 1, "type": "string", "visible": false},
-                    {"width": "07%", "targets": 2, "type": "string", "visible": true},
-                    {"width": "03%", "targets": 4, "type": "string", "visible": false},
-                    {"width": "06%", "targets": 5, "type": "string", "visible": false},
-                    {"width": "06%", "targets": 6, "type": "string", "visible": true},
-                    {"width": "05%", "targets": 7, "type": "num-fmt", "visible": true},
-                    {"width": "05%", "targets": 8, "type": "num-fmt", "visible": true},
-                    {"width": "10%", "targets": 9, "type": "string", "visible": true, "searchable": false}
-                ]
-            });
-
-            $('a.toggle-vis').on('click', function (e) {
-                e.preventDefault();
-                var column = table.column($(this).attr('data-column'));
-                column.visible(!column.visible());
-            });
-
-            table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-    </script>
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <!-- main row -->
@@ -149,16 +80,16 @@
                                 @foreach( $data as $item )
                                     <tr>
                                         <td>{{ $loop->index+1 }}</td>
-                                        <td>{{ $item->num_article }}</td>
-                                        <td>{{ $item->code_barre }}</td>
-                                        <td>@if( $item->image != null) <img src="/uploads/articles/{{ $item->image }}"
+                                        <td align="right">{{ $item->num_article }}</td>
+                                        <td align="right">{{ $item->code_barre }}</td>
+                                        <td>@if( $item->image != null) <img src="{{ $item->image }}"
                                                                             width="50px">@endif {{ $item->designation_c }}
                                         </td>
                                         <td>{{ $item->taille }}</td>
                                         <td>{{ $item->couleur }}</td>
                                         <td>{{ getSexeName($item->sexe) }}</td>
                                         <td align="right">{{ $item->prix_achat }} DH</td>
-                                        <td align="right">{{ $item->prix_vente }} DH</td>
+                                        <td align="right">{{ \App\Models\Article::getPrix_TTC($item->prix_vente) }} DH</td>
                                         <td align="center">
                                             <a href="{{ Route('magas.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
                                                     {!! setPopOver("","Afficher plus de detail") !!}><i
@@ -202,7 +133,7 @@
                                                         <p>{{ $item->designation_l }}</p>
 
                                                         @if( $item->image != null) <img
-                                                                src="/uploads/articles/{{ $item->image }}"
+                                                                src="{{ $item->image }}"
                                                                 width="150px">@endif
                                                     </div>
                                                     <div class="modal-footer">
@@ -238,3 +169,72 @@
 
 @section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
 @section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
+
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+@endsection
+
+@section('scripts')
+    <script src="{{  asset('table2/datatables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                if (title == "numero" || title == "code") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title == "Designation") {
+                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title == "Taille") {
+                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title == "Couleur") {
+                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';"/>');
+                }
+                if (title != "") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+            });
+
+            var table = $('#example').DataTable({
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+                "columnDefs": [
+                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},//#
+                    {"width": "05%", "targets": 1, "type": "string", "visible": false},
+                    {"width": "07%", "targets": 2, "type": "string", "visible": true},
+                    {"width": "03%", "targets": 4, "type": "string", "visible": false},
+                    {"width": "06%", "targets": 5, "type": "string", "visible": false},
+                    {"width": "06%", "targets": 6, "type": "string", "visible": true},
+                    {"width": "05%", "targets": 7, "type": "num-fmt", "visible": true},
+                    {"width": "05%", "targets": 8, "type": "num-fmt", "visible": true},
+                    {"width": "10%", "targets": 9, "type": "string", "visible": true, "searchable": false}
+                ]
+            });
+
+            $('a.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = table.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+    </script>
+@endsection

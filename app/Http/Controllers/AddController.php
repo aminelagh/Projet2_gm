@@ -136,6 +136,9 @@ class AddController extends Controller
     //Valider l'ajout de : Magasin
     public function submitAddMagasin()
     {
+        if (Magasin::Exists('libelle', request()->get('libelle')))
+            return redirect()->back()->withInput()->with("alert_warning", "Le magasin <b>" . request()->get('libelle') . "</b> existe déjà.");
+
         $item = new Magasin;
         $item->libelle = request()->get('libelle');
         $item->email = request()->get('email');
@@ -148,9 +151,9 @@ class AddController extends Controller
         try {
             $item->save();
         } catch (Exception $e) {
-            return redirect()->back()->withInput()->with('alert_danger', '<strong>Erreur !!</strong> l\'out du magasin: ' . request()->get('libelle') . ' a echoue. <br> message d\'erreur: ' . $e->getMessage() . '');
+            return redirect()->back()->withInput()->with('alert_danger', "Erreur d'ajout du magasin <b>".request()->get('libelle')."</b>.<br> Message d'erreur: <b>".$e->getMessage()."</b>.");
         }
-        return redirect()->back()->with('alert_success', 'Le Magasin <strong>' . request()->get('libelle') . '</strong> a bien été ajouté.');
+        return redirect()->back()->with('alert_success', "Le Magasin <b>" . request()->get('libelle') . "</b> a bien été ajouté");
 
     }
 
@@ -279,9 +282,9 @@ class AddController extends Controller
         if (request()->hasFile('image')) {
             $file_extension = request()->file('image')->extension();
             //$file_size = request()->file('image')->getSize();
-            $file_name = "img".$id_article.".".$file_extension;
+            $file_name = "img" . $id_article . "." . $file_extension;
             request()->file('image')->move("uploads/articles", $file_name);
-            $item->image = $file_name;
+            $item->image = "/uploads/articles/" . $file_name;
         } else {
             $item->image = false;
         }

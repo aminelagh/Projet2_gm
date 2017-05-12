@@ -26,6 +26,7 @@ class UpdateController extends Controller
         $fournisseurs = Fournisseur::all();
         $magasins = Magasin::all();
         $roles = Role::all();
+        $marques = Marque::all();
 
         switch ($p_table) {
 
@@ -51,7 +52,7 @@ class UpdateController extends Controller
                 return view('Espace_Magas.update-magasin-form')->withData(Magasin::find($p_id));
                 break;
             case 'articles':
-                return view('Espace_Magas.update-article-form')->with(['data' => Article::find($p_id), 'fournisseurs' => $fournisseurs, 'categories' => $categories]);
+                return view('Espace_Magas.update-article-form')->with(['data' => Article::find($p_id), 'fournisseurs' => $fournisseurs, 'categories' => $categories, 'marques' => $marques]);
                 break;
             default:
                 return back()->withInput()->with('alert_warning', 'Erreur de redirection: UpdateController@updateForm($p_table, $p_id).');
@@ -105,7 +106,7 @@ class UpdateController extends Controller
             'password' => Hash::make(request()->get('passowrd'))
         ]);
         echo "notification !!!!!";
-        return redirect()->route('admin.info', ['p_id' => request()->get('id_user') , 'p_table' => 'users' ])->with('alert_success', 'Modification du mot de passe de l\'utilisateur reussi.');
+        return redirect()->route('admin.info', ['p_id' => request()->get('id_user'), 'p_table' => 'users'])->with('alert_success', 'Modification du mot de passe de l\'utilisateur reussi.');
     }
 
     //valider la modification d'un utilisateur
@@ -113,8 +114,7 @@ class UpdateController extends Controller
     {
         if (EmailExist_2(request()->get('email'), request()->get('id_user')))
             return redirect()->back()->withInput()->with('alert_danger', ' <i>' . request()->get('email') . '</i> est deja utilisé pour un autre utilisateur.');
-        else
-        {
+        else {
             $item = User::find(request()->get('id_user'));
             $item->update([
                 'id_role' => request()->get('id_role'),
@@ -126,14 +126,16 @@ class UpdateController extends Controller
                 'email' => request()->get('email'),
                 'description' => request()->get('description')
             ]);
-            return redirect()->route('admin.info', ['p_id' => request()->get('id_user') , 'p_table' => 'users' ])->with('alert_success', 'Modification de l\'utilisateur reussi.');
+            return redirect()->route('admin.info', ['p_id' => request()->get('id_user'), 'p_table' => 'users'])->with('alert_success', 'Modification de l\'utilisateur reussi.');
         }
     }
 
     //Valider la modification d un article
     public function submitUpdateArticle()
     {
-        $item = Article::find(request()->get('id_article'));
+        $id_article = request()->get('id_article');
+        $item = Article::find($id_article);
+
         $item->update([
             'id_categorie' => request()->get('id_categorie'),
             'id_fournisseur' => request()->get('id_fournisseur'),
@@ -148,7 +150,16 @@ class UpdateController extends Controller
             'prix_achat' => request()->get('prix_achat'),
             'prix_vente' => request()->get('prix_vente')
         ]);
-        return redirect()->route('magas.info', ['p_table' => 'articles', 'id' => request()->get('id_article')])->with('alert_success', "Modification de l'article reussi.");
+
+        if (request()->hasFile('image')) {
+            $file_extension = request()->file('image')->extension();
+            $file_name = "img" . $id_article . "." . $file_extension;
+            request()->file('image')->move("uploads/articles", $file_name);
+            $image = "/uploads/articles/" . $file_name;
+            $item->update(['image' => $image]);
+        }
+
+        return redirect()->route('magas.info', ['p_table' => 'articles', 'id' => $id_article])->with('alert_success', "Modification de l'article reussi.");
     }
 
     //Valider la modification d un Categorie
@@ -185,7 +196,7 @@ class UpdateController extends Controller
             'libelle' => request()->get('libelle'),
             'description' => request()->get('description')
         ]);
-        return redirect()->route('magas.info', ['p_table' => 'marques', 'p_id' => request()->get('id_marque')])->with('alert_success', "Modification de la marque <b>".request()->get('libelle')."</b> reussi.");
+        return redirect()->route('magas.info', ['p_table' => 'marques', 'p_id' => request()->get('id_marque')])->with('alert_success', "Modification de la marque <b>" . request()->get('libelle') . "</b> reussi.");
     }
 
     //Valider la modification d un fournisseur

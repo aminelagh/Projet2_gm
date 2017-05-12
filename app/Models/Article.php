@@ -15,7 +15,7 @@ class Article extends Model
         'designation_c', 'designation_l',
         'code_barre', 'num_article',
         'couleur', 'taille', 'sexe', 'prix_achat', 'prix_vente',
-        'deleted','image',
+        'deleted', 'image',
     ];
 
     public static function getPrixPromo($p_id_article, $p_id_magasin)
@@ -30,17 +30,21 @@ class Article extends Model
         } else {
             return $prixTTC;
         }
-
     }
 
-    public static function getNextID()
+    public static function getPrix_TTC($prix_HT)
+    {
+        return number_format(($prix_HT * 1.2), 2);
+    }
+
+    static function getNextID()
     {
         $lastRecord = DB::table('articles')->orderBy('id_article', 'desc')->first();
         $result = ($lastRecord == null ? 1 : $lastRecord->id_article + 1);
         return $result;
     }
 
-    public static function Exists($field, $value)
+    static function Exists($field, $value)
     {
         $data = Article::where($field, $value)->get()->first();
         if ($data == null) return false;

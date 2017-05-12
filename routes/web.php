@@ -188,6 +188,8 @@ Route::prefix('/admin')->group(function () {
 Route::prefix('/magas')->group(function () {
     //home --> Dashboard
     Route::get('/', 'MagasController@home')->name('magas.home');
+
+    Route::get('/stocks/{p_id_magasin}', 'StockController@listerStocks')->name('magas.stocks');
 });
 
 

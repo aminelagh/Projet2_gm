@@ -29,85 +29,65 @@ class DeleteController extends Controller
             switch ($p_table) {
                 case 'categories':
                     $item = Categorie::find($p_id);
-                    if( $item != null)
-                    {
-                        $item->delete();
-                        return back()->withInput()->with('alert_success', 'La catégorie a été effacée avec succès');
-                    }
-                    else
-                    {
-                        return back()->withInput()->with('alert-warning', 'La catégorie choisie n\'existe pas.');
+                    if ($item != null) {
+                        $item->update(['deleted' => true]); //$item->delete();
+
+                        return back()->withInput()->with('alert_success', "La catégorie a été effacée avec succès");
+                    } else {
+                        return back()->withInput()->with('alert-warning', "La catégorie choisie n'existe pas.");
                     }
                     break;
                 case 'users':
                     $item = User::find($p_id);
-                    if( $item != null)
-                    {
-                        $item->delete();
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
                         return back()->withInput()->with('alert_success', 'L\'utilisateur a été effacé avec succès');
-                    }
-                    else
-                    {
+                    } else {
                         return back()->withInput()->with('alert-warning', "L'utilisateur choisi n'existe pas.");
                     }
                     break;
                 case 'fournisseurs':
                     $item = Fournisseur::find($p_id);
-                    if( $item != null)
-                    {
-                        $item->delete();
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
                         return back()->withInput()->with('alert_success', "Le fournisseur a été effacé avec succès");
-                    }
-                    else
-                    {
+                    } else {
                         return back()->withInput()->with('alert-warning', "Le fournisseur choisi n'existe pas.");
                     }
                     break;
                 case 'articles':
                     $item = Article::find($p_id);
-                    if( $item != null)
-                    {
-                        $item->delete();
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
                         return back()->withInput()->with('alert_success', "L'article a été effacé avec succès");
-                    }
-                    else
-                    {
-                        return back()->withInput()->with('alert-warning', 'L\'article choisi n\'existe pas.');
+                    } else {
+                        return back()->withInput()->with('alert-warning', "L'article choisi n'existe pas.");
                     }
                     break;
                 case 'magasins':
                     $item = Magasin::find($p_id);
-                    if( $item != null)
-                    {
-                        $item->delete();
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
                         return back()->withInput()->with('alert_success', 'Le magasin a été effacé avec succès');
-                    }
-                    else
-                    {
-                        return back()->withInput()->with('alert-warning', 'Le magasin choisi n\'existe pas.');
+                    } else {
+                        return back()->withInput()->with('alert-warning', "Le magasin choisi n'existe pas.");
                     }
                     break;
                 case 'stocks':
                     $item = Stock::find($p_id);
-                    if( $item != null)
-                    {
+                    if ($item != null) {
                         $item->delete();
-                        return back()->withInput()->with('alert_success', 'L\'element du stock a été effacé avec succès');
-                    }
-                    else
-                    {
-                        return back()->withInput()->with('alert-warning', 'L\'element du stock choisi n\'existe pas.');
+                        return back()->withInput()->with('alert_success', "L'element du stock a été effacé avec succès.");
+                    } else {
+                        return back()->withInput()->with('alert-warning', "L'element du stock choisi n'existe pas.");
                     }
                     break;
                 case 'promotions':
                     $item = Promotion::find($p_id);
-                    if( $item != null)
-                    {
-                        $item->delete();
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
                         return back()->withInput()->with('alert_success', 'La promotion a été effacée avec succès');
-                    }
-                    else
-                    {
+                    } else {
                         return back()->withInput()->with('alert-warning', 'La promotion choisie n\'existe pas.');
                     }
                     break;
@@ -116,7 +96,7 @@ class DeleteController extends Controller
                     break;
             }
         } catch (Exception $ex) {
-            return back()->with('alert_danger', '<strong>Erreur de suppression<strong><br>Message d\'erreur: <strong>' . $ex->getMessage() . '</strong> ');
+            return back()->with('alert_danger', "Erreur de suppression.<br>Message d'erreur: <b>" . $ex->getMessage() . ", code: (" . $ex->getCode() . ").</b>");
         }
     }
 

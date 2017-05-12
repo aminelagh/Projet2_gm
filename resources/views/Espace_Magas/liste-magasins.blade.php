@@ -44,7 +44,12 @@
                             <tbody>
                             @if( $data->isEmpty() )
                                 <tr>
-                                    <td colspan="6" align="center"><i>Aucun Magasin</i></td>
+                                    <td></td>
+                                    <td align="center"><i>Aucun Magasin</i></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             @else
                                 @foreach( $data as $item )
@@ -66,11 +71,6 @@
                                             <a href="{{ Route('magas.update',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                     {!! setPopOver("","Modifier les informations ") !!}><i
                                                         class="glyphicon glyphicon-pencil"></i></a>
-                                        <!--a onclick="return confirm('Êtes-vous sure de vouloir effacer le
-                                            magasin: {{ $item->libelle }} ?')"
-                                            href="{{ Route('magas.delete',['p_table' => 'magasins' , 'p_id' => $item->id_magasin ]) }}
-                                                " title="supprimer"><i class="glyphicon glyphicon-trash"></i></a-->
-
                                         </td>
                                     </tr>
                                 @endforeach

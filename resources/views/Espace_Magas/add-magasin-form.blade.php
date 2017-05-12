@@ -9,65 +9,24 @@
                 <h1 class="page-header">Creation de magasin</h1>
 
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('magas.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des magasins</li>
-                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}"> Liste des magasins<</a></li>
+                    <li class="breadcrumb-item active"><a
+                                href="{{ Route('magas.lister',['p_table' => 'magasins' ]) }}"> Liste des magasins</a>
+                    </li>
                     <li class="breadcrumb-item active">Creation d'un nouveau magasin</li>
                 </ol>
 
-                <!-- alerts -->
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- Debut Alerts --}}
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
-                                    &times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                        {{-- Fin Alerts --}}
-                    </div>
-
-                    <div class="col-lg-2"></div>
-
-                </div>
-                <!-- /.alerts -->
+                @include('layouts.alerts')
 
                 {{-- *************** formulaire ***************** --}}
                 <form role="form" method="post"
-                      action="{{ Route('direct.submitAdd',['p_table' => 'magasins']) }}">
+                      action="{{ Route('magas.submitAdd',['p_table' => 'magasins']) }}">
                 {{ csrf_field() }}
 
 
                 <!-- Row 1 -->
                     <div class="row">
-
                         <div class="col-lg-8">
                             {{-- Libelle --}}
                             <div class="form-group">
@@ -76,7 +35,6 @@
                                        name="libelle" value="{{ old('libelle') }}" required autofocus>
                             </div>
                         </div>
-
                         <div class="col-lg-4">
                             {{-- Ville --}}
                             <div class="form-group">
@@ -85,13 +43,11 @@
                                        value="{{ old('ville') }}">
                             </div>
                         </div>
-
                     </div>
                     <!-- end row 1 -->
 
                     <!-- Row 2 -->
                     <div class="row">
-
                         <div class="col-lg-4">
                             {{-- Agent --}}
                             <div class="form-group">
@@ -109,7 +65,6 @@
                                        value="{{ old('telephone') }}">
                             </div>
                         </div>
-
                         <div class="col-lg-4">
                             {{-- Libelle --}}
                             <div class="form-group">
@@ -118,13 +73,11 @@
                                        value="{{ old('email') }}">
                             </div>
                         </div>
-
                     </div>
                     <!-- end row 2 -->
 
                     <!-- row 3 -->
                     <div class="row">
-
                         <div class="col-lg-6">
                             {{-- Adresse --}}
                             <div class="form-group">
@@ -133,7 +86,6 @@
                                           name="adresse">{{ old('adresse') }}</textarea>
                             </div>
                         </div>
-
                         <div class="col-lg-6">
                             {{-- Description --}}
                             <div class="form-group">
@@ -142,15 +94,12 @@
                                           name="description">{{ old('description') }}</textarea>
                             </div>
                         </div>
-
                     </div>
                     <!-- end row 3 -->
 
                     <!-- row 4 -->
                     <div class="row" align="center">
                         {{-- Submit & Reset --}}
-                        <label title="aa">cochez pour forcer l'ajout de l'article</label>
-                        <input type="checkbox" name="force" value="true"><br>
                         <button type="submit" name="submit" value="valider" class="btn btn-default">Valider
                         </button>
                         <button type="reset" class="btn btn-default">Effacer</button>
@@ -182,7 +131,7 @@
                                             <ul class="list-group" align="center">
                                                 @foreach($data as $item)
                                                     <li class="list-group-item"><a
-                                                                href="{{ route('direct.info',[ 'p_table' => 'magasins' , 'p_id' => $item->id_magasin ]) }}"
+                                                                href="{{ route('magas.info',[ 'p_table' => 'magasins' , 'p_id' => $item->id_magasin ]) }}"
                                                                 title="detail sur le magasin"> {{ $item->libelle }}</a>
                                                     </li>
                                                 @endforeach
