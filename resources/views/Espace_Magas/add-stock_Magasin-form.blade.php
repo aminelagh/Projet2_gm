@@ -84,49 +84,15 @@
                 <h1 class="page-header">Ajouter au Stock du magasin {{ $magasin->libelle }}</h1>
 
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('magas.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des magasins</li>
-                    <li class="breadcrumb-item"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">Liste
+                    <li class="breadcrumb-item"><a href="{{ Route('magas.lister',['p_table' => 'magasins' ]) }}">Liste
                             des magasins</a></li>
                     <li class="breadcrumb-item">{{ $magasin->libelle }}</li>
-                    <li class="breadcrumb-item"><a
-                                href="{{ route('direct.stocks', [ 'p_id_magasin' => $magasin->id_magasin ] ) }}">Stock
-                            du magasin</a></li>
-                    <li class="breadcrumb-item active">Ajout des Articles au stock</li>
+                                        <li class="breadcrumb-item active">Creation du stock</li>
                 </ol>
 
-                {{-- **************Alerts************** --}}
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-lg-2"></div>
-                </div>
-                {{-- **************endAlerts************** --}}
+                @include('layouts.alerts')
 
                 <div class="row">
 
@@ -152,7 +118,7 @@
                     <div class="table-responsive">
                         <div class="col-lg-12">
                             {{-- *************** form ***************** --}}
-                            <form role="form" method="post" action="{{ Route('direct.submitAddStock') }}">
+                            <form role="form" method="post" action="{{ Route('magas.submitAddStock') }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id_magasin" value="{{ $magasin->id_magasin }}"/>
                                 <table id="example" class="table table-striped table-bordered table-hover">

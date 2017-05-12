@@ -181,25 +181,43 @@ Route::post('/magas/submitSupply', 'StockController@submitSupplyStock')->name('m
 /*******************************************************************************/
 
 
+
+
+
+/*********************************************************************************************
+ * Routes de l'espace Administrateur
+ **********************************************************************************************/
 Route::prefix('/admin')->group(function () {
     Route::get('', 'AdminController@home')->name('admin.home');
 });
 
+
+
+/*********************************************************************************************
+ * Routes de l'espace Magasinier
+ **********************************************************************************************/
 Route::prefix('/magas')->group(function () {
     //home --> Dashboard
     Route::get('/', 'MagasController@home')->name('magas.home');
 
     Route::get('/stocks/{p_id_magasin}', 'StockController@listerStocks')->name('magas.stocks');
+    //lister stocks
+    Route::get('/update/{value}/{aa}', 'DirectController@routeError');
+    Route::get('/update', 'DirectController@routeError');
 });
 
 
+
+/*********************************************************************************************
+ * Routes de l'espace Directeur
+ **********************************************************************************************/
 Route::prefix('/direct')->group(function () {
     //home --> Dashboard
     Route::get('/', 'DirectController@home')->name('direct.home');
-    //lister stocks
+
+    //check stock
     Route::get('/stocks/{p_id_magasin}', 'StockController@listerStocks')->name('direct.stocks');
-    Route::get('/update/{value}/{aa}', 'DirectController@routeError');
-    Route::get('/update', 'DirectController@routeError');
+
 });
 
 

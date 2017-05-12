@@ -13,7 +13,7 @@
                     <li class="breadcrumb-item ">Gestion des magasins</li>
                     <li class="breadcrumb-item"><a href="{{ route('magas.lister',['p_table' => 'magasins' ]) }}">Liste
                             des magasins</a></li>
-                    <li class="breadcrumb-item active">Modifier magasin : {{ $data->libelle }}</li>
+                    <li class="breadcrumb-item active">{{ $data->libelle }}</li>
                 </ol>
 
                 @include('layouts.alerts')

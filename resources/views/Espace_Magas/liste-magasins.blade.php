@@ -26,8 +26,7 @@
                                 <th><i class="fa fa-fw fa-sort"></i> Nom du Magasin</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Ville</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Telephone</th>
-                                <th>Etat Stock</th>
-                                <th>Autres</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tfoot bgcolor="#DBDAD8">
@@ -36,7 +35,6 @@
                                 <th>Magasin</th>
                                 <th>Ville</th>
                                 <th>Telephone</th>
-                                <th></th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -49,7 +47,6 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
-                                    <td></td>
                                 </tr>
                             @else
                                 @foreach( $data as $item )
@@ -58,10 +55,41 @@
                                         <td>{{ $item->libelle }}</td>
                                         <td>{{ $item->ville }}</td>
                                         <td align="right">{{ $item->telephone }}</td>
-                                        <td><a
-                                                    href="{{ route('magas.stocks', [ 'p_id_magasin' => $item->id_magasin ] ) }}"
-                                                    {!! setPopOver("Stock","Afficher le stock du magasin") !!}>Afficher
-                                                Stock</a></td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <button type="button"
+                                                        class="btn green btn-sm btn-outline dropdown-toggle"
+                                                        data-toggle="dropdown"> <span {!! setPopOver("","Clisuez ici pour afficher les actions") !!}>Actions</span>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-left" role="menu">
+                                                    <li>
+                                                        <a href="{{ route('magas.stocks', [ 'p_id_magasin' => $item->id_magasin ] ) }}"
+                                                                {!! setPopOver("Stock","Afficher le stock du magasin") !!}>Afficher
+                                                            Stock</a></li>
+                                                    <li>
+                                                        <a href="{{ Route('magas.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
+                                                                {!! setPopOver("Detail","Afficher plus de detail sur la magasin") !!}><i
+                                                                    class="glyphicon glyphicon-eye-open"></i> Plus de
+                                                            detail</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ Route('magas.update',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
+                                                                {!! setPopOver("","Modifier les informations ") !!}><i
+                                                                    class="glyphicon glyphicon-pencil"></i> Modifier</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a href="{{ Route('magas.info',['p_table'=> 'dashboard-magasin', 'p_id' => $item->id_magasin ]) }}"
+                                                           title="detail"><i class="glyphicon glyphicon-dashboard"></i>
+                                                            Dashboard</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </td>
+
+                                        {{--
                                         <td align="center">
                                             <a href="{{ Route('magas.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                     {!! setPopOver("Detail","Afficher plus de detail sur la magasin") !!}><i
@@ -72,6 +100,7 @@
                                                     {!! setPopOver("","Modifier les informations ") !!}><i
                                                         class="glyphicon glyphicon-pencil"></i></a>
                                         </td>
+                                        --}}
                                     </tr>
                                 @endforeach
                             @endif
@@ -136,7 +165,7 @@
                     {"width": "20%", "targets": 1},
                     {"width": "15%", "targets": 2},
                     {"width": "10%", "targets": 3},
-                    {"width": "10%", "targets": 5}
+                    {"width": "03%", "targets": 4}
 
                 ]
             });

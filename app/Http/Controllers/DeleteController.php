@@ -68,6 +68,7 @@ class DeleteController extends Controller
                     $item = Magasin::find($p_id);
                     if ($item != null) {
                         $item->update(['deleted' => true]);
+
                         return back()->withInput()->with('alert_success', 'Le magasin a été effacé avec succès');
                     } else {
                         return back()->withInput()->with('alert-warning', "Le magasin choisi n'existe pas.");

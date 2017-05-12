@@ -44,7 +44,7 @@
                                 <th><i class="fa fa-fw fa-sort"></i> Sexe</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Prix d'achat (HT)</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Prix de vente (TTC)</th>
-                                <th>Autres</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tfoot bgcolor="#DBDAD8">
@@ -89,7 +89,44 @@
                                         <td>{{ $item->couleur }}</td>
                                         <td>{{ getSexeName($item->sexe) }}</td>
                                         <td align="right">{{ $item->prix_achat }} DH</td>
-                                        <td align="right">{{ \App\Models\Article::getPrix_TTC($item->prix_vente) }} DH</td>
+                                        <td align="right">{!! \App\Models\Article::getPrix_TTC($item->prix_vente) !!}DH
+                                        </td>
+                                        <td>
+                                            <div class="btn-group pull-right">
+                                                <button type="button"
+                                                        class="btn green btn-sm btn-outline dropdown-toggle"
+                                                        data-toggle="dropdown">
+                                                    <span {!! setPopOver("","Clisuez ici pour afficher les actions") !!}>Actions</span>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="dropdown-menu pull-left" role="menu">
+                                                    <li>
+                                                        <a href="{{ Route('magas.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
+                                                                {!! setPopOver("","Afficher plus de detail") !!}><i
+                                                                    class="glyphicon glyphicon-eye-open"></i> Plus de detail</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ Route('magas.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}"
+                                                                {!! setPopOver("","Modifier") !!}><i
+                                                                    class="glyphicon glyphicon-pencil"></i> Modifier</a>
+                                                    </li>
+                                                    <li>
+                                                        <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')"
+                                                           href="{{ Route('magas.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}"
+                                                                {!! setPopOver("","Effacer l'article") !!}><i
+                                                                    class="glyphicon glyphicon-trash"></i> Effacer</a>
+                                                    </li>
+                                                    <li class="divider"></li>
+                                                    <li>
+                                                        <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"><i
+                                                                    class="glyphicon glyphicon-info-sign"
+                                                                    aria-hidden="false"></i> Info-Bull</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                        </td>
+                                        {{--
                                         <td align="center">
                                             <a href="{{ Route('magas.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
                                                     {!! setPopOver("","Afficher plus de detail") !!}><i
@@ -105,6 +142,7 @@
                                                         class="glyphicon glyphicon-info-sign"
                                                         aria-hidden="false"></i></a>
                                         </td>
+                                        --}}
 
                                         {{-- Modal (pour afficher les details de chaque article) --}}
                                         <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">

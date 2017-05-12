@@ -29,6 +29,9 @@ class Marque extends Model
 
     public static function getLibelle($p_id)
     {
-        return Marque::where('id_marque', $p_id)->get()->first()->libelle;
+        if($p_id==null)
+            return "<i>null</i>";
+        else return Marque::where('id_marque', $p_id)->get()->first()->libelle;
+
     }
 }
