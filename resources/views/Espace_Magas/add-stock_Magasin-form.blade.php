@@ -89,7 +89,7 @@
                     <li class="breadcrumb-item"><a href="{{ Route('magas.lister',['p_table' => 'magasins' ]) }}">Liste
                             des magasins</a></li>
                     <li class="breadcrumb-item">{{ $magasin->libelle }}</li>
-                                        <li class="breadcrumb-item active">Creation du stock</li>
+                    <li class="breadcrumb-item active">Creation du stock</li>
                 </ol>
 
                 @include('layouts.alerts')
@@ -114,7 +114,6 @@
 
                 <!-- Row 1 -->
                 <div class="row">
-
                     <div class="table-responsive">
                         <div class="col-lg-12">
                             {{-- *************** form ***************** --}}

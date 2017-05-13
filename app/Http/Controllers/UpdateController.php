@@ -214,8 +214,8 @@ class UpdateController extends Controller
     //Valider la modification d un Magasin
     public function submitUpdateMagasin()
     {
-        if (Magasin::Exists('libelle', request()->get('libelle')))
-            return redirect()->back()->withInput()->with("alert_warning", "Le magasin <b>" . request()->get('libelle') . "</b> existe déjà.");
+        /*if (Magasin::Exists('libelle', request()->get('libelle')))
+            return redirect()->back()->withInput()->with("alert_warning", "Le magasin <b>" . request()->get('libelle') . "</b> existe déjà.");*/
 
         $item = Magasin::find(request()->get('id_magasin'));
         $item->update([

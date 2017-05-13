@@ -2,129 +2,24 @@
 
 @section('title') Alimenter stock du magasin {{ $magasin->libelle }} @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('table2/datatables.min.js') }}"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            $('#example tfoot th').each(function () {
-                var title = $(this).text();
-                if (title == "numero" || title == "code") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title == "Designation") {
-                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title == "Taille" || title == "Sexe" || title == "Prix d'achat" || title == "Prix de vente") {
-                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title == "Couleur") {
-                    $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-                if (title != "") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
-                }
-            });
-
-            var table = $('#example').DataTable({
-                //"scrollY": "50px",
-                //"scrollX": true,
-                "searching": true,
-                "paging": true,
-                //"autoWidth": true,
-                "info": true,
-                stateSave: false,
-                "columnDefs": [
-                    {"width": "02%", "targets": 0, "visible": true},
-                    {"width": "05%", "targets": 1, "visible": false},
-                    {"width": "07%", "targets": 2, "visible": false},
-                    {"width": "03%", "targets": 3, "visible": true},
-                    {"width": "06%", "targets": 4, "visible": false},
-                    {"width": "06%", "targets": 5, "visible": false},
-                    {"width": "05%", "targets": 6, "visible": false},
-                    {"width": "02%", "targets": 7, "visible": false},
-                    {"width": "10%", "targets": 8, "visible": false},
-                    {"width": "09%", "targets": 9, "visible": false},
-                    {"width": "09%", "targets":10, "visible": false}
-                ]
-            });
-
-            $('a.toggle-vis').on('click', function (e) {
-                e.preventDefault();
-                var column = table.column($(this).attr('data-column'));
-                column.visible(!column.visible());
-            });
-
-            table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-
-        //script pour le popover detail
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover();
-        });
-    </script>
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
             <div class="row">
                 <h1 class="page-header">Ajouter au Stock du magasin {{ $magasin->libelle }}</h1>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('magas.home') }}">Dashboard</a></li>
                     <li class="breadcrumb-item">Gestion des magasins</li>
-                    <li class="breadcrumb-item"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a></li>
+                    <li class="breadcrumb-item"><a href="{{ Route('magas.lister',['p_table' => 'magasins' ]) }}">Liste
+                            des magasins</a></li>
                     <li class="breadcrumb-item">{{ $magasin->libelle }}</li>
-                    <li class="breadcrumb-item"><a href="{{ route('direct.stocks', [ 'p_id_magasin' => $magasin->id_magasin ] ) }}">Stock du magasin</a></li>
-                    <li class="breadcrumb-item active">Alimentation du stock</li>
+                    <li class="breadcrumb-item"><a
+                                href="{{ route('magas.stocks', [ 'p_id_magasin' => $magasin->id_magasin ] ) }}">Stock
+                            du magasin</a></li>
+                    <li class="breadcrumb-item active">Entree de stock</li>
                 </ol>
 
-
-                {{-- **************Alerts************** --}}
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                    </div>
-                    <div class="col-lg-2"></div>
-                </div>
-                {{-- **************endAlerts************** --}}
+                @include('layouts.alerts')
 
                 <div class="breadcrumb">
                     Afficher/Masquer:
@@ -141,13 +36,12 @@
                     <a class="toggle-vis" data-column="10">Prix de vente</a>
                 </div>
 
-
                 <!-- Row table -->
                 <div class="row">
                     <div class="table-responsive">
                         <div class="col-lg-12">
                             {{-- *************** begin form ***************** --}}
-                            <form role="form" method="post" action="{{ Route('direct.submitSupplyStock') }}">
+                            <form role="form" method="post" action="{{ Route('magas.submitSupplyStock') }}">
                                 {{ csrf_field() }}
                                 <input type="hidden" name="id_magasin" value="{{ $magasin->id_magasin }}"/>
 
@@ -272,10 +166,86 @@
                         </div>
                     </div>
                 </div>
-                <!-- end row table -->
             </div>
         </div>
+    </div>
 @endsection
 
 @section('menu_1') @include('Espace_Magas._nav_menu_1') @endsection
 @section('menu_2') @include('Espace_Magas._nav_menu_2') @endsection
+
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+@endsection
+
+@section('scripts')
+    <script src="{{  asset('table2/datatables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                if (title == "numero" || title == "code") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title == "Designation") {
+                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title == "Taille" || title == "Sexe" || title == "Prix d'achat" || title == "Prix de vente") {
+                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title == "Couleur") {
+                    $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                if (title != "") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+            });
+
+            var table = $('#example').DataTable({
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+                "columnDefs": [
+                    {"width": "02%", "targets": 0, "visible": true},
+                    {"width": "05%", "targets": 1, "visible": false},
+                    {"width": "07%", "targets": 2, "visible": false},
+                    {"width": "03%", "targets": 3, "visible": true},
+                    {"width": "06%", "targets": 4, "visible": false},
+                    {"width": "06%", "targets": 5, "visible": false},
+                    {"width": "05%", "targets": 6, "visible": false},
+                    {"width": "02%", "targets": 7, "visible": false},
+                    {"width": "10%", "targets": 8, "visible": false},
+                    {"width": "09%", "targets": 9, "visible": false},
+                    {"width": "09%", "targets": 10, "visible": false}
+                ]
+            });
+
+            $('a.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = table.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+
+        //script pour le popover detail
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+@endsection

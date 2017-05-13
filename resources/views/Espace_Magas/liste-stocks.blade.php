@@ -2,60 +2,6 @@
 
 @section('title') Stock du {{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}  @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('table2/datatables.min.js') }}"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            //popover
-            $('[data-toggle="popover"]').popover();
-
-            // Setup - add a text input to each footer cell
-            $('#example tfoot th').each(function () {
-                var title = $(this).text();
-                if (title == "Article" || title == "code") {
-                    $(this).html('<input type="text" size="14" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-                }
-                else if (title != "") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-                }
-
-            });
-            // DataTable
-            var table = $('#example').DataTable({
-                //"scrollY": "50px",
-                //"scrollX": true,
-                "searching": true,
-                "paging": true,
-                //"autoWidth": true,
-                "info": true,
-                stateSave: false,
-                "columnDefs": [
-                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},
-                    {"width": "25%", "targets": 1, "type": "string", "visible": true},
-                    {"width": "15%", "targets": 2, "type": "string", "visible": true},
-                    {"width": "02%", "targets": 4, "type": "string", "visible": true}
-                ]
-            });
-            // Apply the search
-            table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-
-    </script>
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
@@ -63,49 +9,13 @@
                 <h1 class="page-header">Stock du
                     <strong>{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</strong></h1>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ route('direct.home') }}">Dashboard</a></li>
-                    <li class="breadcrumb-item active"><a href="{{ Route('direct.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a> </li>
+                    <li class="breadcrumb-item"><a href="{{ route('magas.home') }}">Dashboard</a></li>
+                    <li class="breadcrumb-item active"><a href="{{ Route('magas.lister',['p_table' => 'magasins' ]) }}">Liste des magasins</a> </li>
                     <li class="breadcrumb-item">{{ getChamp('magasins','id_magasin',$data->first()->id_magasin, 'libelle')  }}</li>
                     <li class="breadcrumb-item active">Stock du magasin</li>
                 </ol>
 
-                {{-- **************Alerts**************  --}}
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-lg-8">
-                        {{-- Debut Alerts --}}
-                        @if (session('alert_success'))
-                            <div class="alert alert-success alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_success') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_info'))
-                            <div class="alert alert-info alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_info') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_warning'))
-                            <div class="alert alert-warning alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_warning') !!}
-                            </div>
-                        @endif
-
-                        @if (session('alert_danger'))
-                            <div class="alert alert-danger alert-dismissable">
-                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;
-                                </button> {!! session('alert_danger') !!}
-                            </div>
-                        @endif
-                        {{-- Fin Alerts --}}
-                    </div>
-                    <div class="col-lg-2"></div>
-                </div>
-                {{-- **************endAlerts**************  --}}
+                @include('layouts.alerts')
 
                 <div class="row">
                     <div class="table-responsive">
@@ -166,7 +76,7 @@
                                                 </div>
                                             </td>
                                             <td align="center">
-                                                <!--a href=" Route('direct.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
+                                                <!--a href=" Route('magas.info',['p_table'=> 'magasins' , 'p_id' => $item->id_magasin  ]) }}"
                                                    title="detail"><i class="glyphicon glyphicon-eye-open"></i></a-->
                                                 <a data-toggle="modal" data-target="#myModal{{ $loop->index+1 }}"><i
                                                             class="glyphicon glyphicon-info-sign" aria-hidden="false"></i></a>
@@ -236,11 +146,11 @@
 
                 <br/>
                 <div class="row" align="center">
-                    <a href="{{ Route('direct.addStock',['p_id_magasin' => $data->first()->id_magasin ]) }}"
+                    <a href="{{ Route('magas.addStock',['p_id_magasin' => $data->first()->id_magasin ]) }}"
                        type="button"
                        class="btn btn-outline btn-info" {!! setPopOver("","Ajouter des nouveaux articles au stock de ce magasin") !!}>
                       <i class="glyphicon glyphicon-plus "></i>  Ajouter des articles</a>
-                    <a href="{{ Route('direct.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
+                    <a href="{{ Route('magas.supplyStock',[ 'p_id_magasin' => $data->first()->id_magasin ]) }}"
                        type="button" class="btn btn-outline btn-default" {!! setPopOver("","Alimenter le stock ") !!}>
                       <i class="glyphicon glyphicon-plus "></i>   Alimenter le Stock </a>
                 </div>
@@ -250,11 +160,59 @@
     </div>
 @endsection
 
+@section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
+@section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
 
-@section('menu_1')
-    @include('Espace_Magas._nav_menu_1')
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
 @endsection
 
-@section('menu_2')
-    @include('Espace_Magas._nav_menu_2')
+@section('scripts')
+    <script src="{{  asset('table2/datatables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            //popover
+            $('[data-toggle="popover"]').popover();
+
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                if (title == "Article" || title == "code") {
+                    $(this).html('<input type="text" size="14" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                else if (title != "") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+
+            });
+            // DataTable
+            var table = $('#example').DataTable({
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+                "columnDefs": [
+                    {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},
+                    {"width": "25%", "targets": 1, "type": "string", "visible": true},
+                    {"width": "15%", "targets": 2, "type": "string", "visible": true},
+                    {"width": "02%", "targets": 4, "type": "string", "visible": true}
+                ]
+            });
+            // Apply the search
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+
+    </script>
 @endsection
