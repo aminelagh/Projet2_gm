@@ -31,7 +31,7 @@ class StockController extends Controller
         if ($data->isEmpty())
             return redirect()->back()->withInput()->with('alert_warning', 'Le stock de ce magasin est vide.');
         else
-            return view('Espace_Direct.liste-stocks')->with('data', $data);
+            return view('Espace_Magas.liste-stocks')->with('data', $data);
     }
 
     /*****************************************************************************
@@ -52,7 +52,7 @@ class StockController extends Controller
             return redirect()->back()->withInput()->with('alert_warning', 'Le magasin choisi n\'existe pas .(veuillez choisir un autre magasin.)');
 
         else
-            return view('Espace_Direct.add-stock_Magasin-form')->with(['articles' => $articles, 'magasin' => $magasin]);
+            return view('Espace_Magas.add-stock_Magasin-form')->with(['articles' => $articles, 'magasin' => $magasin]);
     }
 
     /*****************************************************************************
@@ -66,7 +66,7 @@ class StockController extends Controller
         //array des element du formulaire
         $id_article = request()->get('id_article');
         $designation_c = request()->get('designation_c');
-        //$quantite     	= request()->get('quantite');
+        //$quantite    = request()->get('quantite');
         $quantite_min = request()->get('quantite_min');
         $quantite_max = request()->get('quantite_max');
 
@@ -75,6 +75,13 @@ class StockController extends Controller
         $error1 = false;
         $error2 = false;
         $nbre_articles = 0;
+
+        echo "quantite_min";
+        dump($quantite_min);
+
+        echo "id_article";
+        dump($id_article);
+        return 'a';
 
         for ($i = 1; $i <= count($id_article); $i++) {
             //verifier si l utilisateur n a pas saisi les quantites min ou Max
@@ -118,11 +125,10 @@ class StockController extends Controller
         }
     }
 
-
     /*****************************************************************************
      * Afficher le formulaire d'alimentation de stock (liste du stock )
      ******************************************************************************/
-    public function supplyStock($p_id_magasin)
+    public function stockIN($p_id_magasin)
     {
         //procedure pour recuperer le stock d'un magasin
         $data = collect(DB::select("call getStockForSupply(" . $p_id_magasin . ");"));
@@ -135,13 +141,13 @@ class StockController extends Controller
             return redirect()->back()->withInput()->with('alert_warning', "Le magasin choisi n'existe pas .(veuillez choisir un autre magasin.)");
 
         else
-            return view('Espace_Direct.supply-stock_Magasin-form')->with(['data' => $data, 'magasin' => $magasin]);
+            return view('Espace_Magas.supply-stock_Magasin-form')->with(['data' => $data, 'magasin' => $magasin]);
     }
 
     /*****************************************************************************
      * Valider le formulaire d'alimentation de stock
      ******************************************************************************/
-    public function submitSupplyStock()
+    public function submitStockIN()
     {
         $id_magasin = request()->get('id_magasin');
         //array des element du formulaire ******************

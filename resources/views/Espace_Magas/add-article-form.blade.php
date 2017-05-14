@@ -138,10 +138,10 @@
                             <div class="form-group">
                                 <label>Sexe</label>
                                 <select class="form-control" name="sexe">
-                                    <option value="aucun" {{ old('sexe')=="aucun" ? 'selected' : '' }}> -</option>
-                                    <option value="h" {{ old('sexe')=="h" ? 'selected' : '' }}>Homme</option>
-                                    <option value="f" {{ old('sexe')=="f" ? 'selected' : '' }}>Femme</option>
-                                    <option value="f" {{ old('sexe')=="e" ? 'selected' : '' }}>Enfant</option>
+                                    <option value="aucun" {{ old('sexe')=="aucun" ? 'selected' : '' }}><i>aucun</i></option>
+                                    <option value="Homme" {{ old('sexe')=="Homme" ? 'selected' : '' }}>Homme</option>
+                                    <option value="Femme" {{ old('sexe')=="Femme" ? 'selected' : '' }}>Femme</option>
+                                    <option value="Enfant" {{ old('sexe')=="Enfant" ? 'selected' : '' }}>Enfant</option>
                                 </select>
                             </div>
                         </div>
@@ -182,7 +182,7 @@
                             {{-- Image --}}
                             <div class="form-group">
                                 <input type='file' class="form-control" id="imageInput" name="image"/>
-                                <img id="showImage" src="#" alt="Image de l'article" width="100px" height="100px" />
+                                <img id="showImage" src="#" alt="Image de l'article" width="100px" height="100px"/>
                             </div>
                         </div>
                         <div class="col-lg-3">

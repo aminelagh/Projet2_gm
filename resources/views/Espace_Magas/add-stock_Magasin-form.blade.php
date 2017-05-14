@@ -2,81 +2,6 @@
 
 @section('title') Ajouter le  Stock du magasin {{ $magasin->libelle }} @endsection
 
-@section('styles')
-    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
-    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
-    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
-@endsection
-
-@section('scripts')
-    <script src="{{  asset('table2/datatables.min.js') }}"></script>
-    <script type="text/javascript" charset="utf-8">
-        $(document).ready(function () {
-            // Setup - add a text input to each footer cell
-            $('#example tfoot th').each(function () {
-                var title = $(this).text();
-                if (title != "") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '"  onfocus="this.placeholder= \'\';" onblur="this.placeholder="' + title + '"" />');
-                }
-                if (title == "numero" || title == "code") {
-                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-                }
-                if (title == "Designation") {
-                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-                }
-                if (title == "Taille") {
-                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-                }
-                if (title == "Couleur") {
-                    $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
-                }
-            });
-
-            var table = $('#example').DataTable({
-                //"scrollY": "50px",
-                //"scrollX": true,
-                "searching": true,
-                "paging": true,
-                //"autoWidth": true,
-                "info": true,
-                stateSave: true,
-                "columnDefs": [
-                    {"width": "2%", "targets": 0},//#
-                    {"width": "5%", "targets": 1},//numero
-                    {"width": "7%", "targets": 2},//code
-                    {"width": "3%", "targets": 4},//taille
-                    {"width": "6%", "targets": 5},//couleur
-                    {"width": "6%", "targets": 6},//sexe
-                    {"width": "5%", "targets": 7},//pr
-                    {"width": "5%", "targets": 8},//pr
-                    {"width": "10%", "targets": 9}//autre
-                ]
-            });
-
-            $('a.toggle-vis').on('click', function (e) {
-                e.preventDefault();
-                var column = table.column($(this).attr('data-column'));
-                column.visible(!column.visible());
-            });
-
-            table.columns().every(function () {
-                var that = this;
-                $('input', this.footer()).on('keyup change', function () {
-                    if (that.search() !== this.value) {
-                        that.search(this.value).draw();
-                    }
-                });
-            });
-        });
-
-        //script pour le popover detail
-        $(document).ready(function () {
-            $('[data-toggle="popover"]').popover();
-        });
-    </script>
-
-@endsection
-
 @section('main_content')
     <div class="container-fluid">
         <div class="col-lg-12">
@@ -126,6 +51,7 @@
                                         <th>#</th>
                                         <th>Categorie</th>
                                         <th>Fournisseur</th>
+                                        <th>Marque</th>
                                         <th>Designation</th>
                                         <th>numero</th>
                                         <th>Code</th>
@@ -144,6 +70,7 @@
                                         <th></th>
                                         <th>Categorie</th>
                                         <th>Fournisseur</th>
+                                        <th>Marque</th>
                                         <th>Designation</th>
                                         <th>numero</th>
                                         <th>Code</th>
@@ -162,15 +89,17 @@
                                         @foreach( $articles as $item )
                                             <tr>
                                                 <input type="hidden" name="id_article[{{ $loop->index+1 }}]"
-                                                       value="{{ $item->id_article }}">
+                                                       value='{{ $item->id_article }}' >
                                                 <input type="hidden" name="designation_c[{{ $loop->index+1 }}]"
                                                        value="{{ $item->designation_c }}">
+
                                                 <td>{{ $loop->index+1 }}</td>
-                                                <td>{{ getChamp('categories', 'id_categorie', $item->id_categorie, 'libelle') }}</td>
-                                                <td>{{ getChamp('fournisseurs', 'id_fournisseur', $item->id_fournisseur, 'libelle') }}</td>
+                                                <td>{{ \App\Models\Categorie::getLibelle($item->id_categorie) }}</td>
+                                                <td>{{ \App\Models\Fournisseur::getLibelle($item->id_fournisseur) }}</td>
+                                                <td>{!! \App\Models\Marque::getLibelle($item->id_marque) !!}</td>
                                                 <td>{{ $item->designation_c }}</td>
-                                                <td>{{ $item->num_article }}</td>
-                                                <td>{{ $item->code_barre }}</td>
+                                                <td align="right">{{ $item->num_article }}</td>
+                                                <td align="right">{{ $item->code_barre }}</td>
                                                 <td>{{ $item->taille }}</td>
                                                 <td>{{ $item->couleur }}</td>
                                                 <td>{{ getSexeName($item->couleur) }}</td>
@@ -178,7 +107,7 @@
                                                 <td align="right">{{ $item->prix_vente }} DH</td>
                                                 <td><input type="number" min="0" placeholder="Quantite Min"
                                                            name="quantite_min[{{ $loop->index+1 }}]"
-                                                           value="{{ old('quantite_min[$loop->index+1]') }}"></td>
+                                                           value="{{ old('quantite_min.'.($loop->index+1) ) }}"></td>
                                                 <td><input type="number" min="0" placeholder="Quantite Max"
                                                            name="quantite_max[{{ $loop->index+1 }}]"
                                                            value="{{ old('quantite_max[$loop->index+1]') }}"></td>
@@ -238,7 +167,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- end row 1 -->
 
             </div>
         </div>
@@ -248,3 +176,83 @@
 @section('menu_1')@include('Espace_Magas._nav_menu_1')@endsection
 @section('menu_2')@include('Espace_Magas._nav_menu_2')@endsection
 
+@section('styles')
+    <link href="{{  asset('css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{  asset('css/sb-admin.css') }}" rel="stylesheet">
+    <link href="{{  asset('font-awesome/css/font-awesome.css') }}" rel="stylesheet" type="text/css">
+@endsection
+
+@section('scripts')
+    <script src="{{  asset('table2/datatables.min.js') }}"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function () {
+            // Setup - add a text input to each footer cell
+            $('#example tfoot th').each(function () {
+                var title = $(this).text();
+                if (title == "numero" || title == "code") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                else if (title == "Designation") {
+                    $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                else if (title == "Taille") {
+                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                else if (title == "Couleur") {
+                    $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" />');
+                }
+                else if (title != "") {
+                    $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '"  onfocus="this.placeholder= \'\';" onblur="this.placeholder="' + title + '"" />');
+                }
+            });
+
+            var table = $('#example').DataTable({
+                //"scrollY": "50px",
+                //"scrollX": true,
+                "searching": true,
+                "paging": true,
+                //"autoWidth": true,
+                "info": true,
+                stateSave: false,
+                "columnDefs": [
+                    {"width": "02%", "targets": 00, "type": "string", "visible": true},//#
+                    {"width": "05%", "targets": 01, "type": "string", "visible": true},//categorie
+                    {"width": "07%", "targets": 02, "type": "string", "visible": true},//Fournisseur
+                    {"width": "07%", "targets": 03, "type": "string", "visible": true},//Marque
+                    {"width": "07%", "targets": 04, "type": "string", "visible": true},//Designation
+                    {"width": "03%", "targets": 05, "type": "string", "visible": true},//numero
+                    {"width": "06%", "targets": 06, "type": "string", "visible": true},//Code
+                    {"width": "06%", "targets": 07, "type": "string", "visible": true},//Taille
+                    {"width": "05%", "targets": 08, "type": "string", "visible": true},//Couleur
+                    {"width": "05%", "targets": 09, "type": "string", "visible": true},//Sexe
+                    {"width": "10%", "targets": 10, "type": "string", "visible": true},//achat
+                    {"width": "10%", "targets": 11, "type": "string", "visible": true},//vente
+                    {"width": "10%", "targets": 12, "type": "string", "visible": true},//min
+                    {"width": "10%", "targets": 13, "type": "string", "visible": true},//max
+                    {"width": "10%", "targets": 14, "type": "string", "visible": true}//actions
+                ]
+            });
+
+            $('a.toggle-vis').on('click', function (e) {
+                e.preventDefault();
+                var column = table.column($(this).attr('data-column'));
+                column.visible(!column.visible());
+            });
+
+            table.columns().every(function () {
+                var that = this;
+                $('input', this.footer()).on('keyup change', function () {
+                    if (that.search() !== this.value) {
+                        that.search(this.value).draw();
+                    }
+                });
+            });
+        });
+
+        //script pour le popover detail
+        $(document).ready(function () {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+
+@endsection

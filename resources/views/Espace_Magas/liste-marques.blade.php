@@ -52,17 +52,36 @@
                                             <td>{{ $loop->index+1 }}</td>
                                             <td>{{ $item->libelle }}</td>
                                             <td>{{ $item->description }}</td>
-                                            <td align="center">
-                                                <a href="{{ Route('magas.info',['p-table'=> 'marques', 'p_id'=> $item->id_marque ]) }}"
-                                                        {!! setPopOver("","Afficher plus de detail") !!} ><i
-                                                            class="glyphicon glyphicon-eye-open"></i></a>
-                                                <a href="{{ Route('magas.update',['p-table'=> 'marques', 'p_id'=> $item->id_marque ]) }}"
-                                                        {!! setPopOver("","Modifier la marque") !!}><i
-                                                            class="glyphicon glyphicon-pencil"></i></a>
-                                                <a onclick="return confirm('Êtes-vous sure de vouloir effacer la marque: {{ $item->libelle }} ?')"
-                                                   href="{{ Route('magas.delete',['p_table' => 'marques' , 'p_id' => $item->id_categorie ]) }}"
-                                                        {!! setPopOver("","Effacer la marque") !!} ><i
-                                                            class="glyphicon glyphicon-trash"></i></a>
+                                            <td>
+                                                <div class="btn-group pull-right">
+                                                    <button type="button"
+                                                            class="btn green btn-sm btn-outline dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        <span {!! setPopOver("","Clisuez ici pour afficher les actions") !!}>Actions</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu pull-left" role="menu">
+                                                        <li>
+                                                            <a href="{{ Route('magas.info',['p-table'=> 'marques', 'p_id'=> $item->id_marque ]) }}"
+                                                                    {!! setPopOver("","Afficher plus de detail") !!} ><i
+                                                                        class="glyphicon glyphicon-eye-open"></i>
+                                                                Plus de detail
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ Route('magas.update',['p-table'=> 'marques', 'p_id'=> $item->id_marque ]) }}"
+                                                                    {!! setPopOver("","Modifier la marque") !!}><i
+                                                                        class="glyphicon glyphicon-pencil"></i>
+                                                                Modifier</a>
+                                                        </li>
+                                                        <li>
+                                                            <a onclick="return confirm('Êtes-vous sure de vouloir effacer le Fournisseur: {{ $item->nom }} {{ $item->prenom }} ?')"
+                                                               href="{{ Route('magas.delete',['p_table' => 'agents' , 'p_id' => $item->id_agent ]) }}"
+                                                               title="effacer"><i class="glyphicon glyphicon-trash"></i>
+                                                                Effacer</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
                                     @endforeach

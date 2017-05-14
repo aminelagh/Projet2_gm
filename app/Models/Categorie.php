@@ -13,7 +13,7 @@ class Categorie extends Model
 
     public static function Exists($field, $value)
     {
-        $data = CAtegorie::where($field, $value)->get()->first();
+        $data = Categorie::where($field, $value)->get()->first();
         if ($data == null) return false;
         else {
             foreach ($data as $item) {
@@ -26,7 +26,12 @@ class Categorie extends Model
 
     public static function getLibelle($p_id)
     {
-        return CAtegorie::where('id_categorie', $p_id)->get()->first()->libelle;
+        //return Categorie::where('id_categorie', $p_id)->get()->first()->libelle;
+
+        $data = Categorie::where('id_categorie', $p_id)->get();
+        if( $data != null)
+            return Categorie::where('id_categorie', $p_id)->get()->first()->libelle;
+        else return "<i>aucune categorie</i>";
     }
 
 }

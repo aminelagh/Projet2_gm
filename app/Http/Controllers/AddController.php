@@ -278,6 +278,7 @@ class AddController extends Controller
         $item->prix_achat = request()->get('prix_achat');
         $item->prix_vente = request()->get('prix_vente');
         $item->deleted = false;
+        $item->valide = false;
 
         if (request()->hasFile('image')) {
             $file_extension = request()->file('image')->extension();

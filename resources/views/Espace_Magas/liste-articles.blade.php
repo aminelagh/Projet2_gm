@@ -87,7 +87,7 @@
                                         </td>
                                         <td>{{ $item->taille }}</td>
                                         <td>{{ $item->couleur }}</td>
-                                        <td>{{ getSexeName($item->sexe) }}</td>
+                                        <td>{{ $item->sexe }}</td>
                                         <td align="right">{{ $item->prix_achat }} DH</td>
                                         <td align="right">{!! \App\Models\Article::getPrix_TTC($item->prix_vente) !!}DH
                                         </td>
@@ -159,7 +159,7 @@
                                                         <p><b>code a barres</b> {{ $item->code_barre }}</p>
                                                         <p><b>Taille</b> {{ $item->taille }}</p>
                                                         <p><b>Couleur</b> {{ $item->couleur }}</p>
-                                                        <p><b>sexe</b> {{ getSexeName($item->sexe) }}</p>
+                                                        <p><b>sexe</b> {{ $item->sexe }}</p>
                                                         <p><b>Prix d'achat</b></p>
                                                         <p>{{ number_format($item->prix_achat, 2) }} DH
                                                             HT, {{ number_format($item->prix_achat+$item->prix_achat*0.2, 2) }}

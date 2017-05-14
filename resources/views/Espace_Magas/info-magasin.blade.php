@@ -207,7 +207,7 @@
                                                                         <b>Couleur</b> {{ getChamp("articles", "id_article",  $item->id_article , "couleur")  }}
                                                                     </p>
                                                                     <p>
-                                                                        <b>sexe</b> {{ getSexeName(getChamp("articles", "id_article",  $item->id_article , "sexe") ) }}
+                                                                        <b>sexe</b> {{ getChamp("articles", "id_article",  $item->id_article , "sexe") }}
                                                                     </p>
                                                                     <p><b>Prix
                                                                             d'achat</b> {{ getChamp("articles", "id_article",  $item->id_article , "prix_achat")  }}

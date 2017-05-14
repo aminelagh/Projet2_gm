@@ -67,7 +67,7 @@
                                     </tr>
                                     <tr>
                                         <td>Sexe</td>
-                                        <th>{{ getSexeName($data->sexe) }} </th>
+                                        <th>{{ $data->sexe }} </th>
                                     </tr>
                                     <tr>
                                         <td>Prix d'achat</td>

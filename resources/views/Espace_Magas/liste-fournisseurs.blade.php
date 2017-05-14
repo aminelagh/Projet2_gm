@@ -108,22 +108,38 @@
                                             <td>{{ $loop->index+1 }}</td>
                                             <td>{{ $item->code }}</td>
                                             <td>{{ $item->libelle }}</td>
-                                            <td align="center">
-                                                <a href="{{ Route('magas.info',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}"
-                                                   title="detail"><i class="glyphicon glyphicon-eye-open"></i></a>
-
-                                            <!--a href="{{-- Route('magas.info',['p_table'=> 'dashboard-fourniseur', 'p_id' => $item->id_fournisseur ]) --}}"
-                                                   title="detail"><i class="glyphicon glyphicon-dashboard"></i></a-->
-                                                <a href="{{ Route('magas.update',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}"
-                                                   title="modifier"><i class="glyphicon glyphicon-pencil"></i></a>
-
-                                                <a onclick="return confirm('Êtes-vous sure de vouloir effacer le Fournisseur: {{ $item->libelle }} ?')"
-                                                   href="{{ Route('magas.delete',['p_table' => 'fournisseurs' , 'p_id' => $item->id_fournisseur ]) }}"
-                                                   title="effacer"><i class="glyphicon glyphicon-trash"></i></a>
-
-                                                <a data-toggle="modal"
-                                                   data-target="#myModal{{ $loop->index+1 }}" ><i {!! setPopOver("","Afficher plus de detail") !!} class="glyphicon glyphicon-info-sign"></i></a>
-
+                                            <td>
+                                                <div class="btn-group pull-right">
+                                                    <button type="button"
+                                                            class="btn green btn-sm btn-outline dropdown-toggle"
+                                                            data-toggle="dropdown">
+                                                        <span {!! setPopOver("","Clisuez ici pour afficher les actions") !!}>Actions</span>
+                                                        <i class="fa fa-angle-down"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu pull-left" role="menu">
+                                                        <li>
+                                                            <a href="{{ Route('magas.info',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}"
+                                                               title="detail">
+                                                                <i class="glyphicon glyphicon-eye-open"></i> Plus de detail
+                                                            </a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="{{ Route('magas.update',['p_table'=> 'fournisseurs', 'p_id' => $item->id_fournisseur ]) }}"
+                                                               title="modifier"><i class="glyphicon glyphicon-pencil"></i> Modifier</a>
+                                                        </li>
+                                                        <li>
+                                                            <a onclick="return confirm('Êtes-vous sure de vouloir effacer le Fournisseur: {{ $item->libelle }} ?')"
+                                                               href="{{ Route('magas.delete',['p_table' => 'fournisseurs' , 'p_id' => $item->id_fournisseur ]) }}"
+                                                               title="effacer"><i class="glyphicon glyphicon-trash"></i> Effacer</a>
+                                                        </li>
+                                                        <li class="divider"></li>
+                                                        <li>
+                                                            <a data-toggle="modal"
+                                                               data-target="#myModal{{ $loop->index+1 }}"><i
+                                                                        {!! setPopOver("","Afficher plus de detail") !!} class="glyphicon glyphicon-info-sign"></i> visualiser</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
                                             </td>
 
                                             {{-- Modal (pour afficher les details de chaque article) --}}
