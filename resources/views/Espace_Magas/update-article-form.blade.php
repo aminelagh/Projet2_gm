@@ -87,7 +87,6 @@
                                        name="num_article" value="{{ $data->num_article }}" required>
                             </div>
                         </div>
-
                         <div class="col-lg-3">
                             {{-- code_barre --}}
                             <div class="form-group">
@@ -140,10 +139,10 @@
                             <div class="form-group">
                                 <label>Sexe</label>
                                 <select class="form-control" name="sexe">
-                                    <option value="aucun" {{$data->sexe=="aucun" ? 'selected' : '' }}> -</option>
-                                    <option value="h" {{ $data->sexe=="h" ? 'selected' : '' }}>Homme</option>
-                                    <option value="f" {{ $data->sexe=="f" ? 'selected' : '' }}>Femme</option>
-                                    <option value="f" {{ $data->sexe=="e" ? 'selected' : '' }}>Enfant</option>
+                                    <option value="aucun" {{$data->sexe=="aucun" ? 'selected' : '' }}> - </option>
+                                    <option value="Homme" {{ $data->sexe=="Homme" ? 'selected' : '' }}>Homme</option>
+                                    <option value="Femme" {{ $data->sexe=="Femme" ? 'selected' : '' }}>Femme</option>
+                                    <option value="Enfant" {{ $data->sexe=="Enfant" ? 'selected' : '' }}>Enfant</option>
                                 </select>
                             </div>
                         </div>

@@ -22,22 +22,28 @@
                 <div class="table-responsive">
                     <div class="col-lg-12">
                         <div class="breadcrumb">
-                            Afficher/Masquer: <a class="toggle-vis" data-column="1">Numero</a> -
+                            Afficher/Masquer: <a class="toggle-vis" data-column="1">Reference</a> -
                             <a class="toggle-vis" data-column="2">Code</a> -
-                            <a class="toggle-vis" data-column="3">Designation</a> -
-                            <a class="toggle-vis" data-column="4">Taille</a> -
-                            <a class="toggle-vis" data-column="5">Couleur</a> -
-                            <a class="toggle-vis" data-column="6">Sexe</a> -
-                            <a class="toggle-vis" data-column="7">Prix d'achat</a> -
-                            <a class="toggle-vis" data-column="8">Prix de vente</a>
+                            <a class="toggle-vis" data-column="3">Categorie</a> -
+                            <a class="toggle-vis" data-column="4">Fournisseur</a> -
+                            <a class="toggle-vis" data-column="5">Marque</a> -
+                            <a class="toggle-vis" data-column="6">Designation</a> -
+                            <a class="toggle-vis" data-column="7">Taille</a> -
+                            <a class="toggle-vis" data-column="8">Couleur</a> -
+                            <a class="toggle-vis" data-column="9">Sexe</a> -
+                            <a class="toggle-vis" data-column="10">Prix d'achat</a> -
+                            <a class="toggle-vis" data-column="11">Prix de vente</a>
                         </div>
 
                         <table id="example" class="table table-striped table-bordered table-hover">
                             <thead bgcolor="#DBDAD8">
                             <tr>
                                 <th> #</th>
-                                <th><i class="fa fa-fw fa-sort"></i> numero</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Reference</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Code</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Categorie</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Fournisseur</th>
+                                <th><i class="fa fa-fw fa-sort"></i> Marque</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Designation</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Taille</th>
                                 <th><i class="fa fa-fw fa-sort"></i> Couleur</th>
@@ -50,8 +56,11 @@
                             <tfoot bgcolor="#DBDAD8">
                             <tr>
                                 <th></th>
-                                <th>numero</th>
+                                <th>Reference</th>
                                 <th>Code</th>
+                                <th>Categorie</th>
+                                <th>Fournisseur</th>
+                                <th>Marque</th>
                                 <th>Designation</th>
                                 <th>Taille</th>
                                 <th>Couleur</th>
@@ -61,14 +70,16 @@
                                 <th></th>
                             </tr>
                             </tfoot>
-
                             <tbody>
                             @if( $data->isEmpty() )
                                 <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                     <td align="center">Aucun Article</td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -82,10 +93,13 @@
                                         <td>{{ $loop->index+1 }}</td>
                                         <td align="right">{{ $item->num_article }}</td>
                                         <td align="right">{{ $item->code_barre }}</td>
+                                        <td>{{ \App\Models\Categorie::getLibelle($item->id_categorie) }}</td>
+                                        <td>{{ \App\Models\Fournisseur::getLibelle($item->id_fournisseur) }}</td>
+                                        <td>{{ \App\Models\Marque::getLibelle($item->id_marque) }}</td>
                                         <td>@if( $item->image != null) <img src="{{ $item->image }}"
                                                                             width="50px">@endif {{ $item->designation_c }}
                                         </td>
-                                        <td>{{ $item->taille }}</td>
+                                        <td align="center">{{ $item->taille }}</td>
                                         <td>{{ $item->couleur }}</td>
                                         <td>{{ $item->sexe }}</td>
                                         <td align="right">{{ $item->prix_achat }} DH</td>
@@ -103,7 +117,8 @@
                                                     <li>
                                                         <a href="{{ Route('magas.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
                                                                 {!! setPopOver("","Afficher plus de detail") !!}><i
-                                                                    class="glyphicon glyphicon-eye-open"></i> Plus de detail</a>
+                                                                    class="glyphicon glyphicon-eye-open"></i> Plus de
+                                                            detail</a>
                                                     </li>
                                                     <li>
                                                         <a href="{{ Route('magas.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}"
@@ -126,23 +141,6 @@
                                             </div>
 
                                         </td>
-                                        {{--
-                                        <td align="center">
-                                            <a href="{{ Route('magas.info',['p_table' => 'articles', 'p_id'=> $item->id_article ]) }}"
-                                                    {!! setPopOver("","Afficher plus de detail") !!}><i
-                                                        class="glyphicon glyphicon-eye-open"></i></a>
-                                            <a href="{{ Route('magas.update',['p_table' => 'articles', 'p_id' => $item->id_article ]) }}"
-                                                    {!! setPopOver("","Modifier") !!}><i
-                                                        class="glyphicon glyphicon-pencil"></i></a>
-                                            <a onclick="return confirm('Êtes-vous sure de vouloir effacer l\'article: {{ $item->designation_c }} ?')"
-                                               href="{{ Route('magas.delete',['p_table' => 'articles' , 'p_id' => $item->id_article ]) }}"
-                                                    {!! setPopOver("","Effacer l'article") !!}><i
-                                                        class="glyphicon glyphicon-trash"></i></a>
-                                            <a data-toggle="modal" data-target="#modal{{ $loop->index+1 }}"><i
-                                                        class="glyphicon glyphicon-info-sign"
-                                                        aria-hidden="false"></i></a>
-                                        </td>
-                                        --}}
 
                                         {{-- Modal (pour afficher les details de chaque article) --}}
                                         <div class="modal fade" id="modal{{ $loop->index+1 }}" role="dialog">
@@ -221,19 +219,25 @@
             // Setup - add a text input to each footer cell
             $('#example tfoot th').each(function () {
                 var title = $(this).text();
-                if (title == "numero" || title == "code") {
+                if (title == "Reference" || title == "Code") {
+                    $(this).html('<input type="text" size="6" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
+                }
+                else if (title == "Categorie" || title == "Fournisseur" || title == "Marque") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title == "Designation") {
+                else if (title == "Designation") {
                     $(this).html('<input type="text" size="15" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title == "Taille") {
+                else if (title == "Taille") {
                     $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title == "Couleur") {
-                    $(this).html('<input type="text" size="3" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';"/>');
+                else if (title == "Couleur" || title == "Sexe") {
+                    $(this).html('<input type="text" size="5" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
-                if (title != "") {
+                else if (title == "Prix d'achat"||title == "Prix de vente") {
+                    $(this).html('<input type="text" size="4" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';"/>');
+                }
+                else if (title != "") {
                     $(this).html('<input type="text" size="8" class="form-control" placeholder="' + title + '" title="Rechercher par ' + title + '" onfocus="this.placeholder= \'\';" />');
                 }
             });
@@ -248,14 +252,19 @@
                 stateSave: false,
                 "columnDefs": [
                     {"width": "02%", "targets": 0, "type": "num", "visible": true, "searchable": false},//#
-                    {"width": "05%", "targets": 1, "type": "string", "visible": false},
-                    {"width": "07%", "targets": 2, "type": "string", "visible": true},
-                    {"width": "03%", "targets": 4, "type": "string", "visible": false},
-                    {"width": "06%", "targets": 5, "type": "string", "visible": false},
-                    {"width": "06%", "targets": 6, "type": "string", "visible": true},
-                    {"width": "05%", "targets": 7, "type": "num-fmt", "visible": true},
-                    {"width": "05%", "targets": 8, "type": "num-fmt", "visible": true},
-                    {"width": "10%", "targets": 9, "type": "string", "visible": true, "searchable": false}
+                    {"width": "05%", "targets": 1, "type": "string", "visible": true},
+                    {"width": "05%", "targets": 2, "type": "string", "visible": true},
+
+                    {"width": "08%", "targets": 3, "type": "string", "visible": true},
+                    {"width": "08%", "targets": 4, "type": "string", "visible": true},
+                    {"width": "08%", "targets": 5, "type": "string", "visible": true},
+
+                    {"width": "02%", "targets": 7, "type": "string", "visible": true},
+                    {"width": "06%", "targets": 8, "type": "num-fmt", "visible": true},
+                    {"width": "06%", "targets": 9, "type": "string", "visible": true, "searchable": false},
+                    {"width": "04%", "targets": 10, "type": "num-fmt", "visible": true},
+                    {"width": "04%", "targets": 11, "type": "num-fmt", "visible": true},
+                    {"width": "02%", "targets": 12, "type": "string", "visible": true, "searchable": false}
                 ]
             });
 

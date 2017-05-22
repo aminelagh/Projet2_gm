@@ -26,9 +26,6 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/xx', function () {
-    dump( Agent::where('id_fournisseur',1)->where('deleted',false)->get() );
-});
 
 Route::get('/a', function () {
     return Fournisseur::where('id_fournisseur',2)->get()->first()->libelle;
@@ -65,27 +62,6 @@ Route::get('/s', function (Request $req) {
 
 });
 /*
-Route::get('/proc', function () {
-  dump( DB::select("SELECT hello('aaaa') as rep; ") );
-  echo '<hr>';
-  dump( DB::select("call getArticlesForStock(1); ") );
-  echo '<hr>';
-    $id = 1;
-    $data =  DB::select("select * from articles where id_article not in (select id_article from stocks where id_magasin=".$id.")");
-
-    foreach( $data as $item )
-    {
-      echo $item->id_article." ".$item->designation_c." ".$item->couleur." ".$item->prix_achat." ".$item->prix_vente."<br>";
-    }
-    echo '<hr>';
-    //dump( DB::select("SELECT getArticlesForStock(2) ") );
-});
-
-/*
-
-Route::get('/form', function () {
-    return view('form')->with('articles', Article::all() );
-});
 
 Route::get('/t', function () {
 
@@ -241,4 +217,3 @@ Route::prefix('/vend')->group(function () {
     Route::get('/menu/{p_id_mag}', 'VendeurController@getMagasin')->name('vend.menu');
 
 });
-

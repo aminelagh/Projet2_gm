@@ -11,11 +11,11 @@ class Article extends Model
     protected $primaryKey = 'id_article';
 
     protected $fillable = [
-        'id_article', 'id_fournisseur', 'id_categorie',
+        'id_article', 'id_fournisseur', 'id_categorie','id_marque',
         'designation_c', 'designation_l',
         'code_barre', 'num_article',
         'couleur', 'taille', 'sexe', 'prix_achat', 'prix_vente',
-        'deleted', 'image',
+        'deleted', 'image','valide'
     ];
 
     public static function getPrixPromo($p_id_article, $p_id_magasin)

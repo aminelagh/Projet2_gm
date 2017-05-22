@@ -15,9 +15,9 @@
                 <li class="breadcrumb-item active">{{ $data->libelle  }}</li>
             </ol>
 
-        @include('layouts.alerts')
+            @include('layouts.alerts')
 
-        <!-- info magasin -->
+            {{-- info magasin --}}
             <div class="row">
                 <div class="col-lg-1"></div>
                 <div class="col-lg-10">

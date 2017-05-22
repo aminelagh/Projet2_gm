@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agent;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
@@ -41,7 +42,7 @@ class DeleteController extends Controller
                     $item = User::find($p_id);
                     if ($item != null) {
                         $item->update(['deleted' => true]);
-                        return back()->withInput()->with('alert_success', 'L\'utilisateur a été effacé avec succès');
+                        return back()->withInput()->with('alert_success', "L'utilisateur a été effacé avec succès");
                     } else {
                         return back()->withInput()->with('alert-warning', "L'utilisateur choisi n'existe pas.");
                     }
@@ -69,7 +70,7 @@ class DeleteController extends Controller
                     if ($item != null) {
                         $item->update(['deleted' => true]);
 
-                        return back()->withInput()->with('alert_success', 'Le magasin a été effacé avec succès');
+                        return back()->withInput()->with('alert_success', "Le magasin a été effacé avec succès");
                     } else {
                         return back()->withInput()->with('alert-warning', "Le magasin choisi n'existe pas.");
                     }
@@ -87,13 +88,31 @@ class DeleteController extends Controller
                     $item = Promotion::find($p_id);
                     if ($item != null) {
                         $item->update(['deleted' => true]);
-                        return back()->withInput()->with('alert_success', 'La promotion a été effacée avec succès');
+                        return back()->withInput()->with('alert_success', "La promotion a été effacée avec succès.");
                     } else {
-                        return back()->withInput()->with('alert-warning', 'La promotion choisie n\'existe pas.');
+                        return back()->withInput()->with('alert-warning', "La promotion choisie n'existe pas.");
+                    }
+                    break;
+                case 'marques':
+                    $item = Marque::find($p_id);
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
+                        return back()->withInput()->with('alert_success', "La marque a été effacée avec succès");
+                    } else {
+                        return back()->withInput()->with('alert-warning', "La marque choisie n'existe pas.");
+                    }
+                    break;
+                case 'agents':
+                    $item = Agent::find($p_id);
+                    if ($item != null) {
+                        $item->update(['deleted' => true]);
+                        return back()->withInput()->with('alert_success', "L'agent a été effacé avec succès");
+                    } else {
+                        return back()->withInput()->with('alert-warning', "L'agent choisi n'existe pas.");
                     }
                     break;
                 default:
-                    return back()->withInput()->with('alert_danger', 'Probleme de redirection. DeleteController@delete');
+                    return back()->withInput()->with('alert_danger', "Probleme de redirection. DeleteController@delete");
                     break;
             }
         } catch (Exception $ex) {

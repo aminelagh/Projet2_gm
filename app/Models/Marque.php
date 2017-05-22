@@ -11,7 +11,7 @@ class Marque extends Model
 
     protected $fillable = [
         'id_marque', 'libelle', 'description',
-        'deleted',
+        'deleted','image',
     ];
 
     public static function Exists($field, $value)
