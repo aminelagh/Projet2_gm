@@ -26,12 +26,12 @@ Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-Route::get('/login', 'AuthController@loginForm')->name('loginForm');
-Route::post('/login', 'AuthController@login')->name('login');
+
+Route::get('/a', function () {
+    return Fournisseur::where('id_fournisseur',2)->get()->first()->libelle;
+});
 
 
-
-/*
 Route::get('/s', function (Request $req) {
 
     $req->session()->put('id_user', 999);
@@ -61,8 +61,23 @@ Route::get('/s', function (Request $req) {
     //dump( request()->session()->get('name') );
 
 });
+/*
+
+Route::get('/t', function () {
+
+  //$v = Input::get("aa");
+  //$data = DB::select( DB::raw("SELECT * FROM stocks s join articles a on s.id_article=a.id_article ") );
+  //$data = DB::statement('select * from users where id_role=:id', array('id' => 1) );
+
+  return view('table')->withData( Categorie::all() );
+
+});
+
 */
 
+
+//Route pour generer des PDF
+//Route::get('print/{param}','PDFController@imprimer')->name('print');
 
 
 /***************************************
@@ -202,7 +217,3 @@ Route::prefix('/vend')->group(function () {
     Route::get('/menu/{p_id_mag}', 'VendeurController@getMagasin')->name('vend.menu');
 
 });
-
-//Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

@@ -180,8 +180,6 @@ return [
 
         Maatwebsite\Excel\ExcelServiceProvider::class,
 
-        Cartalyst\Sentinel\Laravel\SentinelServiceProvider::class,
-
 
     ],
 
@@ -236,11 +234,6 @@ return [
         'Html' => Collective\Html\HtmlFacade::class,
         'Input' => Illuminate\Support\Facades\Input::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-
-        //piur l authentification de sentinel
-        'Activation' => Cartalyst\Sentinel\Laravel\Facades\Activation::class,
-        'Reminder'   => Cartalyst\Sentinel\Laravel\Facades\Reminder::class,
-        'Sentinel'   => Cartalyst\Sentinel\Laravel\Facades\Sentinel::class,
 
     ],
 
